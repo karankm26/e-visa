@@ -10,23 +10,23 @@ import {
   Container,
   Paper,
 } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
-import SwiperCore, { Autoplay } from "swiper/core";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Navigation, Pagination, Scrollbar, A11y} from "swiper";
+import SwiperCore, {Autoplay} from "swiper/core";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/less";
 import "swiper/less/navigation";
 import "swiper/less/pagination";
 import "swiper/css/scrollbar";
-import { experimentalStyled as styled } from "@mui/material/styles";
+import {experimentalStyled as styled} from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import PaymentIcon from "@mui/icons-material/Payment";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useRef } from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useRef} from "react";
 const cardItem = [
   {
     id: 1,
@@ -49,7 +49,7 @@ const cardItem = [
     description: "Tourist eVisa",
   },
 ];
-const Item = styled(Container)(({ theme }) => ({
+const Item = styled(Container)(({theme}) => ({
   backgroundColor: "transparent",
   padding: theme.spacing(2),
   textAlign: "center",
@@ -63,7 +63,7 @@ const Home = () => {
   return (
     <>
       {" "}
-      <div className="bg-image" style={{ maxWidth: "100%" }}>
+      <div className="bg-image" style={{maxWidth: "100%"}}>
         <Box
           sx={{
             display: "flex",
@@ -77,7 +77,7 @@ const Home = () => {
           <Typography
             variant="h3"
             className="text-light text-center "
-            sx={{ marginTop: 7 }}
+            sx={{marginTop: 7}}
           >
             <div>Indian e-Visa Apply</div>
             <div>Apply Indian Visa Online</div>
@@ -120,8 +120,8 @@ const Home = () => {
             }}
             slidesPerView={6}
             modules={[Navigation, Pagination, Scrollbar, A11y]}
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
+            pagination={{clickable: true}}
+            scrollbar={{draggable: true}}
             effect={false}
             // autoplay={{
             //   delay: 2000,
@@ -157,7 +157,7 @@ const Home = () => {
                         </Typography>
                       </CardContent>
                       <CardActions
-                        sx={{ justifyContent: "center", marginTop: -2 }}
+                        sx={{justifyContent: "center", marginTop: -2}}
                       >
                         <Button size="small" onClick={() => navigate("/apply")}>
                           Apply Now
@@ -175,13 +175,13 @@ const Home = () => {
       <div className="container">
         <div className="row py-5">
           <div className="col-lg-6">
-            <Card sx={{ background: "#e7e7e7", maxWidth: 1000 }}>
+            <Card sx={{background: "#e7e7e7", maxWidth: 1000}}>
               <CardContent>
-                <Typography variant="h6" sx={{ textAlign: "left" }}>
+                <Typography variant="h6" sx={{textAlign: "left"}}>
                   Online eVisa Application for India
                 </Typography>
                 <Typography
-                  sx={{ fontSize: 14, textAlign: "justify" }}
+                  sx={{fontSize: 14, textAlign: "justify"}}
                   color="text.secondary"
                   gutterBottom
                 >
@@ -208,16 +208,16 @@ const Home = () => {
             </Card>
           </div>
           <div className="col-lg-6">
-            <Card sx={{ maxWidth: 1000 }}>
+            <Card sx={{maxWidth: 1000}}>
               <CardContent>
                 <Typography
                   variant="h6"
-                  sx={{ textAlign: "left", marginBottom: 1 }}
+                  sx={{textAlign: "left", marginBottom: 1}}
                 >
                   What is electronic Indian Visa (India e-Visa)?
                 </Typography>
                 <Typography
-                  sx={{ fontSize: 14, textAlign: "justify" }}
+                  sx={{fontSize: 14, textAlign: "justify"}}
                   color="text.secondary"
                   // gutte    rBottom
                 >
@@ -249,12 +249,12 @@ const Home = () => {
           <div className="col-lg-3 mt-2">
             <Card
               className="card-form"
-              sx={{ borderRadius: 6, cursor: "pointer" }}
+              sx={{borderRadius: 6, cursor: "pointer"}}
               onClick={() => navigate("/apply")}
             >
               <CardContent className="text-center">
-                <LibraryBooksIcon sx={{ color: "#1976d2" }} className="fs-2" />
-                <Typography variant="h6" sx={{ textAlign: "center" }}>
+                <LibraryBooksIcon sx={{color: "#1976d2"}} className="fs-2" />
+                <Typography variant="h6" sx={{textAlign: "center"}}>
                   Apply here for eVisa
                 </Typography>
               </CardContent>
@@ -263,12 +263,12 @@ const Home = () => {
           <div className="col-lg-3 mt-2">
             <Card
               className="card-form"
-              sx={{ borderRadius: 6, cursor: "pointer" }}
+              sx={{borderRadius: 6, cursor: "pointer"}}
               onClick={() => navigate("/status")}
             >
               <CardContent className="text-center">
-                <AvTimerIcon sx={{ color: "#1976d2" }} className="fs-2" />
-                <Typography variant="h6" sx={{ textAlign: "center" }}>
+                <AvTimerIcon sx={{color: "#1976d2"}} className="fs-2" />
+                <Typography variant="h6" sx={{textAlign: "center"}}>
                   Check yout status
                 </Typography>
               </CardContent>
@@ -277,12 +277,12 @@ const Home = () => {
           <div className="col-lg-3 mt-2">
             <Card
               className="card-form"
-              sx={{ borderRadius: 6, cursor: "pointer" }}
-              onClick={() => navigate("/payment")}
+              sx={{borderRadius: 6, cursor: "pointer"}}
+              onClick={() => navigate("/status")}
             >
               <CardContent className="text-center">
-                <PaymentIcon sx={{ color: "#1976d2" }} className="fs-2" />
-                <Typography variant="h6" sx={{ textAlign: "center" }}>
+                <PaymentIcon sx={{color: "#1976d2"}} className="fs-2" />
+                <Typography variant="h6" sx={{textAlign: "center"}}>
                   Pay for eVisa Fees
                 </Typography>
               </CardContent>
@@ -291,11 +291,11 @@ const Home = () => {
           <div className="col-lg-3 mt-2">
             <Card
               className="card-form"
-              sx={{ borderRadius: 6, cursor: "pointer" }}
-              onClick={() => navigate("/upload")}
+              sx={{borderRadius: 6, cursor: "pointer"}}
+              onClick={() => navigate("/status")}
             >
               <CardContent className="text-center">
-                <CloudUploadIcon sx={{ color: "#1976d2" }} className="fs-2" />
+                <CloudUploadIcon sx={{color: "#1976d2"}} className="fs-2" />
                 <Typography variant="h6">Upload Documents</Typography>
               </CardContent>
             </Card>

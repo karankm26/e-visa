@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   Button,
   Box,
@@ -8,21 +8,24 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import { MdLocationOn } from "react-icons/md";
-import { AiTwotonePhone, AiFillMessage } from "react-icons/ai";
+import {MdLocationOn} from "react-icons/md";
+import {AiTwotonePhone, AiFillMessage} from "react-icons/ai";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({});
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    const {name, value} = event.target;
+    setFormData((prevFormData) => ({...prevFormData, [name]: value}));
   };
   return (
     <>
       <Container>
-        <Card sx={{ width: "100%" }} className="card-form mt-5">
-          <Typography variant="h4" sx={{ marginTop: 3, marginLeft: 4 }}>
+        <Card sx={{width: "100%"}} className="card-form mt-5">
+          <Typography
+            variant="h4"
+            sx={{marginTop: 3, marginLeft: 4, textAlign: "center"}}
+          >
             Contact Us
           </Typography>
           <Box
@@ -100,7 +103,7 @@ const ContactUs = () => {
                     {" "}
                     <Button
                       className="mt-3"
-                      sx={{ paddingX: 10 }}
+                      sx={{paddingX: 10}}
                       variant="contained"
                       size="large"
                       type="submit"

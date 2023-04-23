@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useFormik } from "formik";
-import { ApplySchema } from "../Schemas";
+import React, {useState} from "react";
+import {useFormik} from "formik";
+import {ApplySchema} from "../Schemas";
 import {
   Stepper,
   Step,
@@ -15,10 +15,11 @@ import FormStep1 from "./FormStep1";
 import FormStep2 from "./FormStep2";
 import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
-import { createTheme } from "@mui/material/styles";
-import { ThemeProvider } from "@mui/material/styles";
-import { CreateForm } from "../utils";
+import {createTheme} from "@mui/material/styles";
+import {ThemeProvider} from "@mui/material/styles";
+import {CreateForm} from "../utils";
 import FormStep5 from "./FormStep5";
+import {useLocation, useParams} from "react-router-dom";
 
 const initialValues = {
   address: "",
@@ -73,16 +74,21 @@ const theme = createTheme({
 });
 
 const MultistepForm = () => {
+  const {state} = useLocation();
+  // console.log(state);
   const steps = [
     "Personal Details",
     "Applicant and Personal Details",
     "Applicant's Address Details",
-    "Details of Visa Sought",
-    "Additional Questions Details",
+    // "Details of Visa Sought",
+    // "Additional Questions Details",
   ];
-  const [activeStep, setActiveStep] = useState(0);
+
+  const [activeStep, setActiveStep] = useState(
+    state === 1 ? 1 : state === 2 ? 2 : 0
+  );
   const [formData, setFormData] = useState({});
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  const label = {inputProps: {"aria-label": "Checkbox demo"}};
 
   const handleNextStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -94,13 +100,13 @@ const MultistepForm = () => {
 
   const [selected, setSelected] = useState("");
   const [formStep1Filled, setFormStep1Filled] = useState(false);
-  console.log(formStep1Filled);
+  // console.log(formStep1Filled);
   const handleChangeSelect = (event) => {
     console.log(event.target.value);
     setSelected(event.target.value);
   };
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     useFormik({
       initialValues: initialValues,
       validationSchema: ApplySchema,
@@ -111,7 +117,7 @@ const MultistepForm = () => {
         );
       },
     });
-  console.log(" ~ file: ApplyForm.jsx ~ line 11 ~ apply ~ values", errors);
+  // console.log(" ~ file: ApplyForm.jsx ~ line 11 ~ apply ~ values", errors);
 
   const postData = async (e) => {
     e.preventDefault();
@@ -158,7 +164,7 @@ const MultistepForm = () => {
       console.log("successfull registration");
     }
   };
-
+  // console.log(values);
   const handleSubmitFirstForm = async () => {
     console.log(values);
 
@@ -207,37 +213,40 @@ const MultistepForm = () => {
             />
           </>
         );
-      case 3:
-        return (
-          <>
-            <FormStep4
-              handleChange={handleChange}
-              values={values}
-              errors={errors}
-              touched={touched}
-            />
-          </>
-        );
-      case 4:
-        return (
-          <>
-            <FormStep5
-              handleChange={handleChange}
-              values={values}
-              errors={errors}
-              touched={touched}
-            />
-          </>
-        );
+      // case 3:
+      //   return (
+      //     <>
+      //       <FormStep4
+      //         handleChange={handleChange}
+      //         values={values}
+      //         errors={errors}
+      //         touched={touched}
+      //       />
+      //     </>
+      //   );
+      // case 4:
+      //   return (
+      //     <>
+      //       <FormStep5
+      //         handleChange={handleChange}
+      //         values={values}
+      //         errors={errors}
+      //         touched={touched}
+      //       />
+      //     </>
+      //   );
       default:
         return null;
     }
   };
+  // const handleActive = (stepIndex) => {
+  //   setActiveStep(stepIndex);
+  // };
 
   return (
     <ThemeProvider theme={theme}>
       <div className="container d-flex justify-content-center mt-5 mb-5">
-        <Card sx={{ width: "100%" }} className="card-form">
+        <Card sx={{width: "100%"}} className="card-form">
           <Box
             sx={{
               display: "flex",
@@ -250,41 +259,46 @@ const MultistepForm = () => {
               marginTop: "30px",
             }}
           >
-            <Typography variant="h4" sx={{ marginTop: 3 }}>
+            <Typography variant="h4" sx={{marginTop: 3}}>
               E-VISA APPLICATION
             </Typography>
             <Stepper
               activeStep={activeStep}
               alternativeLabel
-              sx={{ width: "100%", marginTop: "20px" }}
+              sx={{width: "100%", marginTop: "20px"}}
             >
-              {steps.map((label) => (
-                <Step key={label}>
+              {steps.map((label, index) => (
+                <Step
+                  key={label}
+                  // onClick={() => handleActive(index)}
+                >
                   <StepLabel>{label}</StepLabel>
                 </Step>
               ))}
             </Stepper>
             {activeStep < steps.length && (
-              <Box sx={{ marginTop: "2rem", width: "100%" }}>
+              <Box sx={{marginTop: "2rem", width: "100%"}}>
                 {renderStepContent(activeStep)}
                 <Box
                   className="d-flex justify-content-between "
-                  sx={{ marginTop: 2 }}
+                  sx={{marginTop: 2}}
                 >
                   <div>
                     {""}
-                    {activeStep !== 0 && (
-                      <Button
-                        variant="outlined"
-                        className="px-5"
-                        onClick={handlePrevStep}
-                        size="large"
-                      >
-                        Back
-                      </Button>
-                    )}
+                    {(state === 1 && activeStep === 1) ||
+                      (state === 2 && activeStep === 2) ||
+                      (activeStep !== 0 && (
+                        <Button
+                          variant="outlined"
+                          className="px-5"
+                          onClick={handlePrevStep}
+                          size="large"
+                        >
+                          Back
+                        </Button>
+                      ))}
                   </div>
-                  {console.log(activeStep)}
+                  {/* {console.log(activeStep)} */}
                   <div className="flex-end">
                     {activeStep !== steps.length - 1 && (
                       <Button

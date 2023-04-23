@@ -28,17 +28,17 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import { countries } from "./CountryList";
 function FormStep4({ handleChange, values, errors, touched }) {
-  console.log(countries);
+  // console.log(countries);
   return (
     <>
       <div className="">
-        <div style={{ background: "#1e8bc3" }} className="p-1">
-          <h4 className="text-light text-start ms-3">Applicant Details</h4>
+        <div style={{background: "#1e8bc3"}} className="p-1">
+          <h4 className="text-light text-start ms-3">Details of Visa Sought</h4>
         </div>
         <div className="row">
           <div className="col-lg-6">
             <TextField
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               required
               fullWidth
               label="Type of Visa"
@@ -48,7 +48,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           </div>
           <div className="col-lg-6">
             <TextField
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               required
               fullWidth
               label="Visa Service"
@@ -60,16 +60,17 @@ function FormStep4({ handleChange, values, errors, touched }) {
         <div className="row">
           <div className="col-lg-6">
             <TextField
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               required
               fullWidth
               label="Place to be Visited"
               value={values.place_to_be_visited}
+              onChange={handleChange}
             />
           </div>
           <div className="col-lg-6">
             <TextField
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Place to be Visited line 2"
               value={values.place_to_be_visited_line_2}
@@ -80,7 +81,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you booked any room in Hotel/Resort etc. through any Tour
                   Operator?
                 </FormLabel>
@@ -114,17 +115,17 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Visa Duration"
-              name="national_id_no"
+              name="visa_duration"
               value={"365 days"}
             />
           </div>
           <div className="col-lg-6">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="No. Of Enteries"
               name="national_id_no"
@@ -136,24 +137,24 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Port of Arrival"
               type="text"
               value={values.port_of_arrival}
-              onChange={handleChange}
+              // onChange={handleChange}
             />
           </div>
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
+            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
               <InputLabel id="demo-simple-select-label" required>
                 Expected Port of Exit from India
               </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="religion"
-                value={values.exit_port_from_india || ""}
+                name="expected_port_from_india"
+                value={values.expected_port_from_india || ""}
                 onChange={handleChange}
                 label="Education Qualification"
                 defaultValue=""
@@ -161,7 +162,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
                 <MenuItem value="" selected>
                   <em>Select Religion</em>
                 </MenuItem>
-                <MenuItem value={"GRADUATE"}>GRADUATE</MenuItem>
+                <MenuItem value={"indai"}>india</MenuItem>
                 <MenuItem value={"UDER-GRADUATE"}>UDER-GRADUATE</MenuItem>
                 <MenuItem value={"DIPLOMA"}>DIPLOMA</MenuItem>
               </Select>
@@ -170,7 +171,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
         </div>
       </div>
       <div className="mt-3">
-        <div style={{ background: "#1e8bc3" }} className="p-1">
+        <div style={{background: "#1e8bc3"}} className="p-1">
           <h4 className="text-light text-start ms-3">
             Previous Visa/Currentlt Valid Visa Details
           </h4>
@@ -179,7 +180,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you ever visited India before?
                 </FormLabel>
               </div>
@@ -215,7 +216,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             <div className="col-lg-6">
               <TextField
                 required
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 fullWidth
                 label="Address"
                 name="previously_visited_address"
@@ -226,7 +227,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             <div className="col-lg-6">
               <TextField
                 required
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 fullWidth
                 label="Cities previously visited in India"
                 name="previously_visited_cities"
@@ -240,7 +241,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             <div className="col-lg-6">
               <TextField
                 required
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 fullWidth
                 label="Last Indian Visa No/Currently Valid Indian Visa No."
                 name="last_current_india_visit_number"
@@ -250,7 +251,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             </div>
 
             <div className="col-lg-6">
-              <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
+              <FormControl size="large" fullWidth sx={{marginTop: 2}}>
                 <InputLabel id="demo-simple-select-label" required>
                   Type of Visa{" "}
                 </InputLabel>
@@ -285,7 +286,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             <div className="col-lg-6">
               <TextField
                 required
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 fullWidth
                 label="Place of Issue"
                 name="previous_current_place_of_issue"
@@ -296,7 +297,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             <div className="col-lg-6">
               <TextField
                 required
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 fullWidth
                 label="Date of Issue"
                 name="previous_current_date_of_issue"
@@ -308,15 +309,15 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="row">
             <div className="col-lg-6">
               {" "}
-              <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
+              <FormControl size="large" fullWidth sx={{marginTop: 2}}>
                 <InputLabel id="demo-simple-select-label" required>
                   Country of Birth
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  name="country_of_issue"
-                  value={values.country_of_issue || ""}
+                  name="previous_current_country_of_issue"
+                  value={values.previous_current_country_of_issue || ""}
                   onChange={handleChange}
                   label="Country of Issue"
                   defaultValue=""
@@ -337,7 +338,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             <div className="col-lg-6">
               <TextField
                 required
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 fullWidth
                 label="Passport I/C No."
                 name="passport_I/C_number"
@@ -350,7 +351,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             <div className="col-lg-6">
               <TextField
                 required
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 fullWidth
                 label="Place of Issue"
                 name="place_of_issue"
@@ -362,7 +363,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
             <div className="col-lg-6">
               <TextField
                 required
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 fullWidth
                 type="date"
                 label="Date of Issue"
@@ -377,7 +378,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Has permission to visit or to extend stay in India previously
                   been refused?
                 </FormLabel>
@@ -411,23 +412,23 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-12">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="If so, when and by whom (mention Control No. and date also"
               name="date_of_issue"
-              value={values.date_of_issue}
+              value={values.reason_of_refused}
               onChange={handleChange}
             />
           </div>
         </div>
       </div>
       <div className="mt-4">
-        <div style={{ background: "#1e8bc3" }} className="p-1">
+        <div style={{background: "#1e8bc3"}} className="p-1">
           <h4 className="text-light text-start ms-3">Other Information </h4>
         </div>
         <div className="col-lg-6">
           {" "}
-          <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
+          <FormControl size="large" fullWidth sx={{marginTop: 2}}>
             <InputLabel id="demo-simple-select-label" required>
               Countries Visited in Last 10 Years
             </InputLabel>
@@ -455,7 +456,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
         </div>
       </div>
       <div className="mt-4">
-        <div style={{ background: "#1e8bc3" }} className="p-1">
+        <div style={{background: "#1e8bc3"}} className="p-1">
           <h4 className="text-light text-start ms-3">
             SAARC Country Visit Details
           </h4>
@@ -464,7 +465,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you ever visited SAARC countries (except your own
                   country) during last 3 years?
                 </FormLabel>
@@ -496,14 +497,14 @@ function FormStep4({ handleChange, values, errors, touched }) {
         </div>{" "}
       </div>
       <div className="mt-4">
-        <div style={{ background: "#1e8bc3" }} className="p-1">
+        <div style={{background: "#1e8bc3"}} className="p-1">
           <h4 className="text-light text-start ms-3">Reference</h4>
         </div>
         <div className="row">
           <div className="col-lg-6">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Reference Name in India"
               name="reference_name_in_india"
@@ -514,7 +515,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Address"
               name="reference_in_india_address"
@@ -527,7 +528,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-12">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Phone"
               name="reference_in_india_phone_no"
@@ -540,7 +541,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Reference Name in ALBANIA"
               name="reference_name_in_albania"
@@ -551,7 +552,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Address"
               name="reference_address"
@@ -564,7 +565,7 @@ function FormStep4({ handleChange, values, errors, touched }) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Reference Name in ALBANIA"
               name="reference_phone_in_albania"

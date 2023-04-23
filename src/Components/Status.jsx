@@ -15,13 +15,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import ErrorIcon from "@mui/icons-material/Error";
-import React, { useState } from "react";
-import { CreateForm, getStatus } from "../utils";
+import React, {useState} from "react";
+import {CreateForm, getStatus} from "../utils";
+import {useNavigate} from "react-router-dom";
 function Status() {
+  const navigate = useNavigate();
   const [unique_id, setUnique_id] = useState("");
   const [data, setData] = useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   // const [open, setOpen] = React.useState(true);
+  const [uploadDocuments, setUploadDocuments] = useState(false);
+  const [paymentDone, setPaymentDone] = useState(false);
+  const [tab1filled, setTab1filled] = useState(true);
+  const [tab2filled, setTab2filled] = useState(false);
+  const [fromComplete, setFromComplete] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,6 +41,7 @@ function Status() {
     event.preventDefault();
     try {
       const res = await getStatus(unique_id);
+      console.log(res);
       if (res.status === 200) {
         setOpen(true);
         setData(res?.data?.msg);
@@ -65,7 +73,7 @@ function Status() {
   };
   return (
     <Container>
-      <Card sx={{ width: "100%" }} className="card-form mt-5">
+      <Card sx={{width: "100%"}} className="card-form mt-5">
         <Box
           sx={{
             display: "flex",
@@ -78,13 +86,11 @@ function Status() {
             marginTop: "50px",
           }}
         >
-          <Typography>
-            <h2>APPLICATION STATUS</h2>{" "}
-          </Typography>
+          <Typography variant="h4">APPLICATION STATUS</Typography>
           {/* <form onSubmit={handleSubmit}> */}
           {/* <div className="row"> */}
           <TextField
-            sx={{ marginTop: 2 }}
+            sx={{marginTop: 2}}
             fullWidth
             label="Enter Application id"
             name="application_id"
@@ -104,7 +110,7 @@ function Status() {
             >
               Get Status
             </Button>
-            <Button
+            {/* <Button
               className="px-5 mt-3"
               variant="contained"
               size="large"
@@ -112,7 +118,7 @@ function Status() {
               onClick={handleClick}
             >
               Create Form
-            </Button>
+            </Button> */}
           </div>
         </Box>
       </Card>
@@ -126,13 +132,13 @@ function Status() {
           <Alert
             icon={
               data?.split(" ").reverse()[0] === "pending" ? (
-                <WarningAmberIcon fontSize="inherit" sx={{ marginTop: 3.5 }} />
+                <WarningAmberIcon fontSize="inherit" sx={{marginTop: 3.5}} />
               ) : data?.split(" ").reverse()[0] === "rejected" ? (
-                <ErrorIcon fontSize="inherit" sx={{ marginTop: 3.5 }} />
+                <ErrorIcon fontSize="inherit" sx={{marginTop: 3.5}} />
               ) : (
                 <CheckCircleOutlineIcon
                   fontSize="inherit"
-                  sx={{ marginTop: 3.5 }}
+                  sx={{marginTop: 3.5}}
                 />
               )
             }
@@ -149,7 +155,7 @@ function Status() {
                 aria-label="close"
                 color="inherit"
                 size="small"
-                sx={{ marginTop: 2 }}
+                sx={{marginTop: 2}}
                 onClick={() => {
                   setOpen(false);
                 }}
@@ -163,6 +169,40 @@ function Status() {
             </AlertTitle>
             Your Application Status is {data && data?.split(" ").reverse()[0]}
           </Alert>
+          <Button
+            onClick={() => {
+              navigate(
+                fromComplete && uploadDocuments && !paymentDone
+                  ? "/payment"
+                  : tab1filled && !tab2filled && !fromComplete
+                  ? `/apply/${unique_id}`
+                  : tab1filled && tab2filled && !fromComplete
+                  ? `/apply/${unique_id}`
+                  : fromComplete && !uploadDocuments && !paymentDone
+                  ? "/upload"
+                  : "",
+                {
+                  state:
+                    tab1filled && !tab2filled && !fromComplete
+                      ? 1
+                      : tab1filled && tab2filled && !fromComplete
+                      ? 2
+                      : 3,
+                }
+              );
+            }}
+          >
+            {fromComplete && uploadDocuments && !paymentDone
+              ? "Continue for Processing Fees"
+              : (tab1filled && !tab2filled && !fromComplete) ||
+                (tab2filled && tab1filled && !fromComplete)
+              ? "Continue to Complete your application"
+              : fromComplete && !uploadDocuments && !paymentDone
+              ? "Continue to upload Documents"
+              : paymentDone
+              ? "Your Application is under evaluation"
+              : null}
+          </Button>
         </Dialog>
       </div>
     </Container>

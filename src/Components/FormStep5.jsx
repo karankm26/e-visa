@@ -28,11 +28,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import { countries } from "./CountryList";
 function FormStep5({ handleChange, values, errors, touched }) {
-  console.log(countries);
+  // console.log(countries);
   return (
     <>
       <div className="">
-        <div style={{ background: "#1e8bc3" }} className="p-1">
+        <div style={{background: "#1e8bc3"}} className="p-1">
           <h4 className="text-light text-start ms-3">
             Please provide below given details,Please give details if marked Yes
           </h4>
@@ -41,7 +41,7 @@ function FormStep5({ handleChange, values, errors, touched }) {
           <div className={values.que1 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you ever been arrested/prosected convicted by Court of
                   Law of any Country ?
                 </FormLabel>
@@ -89,7 +89,7 @@ function FormStep5({ handleChange, values, errors, touched }) {
           <div className={values.que2 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you ever been refused entry/deported by any country
                   including India ?
                 </FormLabel>
@@ -137,7 +137,7 @@ function FormStep5({ handleChange, values, errors, touched }) {
           <div className={values.que3 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you ever been Engaged in Human trafficking?/Drug
                   trafficking/Child abuse/Crime against women/ Economic offense
                   / Financial fraud?
@@ -175,7 +175,7 @@ function FormStep5({ handleChange, values, errors, touched }) {
               required
               size="small"
               label="Reason"
-              name="townOrCity"
+              name="que3Reason"
               type="text"
               value={values.que3Reason || ""}
               onChange={handleChange}
@@ -186,7 +186,7 @@ function FormStep5({ handleChange, values, errors, touched }) {
           <div className={values.que4 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you ever been engaged in Cyber Crime/Terrorist activites/
                   sabotage/ Espionage/Genocide/Political killing/other act of
                   violence ?
@@ -235,7 +235,7 @@ function FormStep5({ handleChange, values, errors, touched }) {
           <div className={values.que5 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you ever by any means or medium ,expresed views that
                   justify or glorify terrorist violence or that may encourage
                   others to terrorist act or other serious criminal acts?
@@ -273,7 +273,7 @@ function FormStep5({ handleChange, values, errors, touched }) {
               required
               size="small"
               label="Reason"
-              name="townOrCity"
+              name="que5Reason"
               type="text"
               value={values.que5Reason || ""}
               onChange={handleChange}
@@ -284,7 +284,7 @@ function FormStep5({ handleChange, values, errors, touched }) {
           <div className={values.que6 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{marginTop: 1}}>
                   Have you ever been sought asyium (political or otherwise) in
                   any country?
                 </FormLabel>
@@ -333,7 +333,10 @@ function FormStep5({ handleChange, values, errors, touched }) {
             <FormControlLabel
               control={<Checkbox required />}
               label={
-                <FormLabel className="text-start mt-2 text-form fw-bolder" required>
+                <FormLabel
+                  className="text-start mt-2 text-form fw-bolder"
+                  required
+                >
                   I TEST, hereby declare that the information furnished above is
                   correct to the best of my knowledge and belief.In case the
                   information is found false at any stage, i am liable for legal
