@@ -14,11 +14,11 @@ import "./Css/ApplyForm.css";
 import FormStep1 from "./FormStep1";
 import FormStep2 from "./FormStep2";
 import FormStep3 from "./FormStep3";
-import FormStep4 from "./FormStep4";
+// import FormStep4 from "./FormStep4";
 import {createTheme} from "@mui/material/styles";
 import {ThemeProvider} from "@mui/material/styles";
 import {CreateForm} from "../utils";
-import FormStep5 from "./FormStep5";
+// import FormStep5 from "./FormStep5";
 import {useLocation, useParams} from "react-router-dom";
 
 const initialValues = {
@@ -213,28 +213,7 @@ const MultistepForm = () => {
             />
           </>
         );
-      // case 3:
-      //   return (
-      //     <>
-      //       <FormStep4
-      //         handleChange={handleChange}
-      //         values={values}
-      //         errors={errors}
-      //         touched={touched}
-      //       />
-      //     </>
-      //   );
-      // case 4:
-      //   return (
-      //     <>
-      //       <FormStep5
-      //         handleChange={handleChange}
-      //         values={values}
-      //         errors={errors}
-      //         touched={touched}
-      //       />
-      //     </>
-      //   );
+
       default:
         return null;
     }

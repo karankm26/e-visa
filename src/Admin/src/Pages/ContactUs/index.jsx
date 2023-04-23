@@ -1,11 +1,11 @@
 // import { Avatar, Rate, Space, Table, Typography } from "antd";
-import { useEffect, useState } from "react";
-import { getCustomers, getInventory } from "../../API";
+import {useEffect, useState} from "react";
+import {getAllForm, getCustomers, getInventory} from "../../API";
 import AppHeader from "../../Components/AppHeader";
 import SideMenu from "../../Components/SideMenu/index";
 import AppFooter from "../../Components/AppFooter";
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import {styled, useTheme} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -27,14 +27,28 @@ import {
   FormControl,
   TableSortLabel,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { userData } from "../../utils/data";
+import {useNavigate} from "react-router-dom";
+import {userData} from "../../utils/data";
+import Loader from "../../Components/Loader";
 
 function ContactUs() {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const [isloading, setIsloading] = useState(false);
+  const [formData, setFormData] = useState([]);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    const getData = async () => {
+      setIsloading(true);
+      const res = await getAllForm();
+      setFormData(res.forms);
+      if (res) {
+        setIsloading(false);
+      }
+    };
+    getData();
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -66,7 +80,7 @@ function ContactUs() {
     },
   });
 
-  const DrawerHeader = styled("div")(({ theme }) => ({
+  const DrawerHeader = styled("div")(({theme}) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -77,7 +91,7 @@ function ContactUs() {
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
+  })(({theme, open}) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -95,7 +109,7 @@ function ContactUs() {
 
   const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
+  })(({theme, open}) => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
@@ -111,9 +125,9 @@ function ContactUs() {
   }));
 
   const columns = [
-    { id: "index", label: "S.No", minWidth: 50 },
-    { id: "name", label: "Name", minWidth: 100 },
-    { id: "unique", label: "Unique Id", minWidth: 100 },
+    {id: "index", label: "S.No", minWidth: 50},
+    {id: "name", label: "Name", minWidth: 100},
+    {id: "unique", label: "Unique Id", minWidth: 100},
     {
       id: "email",
       label: "Email",
@@ -142,9 +156,19 @@ function ContactUs() {
     };
   }
 
-  const rows = userData.map((item, index) =>
-    createData(index + 1, item.name, item.uniqueId, item.email, item.status)
+  // const rows = userData.map((item, index) =>
+  //   createData(index + 1, item.name, item.uniqueId, item.email, item.status)
+  // );
+  const rows = formData.map((item, index) =>
+    createData(
+      index + 1,
+      `${item.first_name} ${item.last_name}`,
+      item._id,
+      item.email,
+      item.status
+    )
   );
+
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -196,14 +220,15 @@ function ContactUs() {
   };
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      {isloading && <Loader />}
+      <Box sx={{display: "flex"}}>
         <SideMenu></SideMenu>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box component="main" sx={{flexGrow: 1, p: 3}}>
           <DrawerHeader />
           <Typography variant="h5">Contacts</Typography>
 
-          <Paper sx={{ width: "100%" }}>
-            <TableContainer sx={{ maxHeight: 617 }}>
+          <Paper sx={{width: "100%"}}>
+            <TableContainer sx={{maxHeight: 617}}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
