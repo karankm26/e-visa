@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import {useFormik} from "formik";
-import {ApplySchema} from "../Schemas";
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import { ApplySchema } from "../Schemas";
 import {
   Stepper,
   Step,
@@ -15,43 +15,43 @@ import FormStep1 from "./FormStep1";
 import FormStep2 from "./FormStep2";
 import FormStep3 from "./FormStep3";
 // import FormStep4 from "./FormStep4";
-import {createTheme} from "@mui/material/styles";
-import {ThemeProvider} from "@mui/material/styles";
-import {CreateForm} from "../utils";
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+import { CreateForm } from "../utils";
 // import FormStep5 from "./FormStep5";
-import {useLocation, useParams} from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const initialValues = {
-  address: "",
-  city_of_birth: "",
-  confirm_email: "",
-  country_code: "",
-  country_of_birth: "",
-  country_of_citizenship: "",
-  country_of_passport: "",
-  date_of_birth: "",
-  email: "",
-  expected_date_of_arrival: "",
-  expected_date_of_journey: "",
-  familyName: "",
-  firstGivenName: "",
-  first_name: "",
-  gender: "",
-  last_name: "",
-  nationality: "",
-  passport_date_of_issue: "",
-  passport_expiry_date: "",
-  passport_number: "",
-  passport_type: "",
-  phone: "",
-  place_of_issue: "",
-  port_of_arrival: "",
-  postalCode: "",
-  purpose_of_visit: "",
-  state_district: "",
-  tourist_duration: "",
-  townOrCity: "",
-  visible_identification_marks: "",
+  // address: "",
+  // city_of_birth: "",
+  // confirm_email: "",
+  // country_code: "",
+  // country_of_birth: "",
+  // country_of_citizenship: "",
+  // country_of_passport: "",
+  // date_of_birth: "",
+  // email: "",
+  // expected_date_of_arrival: "",
+  // expected_date_of_journey: "",
+  // familyName: "",
+  // firstGivenName: "",
+  // first_name: "",
+  // gender: "",
+  // last_name: "",
+  // nationality: "",
+  // passport_date_of_issue: "",
+  // passport_expiry_date: "",
+  // passport_number: "",
+  // passport_type: "",
+  // phone: "",
+  // place_of_issue: "",
+  // port_of_arrival: "",
+  // postalCode: "",
+  // purpose_of_visit: "",
+  // state_district: "",
+  // tourist_duration: "",
+  // townOrCity: "",
+  // visible_identification_marks: "",
 };
 
 const theme = createTheme({
@@ -74,7 +74,7 @@ const theme = createTheme({
 });
 
 const MultistepForm = () => {
-  const {state} = useLocation();
+  const { state } = useLocation();
   // console.log(state);
   const steps = [
     "Personal Details",
@@ -88,7 +88,7 @@ const MultistepForm = () => {
     state === 1 ? 1 : state === 2 ? 2 : 0
   );
   const [formData, setFormData] = useState({});
-  const label = {inputProps: {"aria-label": "Checkbox demo"}};
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const handleNextStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -106,7 +106,7 @@ const MultistepForm = () => {
     setSelected(event.target.value);
   };
 
-  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
       validationSchema: ApplySchema,
@@ -118,7 +118,7 @@ const MultistepForm = () => {
       },
     });
   // console.log(" ~ file: ApplyForm.jsx ~ line 11 ~ apply ~ values", errors);
-
+  console.log(values);
   const postData = async (e) => {
     e.preventDefault();
 
@@ -225,7 +225,7 @@ const MultistepForm = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="container d-flex justify-content-center mt-5 mb-5">
-        <Card sx={{width: "100%"}} className="card-form">
+        <Card sx={{ width: "100%" }} className="card-form">
           <Box
             sx={{
               display: "flex",
@@ -238,13 +238,13 @@ const MultistepForm = () => {
               marginTop: "30px",
             }}
           >
-            <Typography variant="h4" sx={{marginTop: 3}}>
+            <Typography variant="h4" sx={{ marginTop: 3 }}>
               E-VISA APPLICATION
             </Typography>
             <Stepper
               activeStep={activeStep}
               alternativeLabel
-              sx={{width: "100%", marginTop: "20px"}}
+              sx={{ width: "100%", marginTop: "20px" }}
             >
               {steps.map((label, index) => (
                 <Step
@@ -256,11 +256,11 @@ const MultistepForm = () => {
               ))}
             </Stepper>
             {activeStep < steps.length && (
-              <Box sx={{marginTop: "2rem", width: "100%"}}>
+              <Box sx={{ marginTop: "2rem", width: "100%" }}>
                 {renderStepContent(activeStep)}
                 <Box
                   className="d-flex justify-content-between "
-                  sx={{marginTop: 2}}
+                  sx={{ marginTop: 2 }}
                 >
                   <div>
                     {""}

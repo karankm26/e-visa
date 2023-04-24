@@ -1,37 +1,5 @@
 import axios from "axios";
 
-// export const CreateForm = async (id) => {
-//   var myHeaders = new Headers();
-//   myHeaders.append("Content-Type", "application/json");
-//   var raw = JSON.stringify({
-
-//     first_name: "Anil",
-//     last_name: "Yadav",
-//     email: "anilyadav@gmail.com",
-//     phone: "4234543545",
-//     dateOfArrival: "2023-05-03",
-//     nationality: "India",
-//   });
-
-//   var requestOptions = {
-//     method: "POST",
-//     headers: myHeaders,
-//     body: raw,
-//     redirect: "follow",
-//   };
-//   const response = await fetch(
-//     "http://localhost:3001/visa/apply",
-//     requestOptions
-//   )
-//     .then((response) => response.text())
-//     .then((result) => {
-//       return result;
-//     })
-//     .catch((error) => console.log("error", error));
-
-//   return response;
-// };
-
 export const getStatus = async (id) => {
   const response = await axios
     .get(`https://evisa-backend.onrender.com/visa/status/${id}`)
@@ -44,8 +12,6 @@ export const getStatus = async (id) => {
 
   return response;
 };
-
-// import axios from 'axios';
 
 export const CreateForm = async (values) => {
   console.log(values);
@@ -122,3 +88,14 @@ export const CreateForm = async (values) => {
   }
 };
 
+export const UploadDocuments = async (formData, id) => {
+  console.log(formData, id);
+  const response = axios
+    .post("https://evisa-backend.onrender.com/visa/uploads/" + id, formData)
+    .then((res) => {
+      return res;
+    })
+    .catch((error) => console.error("Error:", error));
+
+  return response;
+};

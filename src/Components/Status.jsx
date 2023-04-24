@@ -15,9 +15,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import ErrorIcon from "@mui/icons-material/Error";
-import React, {useState} from "react";
-import {CreateForm, getStatus} from "../utils";
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { CreateForm, getStatus } from "../utils";
+import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 function Status() {
   const navigate = useNavigate();
@@ -29,8 +29,8 @@ function Status() {
   const [uploadDocuments, setUploadDocuments] = useState(false);
   const [paymentDone, setPaymentDone] = useState(false);
   const [tab1filled, setTab1filled] = useState(true);
-  const [tab2filled, setTab2filled] = useState(false);
-  const [fromComplete, setFromComplete] = useState(false);
+  const [tab2filled, setTab2filled] = useState(true);
+  const [fromComplete, setFromComplete] = useState(true);
   const [applicationNotFound, setApplicationNotFound] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -82,7 +82,7 @@ function Status() {
     <>
       {loading && <Loader />}
       <Container>
-        <Card sx={{width: "100%"}} className="card-form mt-5">
+        <Card sx={{ width: "100%" }} className="card-form mt-5">
           <Box
             sx={{
               display: "flex",
@@ -102,7 +102,7 @@ function Status() {
             )}
 
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Enter Application id"
               name="application_id"
@@ -144,13 +144,16 @@ function Status() {
             <Alert
               icon={
                 data?.split(" ").reverse()[0] === "pending" ? (
-                  <WarningAmberIcon fontSize="inherit" sx={{marginTop: 3.5}} />
+                  <WarningAmberIcon
+                    fontSize="inherit"
+                    sx={{ marginTop: 3.5 }}
+                  />
                 ) : data?.split(" ").reverse()[0] === "rejected" ? (
-                  <ErrorIcon fontSize="inherit" sx={{marginTop: 3.5}} />
+                  <ErrorIcon fontSize="inherit" sx={{ marginTop: 3.5 }} />
                 ) : (
                   <CheckCircleOutlineIcon
                     fontSize="inherit"
-                    sx={{marginTop: 3.5}}
+                    sx={{ marginTop: 3.5 }}
                   />
                 )
               }
@@ -167,7 +170,7 @@ function Status() {
                   aria-label="close"
                   color="inherit"
                   size="small"
-                  sx={{marginTop: 2}}
+                  sx={{ marginTop: 2 }}
                   onClick={() => {
                     setOpen(false);
                   }}
@@ -185,13 +188,13 @@ function Status() {
               onClick={() => {
                 navigate(
                   fromComplete && uploadDocuments && !paymentDone
-                    ? "/payment"
+                    ? `/payment/${unique_id}`
                     : tab1filled && !tab2filled && !fromComplete
                     ? `/apply/${unique_id}`
                     : tab1filled && tab2filled && !fromComplete
                     ? `/apply/${unique_id}`
                     : fromComplete && !uploadDocuments && !paymentDone
-                    ? "/upload"
+                    ? `/upload/${unique_id}`
                     : "",
                   {
                     state:

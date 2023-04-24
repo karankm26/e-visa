@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   Stepper,
   Step,
@@ -21,26 +21,26 @@ import {
   Radio,
   FormGroup,
 } from "@mui/material";
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import {useState} from "react";
-import {countries} from "./CountryList";
-function FormStep2({handleChange, values, errors, touched}) {
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useState } from "react";
+import { countries } from "./CountryList";
+function FormStep2({ handleChange, values, errors, touched }) {
   // console.log(countries);
   return (
     <>
       <div className=""></div>
       <div>
-        <div style={{background: "#1e8bc3"}} className="p-1">
+        <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Passport Details</h4>
         </div>
         <div className="row">
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Passport Number"
               name="passport_number"
@@ -51,7 +51,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Place of Issue"
               name="place_of_issue"
@@ -64,7 +64,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               type="date"
               label="Date of Issue"
@@ -76,7 +76,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               type="date"
               label="Date of Expire"
@@ -89,15 +89,15 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{marginTop: 1}}>
+                <FormLabel required sx={{ marginTop: 1 }}>
                   Any other valid Passport/Indetify Certificate(IC) held,
                 </FormLabel>
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
+                  // defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="que8"
+                  name="passport_indetify_certificate"
                   onChange={handleChange}
                 >
                   <div className="d-flex">
@@ -121,7 +121,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         <div className="row">
           <div className="col-lg-6">
             {" "}
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Country of Issue
               </InputLabel>
@@ -150,7 +150,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Passport I/C No."
               type="text"
@@ -164,7 +164,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Place of Issue"
               type="text"
@@ -177,7 +177,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               type="date"
               label="Date of Issue"
@@ -190,7 +190,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         <div className="row">
           <div className="col-lg-6">
             {" "}
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Nationality mentioned therein
               </InputLabel>
@@ -219,7 +219,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         </div>
       </div>
       <div className=" mt-4">
-        <div style={{background: "#1e8bc3"}} className="p-1">
+        <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">
             Applicant's Address Details
           </h4>
@@ -228,7 +228,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         <div className="row">
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               label="House No./Street"
@@ -241,7 +241,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           </div>
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               label="Village/Town/City"
@@ -259,7 +259,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         </div>{" "}
         <div className="row">
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Country of Birth
               </InputLabel>
@@ -287,7 +287,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           </div>{" "}
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               label="State/Province/District"
@@ -307,7 +307,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         <div className="row">
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               label="Postal/Zip Code"
@@ -322,7 +322,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           </div>
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               label="Mobile No."
@@ -336,7 +336,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Phone No."
               name="phone"
@@ -348,7 +348,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Email Address."
               name="email"
@@ -377,7 +377,7 @@ function FormStep2({handleChange, values, errors, touched}) {
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="House no./Street"
               name="house_no2"
@@ -390,7 +390,7 @@ function FormStep2({handleChange, values, errors, touched}) {
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Village/Town/City"
               name="village_town_city2"
@@ -405,7 +405,7 @@ function FormStep2({handleChange, values, errors, touched}) {
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="State/Province/District"
               name="state_province_district2"
@@ -417,7 +417,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         </div>
       </div>
       <div className="mt-3">
-        <div style={{background: "#1e8bc3"}} className="p-1">
+        <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Family Details</h4>
         </div>
 
@@ -427,7 +427,7 @@ function FormStep2({handleChange, values, errors, touched}) {
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Name"
               name="father_name"
@@ -437,7 +437,7 @@ function FormStep2({handleChange, values, errors, touched}) {
             />
           </div>
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Nationality/Region
               </InputLabel>
@@ -467,7 +467,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         </div>
         <div className="row">
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Previous Nationality/Region
               </InputLabel>
@@ -498,7 +498,7 @@ function FormStep2({handleChange, values, errors, touched}) {
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Place of Birth"
               name="father_place_of_birth"
@@ -510,7 +510,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         </div>
         <div className="row">
           <div className="col-lg-12">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Country/Region of Birth
               </InputLabel>
@@ -544,17 +544,17 @@ function FormStep2({handleChange, values, errors, touched}) {
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Name"
-              name="spouse_name"
+              name="mother_name"
               type="text"
               value={values.mother_name || ""}
               onChange={handleChange}
             />
           </div>
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Nationality/Region
               </InputLabel>
@@ -584,7 +584,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         </div>
         <div className="row">
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Previous Nationality/Region
               </InputLabel>
@@ -615,7 +615,7 @@ function FormStep2({handleChange, values, errors, touched}) {
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Place of Birth"
               name="mother_place_of_birth"
@@ -627,7 +627,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         </div>
         <div className="row">
           <div className="col-lg-12">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Country/Region of Birth
               </InputLabel>
@@ -657,7 +657,7 @@ function FormStep2({handleChange, values, errors, touched}) {
         </div>
         <div className="row">
           <div className="col-lg-12">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Applicant's Marital Status
               </InputLabel>
@@ -689,7 +689,7 @@ function FormStep2({handleChange, values, errors, touched}) {
               {" "}
               <TextField
                 required
-                sx={{marginTop: 2}}
+                sx={{ marginTop: 2 }}
                 fullWidth
                 label="Name"
                 name="spouse_name"
@@ -699,7 +699,7 @@ function FormStep2({handleChange, values, errors, touched}) {
               />
             </div>
             <div className="col-lg-6">
-              <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+              <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel id="demo-simple-select-label" required>
                   Nationality/Region
                 </InputLabel>
@@ -729,7 +729,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           </div>
           <div className="row">
             <div className="col-lg-6">
-              <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+              <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel id="demo-simple-select-label" required>
                   Previous Nationality/Region
                 </InputLabel>
@@ -760,7 +760,7 @@ function FormStep2({handleChange, values, errors, touched}) {
               {" "}
               <TextField
                 required
-                sx={{marginTop: 2}}
+                sx={{ marginTop: 2 }}
                 fullWidth
                 label="Place of Birth"
                 name="spouse_place_of_birth"
@@ -772,7 +772,7 @@ function FormStep2({handleChange, values, errors, touched}) {
           </div>
           <div className="row">
             <div className="col-lg-12">
-              <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+              <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel id="demo-simple-select-label" required>
                   Country/Region of Birth
                 </InputLabel>
@@ -839,7 +839,7 @@ function FormStep2({handleChange, values, errors, touched}) {
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="If Yes, Give Details "
               name="pakistan_belong"

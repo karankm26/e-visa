@@ -1,5 +1,5 @@
 import React from "react";
-import {Routes, Route, useLocation} from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import "./Components/Css/Home.css";
 import "./Components/Css/ApplyForm.css";
@@ -57,8 +57,8 @@ function App() {
         <Route path="/apply_old" exact element={<ApplyForm />} />
         <Route path="/apply" exact element={<MultistepForm />} />
         <Route path="/apply/:id" exact element={<MultistepForm />} />
-        <Route path="/payment" exact element={<PaymentCheck />} />
-        <Route path="/upload" exact element={<DocumentsUpload />} />
+        <Route path="/payment/:id" exact element={<PaymentCheck />} />
+        <Route path="/upload/:id" exact element={<DocumentsUpload />} />
         <Route path="/contactus" exact element={<ContactUs />} />
       </Routes>
     </React.Fragment>

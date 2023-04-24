@@ -1,9 +1,10 @@
 // import { Avatar, Rate, Space, Table, Typography } from "antd";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
   ChangeStatus,
   GetCSVData,
   UploadDocument,
+  UploadVisa,
   getAllForm,
   getCustomers,
   getInventory,
@@ -12,7 +13,7 @@ import AppHeader from "../../Components/AppHeader";
 import SideMenu from "../../Components/SideMenu/index";
 import AppFooter from "../../Components/AppFooter";
 import * as React from "react";
-import {styled, useTheme} from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -39,15 +40,16 @@ import {
   TableSortLabel,
   InputLabel,
 } from "@mui/material";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DownloadIcon from "@mui/icons-material/Download";
-import {useNavigate} from "react-router-dom";
-import {downloadExcel} from "react-export-table-to-excel";
+import { useNavigate } from "react-router-dom";
+import { downloadExcel } from "react-export-table-to-excel";
 import Loader from "../../Components/Loader";
-import {ExportToCsv} from "export-to-csv";
+import { ExportToCsv } from "export-to-csv";
 
 const drawerWidth = 240;
 
-const DrawerHeader = styled("div")(({theme}) => ({
+const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
@@ -65,9 +67,9 @@ function Customers() {
 
   const [formData, setFormData] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [imageFiles, setImageFiles] = useState([]);
   const [CSVDownloadData, setCSVDownloadData] = useState([]);
   const [isloading, setIsloading] = useState(false);
+  const [UploadSuccess, setUploadSuccess] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -81,40 +83,26 @@ function Customers() {
     getData();
   }, []);
 
-  // console.log(seletedImage);
-  const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let files = e.target.files;
-    setImageFiles([...imageFiles, ...files]);
+  const handleFileUploadChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+    const formData = new FormData();
+    formData.append("file", event.target.files[0], event.target.files[0].name);
+    setSelectedFile(formData);
   };
 
-  const onFileUpload = async (id) => {
-    console.log(id);
-    console.log(imageFiles?.[0]?.name);
-    var imagedata = new FormData();
-    imagedata.append(imageFiles?.[0]?.name, imageFiles);
-    console.log(imagedata);
-    const res = await UploadDocument(
-      imagedata,
-      {
-        "content-type": imageFiles.type,
-        "content-length": `${imageFiles.size}`,
-      },
-      id
-    );
-    // if(res){
-
-    // }
-    console.log(res);
-    // if (tickets.data) {
-    //   const res = await UploadDocument(formdata, {
-    //     "content-type": imageFiles.type,
-    //     "content-length": `${imageFiles.size}`,
-    //   });
-    // const formData = new FormData();
-    // formData.append(selectedFile.name, selectedFile, selectedFile.name);
-    // console.log(formData, id);
-    // const res = await UploadDocument(formData, id);
+  const handleFileUpload = async (id) => {
+    console.log(selectedFile);
+    const res = await UploadVisa(selectedFile, id);
+    console.log(res.status);
+    if (res.status === 200) {
+      setUploadSuccess(true);
+      setTimeout(() => {
+        setOpen(false);
+        setUploadSuccess(false);
+      }, 2000);
+    }
   };
+
   const handleClickOpen = (id) => {
     console.log(id);
     setOpen(id);
@@ -135,14 +123,14 @@ function Customers() {
 
   const handleStatusChanges = async () => {
     console.log(statusData);
-    const res = await ChangeStatus({status: "approved"});
+    const res = await ChangeStatus({ status: "approved" });
     console.log(res);
   };
 
   const columns = [
-    {id: "index", label: "S.No", minWidth: 50},
-    {id: "name", label: "Name", minWidth: 100},
-    {id: "unique", label: "Unique Id", minWidth: 170},
+    { id: "index", label: "S.No", minWidth: 50 },
+    { id: "name", label: "Name", minWidth: 100 },
+    { id: "unique", label: "Unique Id", minWidth: 170 },
     {
       id: "email",
       label: "Email",
@@ -361,9 +349,9 @@ function Customers() {
   return (
     <>
       {isloading && <Loader />}
-      <Box sx={{display: "flex"}}>
+      <Box sx={{ display: "flex" }}>
         <SideMenu />
-        <Box component="main" sx={{flexGrow: 1, p: 3}}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
           <div className="d-flex justify-content-between me-5">
             <Typography variant="h5">Customers</Typography>{" "}
@@ -387,8 +375,8 @@ function Customers() {
             </div>
           </div>
 
-          <Paper sx={{width: "100%"}}>
-            <TableContainer sx={{maxHeight: 617}}>
+          <Paper sx={{ width: "100%" }}>
+            <TableContainer sx={{ maxHeight: 617 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
@@ -461,20 +449,36 @@ function Customers() {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Upload the Visa"}</DialogTitle>
-          <DialogContent>
-            <input
-              type="file"
-              className="form-control"
-              onChange={onImageChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={() => onFileUpload(open)} autoFocus>
-              Agree
-            </Button>
-          </DialogActions>
+          {UploadSuccess ? (
+            <>
+              <DialogTitle id="alert-dialog-title">
+                {"Visa Uploaded Successfully"}
+              </DialogTitle>
+              <div className="text-center">
+                <CheckCircleOutlineIcon sx={{ fontSize: 70, color: "green" }} />
+              </div>
+            </>
+          ) : (
+            <>
+              <DialogTitle id="alert-dialog-title">
+                {"Upload the Visa"}
+              </DialogTitle>
+              <DialogContent>
+                <input
+                  type="file"
+                  onChange={handleFileUploadChange}
+                  accept=".pdf"
+                  className="form-control"
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Disagree</Button>
+                <Button onClick={() => handleFileUpload(open)} autoFocus>
+                  Agree
+                </Button>
+              </DialogActions>
+            </>
+          )}
         </Dialog>
       </div>
       {/* Excel Download Dialog */}
@@ -489,7 +493,7 @@ function Customers() {
             {"Download the Excel Reports"}
           </DialogTitle>
           <DialogContent>
-            <FormControl size="small" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="small" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Select the Status
               </InputLabel>
@@ -533,7 +537,7 @@ function Customers() {
             {"Download the CSV Reports"}
           </DialogTitle>
           <DialogContent>
-            <FormControl size="small" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="small" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Select the Status
               </InputLabel>

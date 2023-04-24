@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   FormControl,
@@ -13,63 +13,63 @@ import {
   Radio,
   FormGroup,
 } from "@mui/material";
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import {countries, countriesDialCode} from "./CountryList";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { countries, countriesDialCode } from "./CountryList";
 import "./Css/ApplyForm.css";
 function FormStep1({
-  // handleChange,
+  handleChange,
   values,
   errors,
   touched,
   setFormStep1Filled,
 }) {
-  const [formData, setFormData] = useState({
-    nationality: "",
-    passport_type: "",
-    port_of_arrival: "",
-    date_of_birth: "",
-    email: "",
-    confirm_email: "",
-    visa_service: "",
-    expected_date_of_arrival: "",
-    surname: "",
-    givenName: "",
-    gender: "",
-    city_of_birth: "",
-    country_of_birth: "",
-    national_id_no: "",
-    religion: "",
-    visible_indetification_marks: "",
-    education_qualification: "",
-    accquire_nationlity_by_birth: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   nationality: "",
+  //   passport_type: "",
+  //   port_of_arrival: "",
+  //   date_of_birth: "",
+  //   email: "",
+  //   confirm_email: "",
+  //   visa_service: "",
+  //   expected_date_of_arrival: "",
+  //   surname: "",
+  //   givenName: "",
+  //   gender: "",
+  //   city_of_birth: "",
+  //   country_of_birth: "",
+  //   national_id_no: "",
+  //   religion: "",
+  //   visible_indetification_marks: "",
+  //   education_qualification: "",
+  //   accquire_nationlity_by_birth: "",
+  // });
   useEffect(() => {
     const objectLength = Object.keys(errors).length;
     setFormStep1Filled(objectLength);
   }, [errors, values]);
 
   // console.log(values);
-  function handleChange(e) {
-    const {name, value} = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  }
-  console.log(formData);
+  // function handleChange(e) {
+  //   const {name, value} = e.target;
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: value,
+  //   }));
+  // }
+  // console.log(formData);
   return (
     <>
       <div className="">
-        <div style={{background: "#1e8bc3"}} className="p-1">
+        <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Personal Details</h4>
         </div>
         <div className="row">
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Nationality/Region
               </InputLabel>
@@ -77,7 +77,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="nationality"
-                value={formData.nationality || ""}
+                value={values.nationality || ""}
                 onChange={handleChange}
                 label="Nationality"
                 defaultValue=""
@@ -98,7 +98,7 @@ function FormStep1({
           </div>
           <div className="col-lg-6">
             {" "}
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Passport Type
               </InputLabel>
@@ -106,7 +106,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="passport_type"
-                value={formData.passport_type || ""}
+                value={values.passport_type || ""}
                 onChange={handleChange}
                 label="Country of Birth"
                 defaultValue=""
@@ -127,7 +127,7 @@ function FormStep1({
         </div>{" "}
         <div className="row">
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Port of Arrival
               </InputLabel>
@@ -135,7 +135,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="port_of_arrival"
-                value={formData.port_of_arrival || ""}
+                value={values.port_of_arrival || ""}
                 onChange={handleChange}
                 label="Port of Arrival"
                 defaultValue=""
@@ -155,7 +155,7 @@ function FormStep1({
           </div>
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               label="Date Of Birth"
@@ -165,7 +165,7 @@ function FormStep1({
               // error={
               //   errors.date_of_birth && touched.date_of_birth ? true : false
               // }
-              value={formData.date_of_birth || ""}
+              value={values.date_of_birth || ""}
               onChange={handleChange}
             />
           </div>
@@ -174,24 +174,24 @@ function FormStep1({
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Email Address"
               name="email"
               type="email"
-              value={formData.email || ""}
+              value={values.email || ""}
               onChange={handleChange}
             />
           </div>
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Confirm Email Addres"
               name="confirm_email"
               type="email"
-              value={formData.confirm_email || ""}
+              value={values.confirm_email || ""}
               onChange={handleChange}
             />
           </div>
@@ -199,9 +199,9 @@ function FormStep1({
         <div className="row">
           <div
             className="col-lg-6"
-            hidden={formData.nationality === "" ? true : false}
+            hidden={values.nationality === "" ? true : false}
           >
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Visa Service
               </InputLabel>
@@ -209,7 +209,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="visa_service"
-                value={formData.visa_service || ""}
+                value={values.visa_service || ""}
                 onChange={handleChange}
                 label="Country of Birth"
                 defaultValue=""
@@ -234,12 +234,12 @@ function FormStep1({
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Expected Date of Arrival"
               name="expected_date_of_arrival"
               type="date"
-              value={formData.expected_date_of_arrival || ""}
+              value={values.expected_date_of_arrival || ""}
               onChange={handleChange}
             />
           </div>
@@ -247,10 +247,10 @@ function FormStep1({
         {/* eTOURIST VISA */}
         <div
           className="row"
-          hidden={formData.visa_service === "eTOURIST VISA" ? false : true}
+          hidden={values.visa_service === "eTOURIST VISA" ? false : true}
         >
           <div className="col-lg-12">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Visa Service For Days/Years
               </InputLabel>
@@ -258,7 +258,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="visa_service_for_eTourist"
-                value={formData.visa_service_for_eTourist || ""}
+                value={values.visa_service_for_eTourist || ""}
                 onChange={handleChange}
                 label="Visa Service For Days/Years"
                 defaultValue=""
@@ -279,7 +279,7 @@ function FormStep1({
             </FormControl>{" "}
           </div>
 
-          <div hidden={formData.visa_service_for === "" ? true : false}>
+          <div hidden={values.visa_service_for === "" ? true : false}>
             <div className="row">
               <div className="col-lg-12">
                 <div className="d-flex justify-content-between">
@@ -350,7 +350,7 @@ function FormStep1({
           </div>
         </div>
         {/* eMEDICAL VISA */}
-        <div hidden={formData.visa_service === "eMEDICAL VISA" ? false : true}>
+        <div hidden={values.visa_service === "eMEDICAL VISA" ? false : true}>
           <div className="row">
             <div className="col-lg-12">
               <div className="d-flex justify-content-between">
@@ -377,7 +377,7 @@ function FormStep1({
           </div>
         </div>
         {/* eMEDICAL VISA */}
-        <div hidden={formData.visa_service === "eBUSINESS VISA" ? false : true}>
+        <div hidden={values.visa_service === "eBUSINESS VISA" ? false : true}>
           <div className="row">
             <div className="col-lg-12">
               <div className="d-flex justify-content-between">
@@ -497,9 +497,7 @@ function FormStep1({
           </div>
         </div>
         {/* eCONFERENCE Visa */}
-        <div
-          hidden={formData.visa_service === "eCONFERENCE VISA" ? false : true}
-        >
+        <div hidden={values.visa_service === "eCONFERENCE VISA" ? false : true}>
           <div className="row">
             <div className="col-lg-12">
               <div className="d-flex justify-content-between">
@@ -532,9 +530,7 @@ function FormStep1({
         </div>
         {/* G20 eConference visa*/}
         <div
-          hidden={
-            formData.visa_service === "G20 eCONFERENCE VISA" ? false : true
-          }
+          hidden={values.visa_service === "G20 eCONFERENCE VISA" ? false : true}
         >
           <div className="row">
             <div className="col-lg-12">
@@ -564,7 +560,7 @@ function FormStep1({
         {/* eMEDICAL ATTENDANT VISA*/}
         <div
           hidden={
-            formData.visa_service === "eMEDICAL ATTENDANT VISA" ? false : true
+            values.visa_service === "eMEDICAL ATTENDANT VISA" ? false : true
           }
         >
           <div className="row">
@@ -612,33 +608,33 @@ function FormStep1({
             />
           </div>
         </div>
-        <div style={{background: "#1e8bc3"}} className="p-1">
+        <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Applicant Details</h4>
         </div>
         <div className="row">
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               label="Surname"
               type="text"
               name="surname"
               error={errors.surname && touched.surname ? true : false}
-              value={formData.surname || ""}
+              value={values.surname || ""}
               onChange={handleChange}
             />
           </div>
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               label="Given Name"
               type="text"
               name="givenName"
               error={errors.givenName && touched.givenName ? true : false}
-              value={formData.givenName || ""}
+              value={values.givenName || ""}
               onChange={handleChange}
             />
           </div>
@@ -657,7 +653,7 @@ function FormStep1({
         </div>
         <div className="row">
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Gender
               </InputLabel>
@@ -665,7 +661,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="gender"
-                value={formData.gender || ""}
+                value={values.gender || ""}
                 onChange={handleChange}
                 label="Gender"
                 defaultValue=""
@@ -681,12 +677,12 @@ function FormStep1({
           </div>
           <div className="col-lg-6">
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               required
               fullWidth
               // type="text"
               label="Date Of Birth"
-              value={formData.date_of_birth}
+              value={values.date_of_birth}
             />
           </div>
         </div>
@@ -694,17 +690,17 @@ function FormStep1({
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Town/City of Birth"
               name="city_of_birth"
               type="text"
-              value={formData.city_of_birth || ""}
+              value={values.city_of_birth || ""}
               onChange={handleChange}
             />
           </div>
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Country of Birth
               </InputLabel>
@@ -712,7 +708,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="country_of_birth"
-                value={formData.country_of_birth || ""}
+                value={values.country_of_birth || ""}
                 onChange={handleChange}
                 label="Country of Birth"
                 defaultValue=""
@@ -736,17 +732,17 @@ function FormStep1({
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Citizenship/National Id No."
               name="national_id_no"
               type="text"
-              value={formData.national_id_no || ""}
+              value={values.national_id_no || ""}
               onChange={handleChange}
             />
           </div>
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Religion
               </InputLabel>
@@ -754,7 +750,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="religion"
-                value={formData.religion || ""}
+                value={values.religion || ""}
                 onChange={handleChange}
                 label="Religion"
                 defaultValue=""
@@ -776,18 +772,18 @@ function FormStep1({
             {" "}
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Visible Identification marks"
               name="visible_indetification_marks"
               type="text"
-              value={formData.visible_indetification_marks || ""}
+              value={values.visible_indetification_marks || ""}
               onChange={handleChange}
             />
           </div>
           <div className="col-lg-6">
             {" "}
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Education Qualification
               </InputLabel>
@@ -795,7 +791,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="education_qualification"
-                value={formData.education_qualification || ""}
+                value={values.education_qualification || ""}
                 onChange={handleChange}
                 label="Education Qualification"
                 defaultValue=""
@@ -814,15 +810,15 @@ function FormStep1({
           <div className="col-lg-6">
             <TextField
               required
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Nationality"
               name="nationality"
-              value={formData.nationality}
+              value={values.nationality}
             />
           </div>
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{marginTop: 2}}>
+            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
                 Did you acquire nationality by birth or by naturalization?
               </InputLabel>
@@ -830,7 +826,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="accquire_nationlity_by_birth"
-                value={formData.accquire_nationlity_by_birth || ""}
+                value={values.accquire_nationlity_by_birth || ""}
                 onChange={handleChange}
                 label="  Did you acquire nationality by birth or by naturalization?"
                 defaultValue=""
@@ -848,7 +844,7 @@ function FormStep1({
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{marginTop: 1}}>
+                <FormLabel required sx={{ marginTop: 1 }}>
                   Have you ever sought asylum (political or otherwise) in any
                   country?
                 </FormLabel>
