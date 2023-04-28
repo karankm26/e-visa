@@ -99,3 +99,29 @@ export const UploadDocuments = async (formData, id) => {
 
   return response;
 };
+
+export const CreateFormStage1 = async (values, stage) => {
+  console.log(values, stage);
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const requestBody = {
+    currentStage: stage,
+    answers: values,
+  };
+
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/visa/apply",
+      requestBody,
+      { headers }
+    );
+    console.log(response);
+    console.log(response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

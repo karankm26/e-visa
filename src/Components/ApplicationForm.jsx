@@ -89,18 +89,23 @@ const MultistepForm = () => {
   );
   const [formData, setFormData] = useState({});
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  const [selected, setSelected] = useState("");
+  const [formStep1Filled, setFormStep1Filled] = useState(false);
+  const [submitTab1, setSubmitTab1] = useState(false);
+  const [submitTab1Confrim, setSubmitTab1Confrim] = useState(false);
 
   const handleNextStep = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSubmitTab1(true);
+    // if (submitTab1Confrim) {
+    //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // }
   };
 
   const handlePrevStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const [selected, setSelected] = useState("");
-  const [formStep1Filled, setFormStep1Filled] = useState(false);
-  // console.log(formStep1Filled);
+  console.log(formStep1Filled);
   const handleChangeSelect = (event) => {
     console.log(event.target.value);
     setSelected(event.target.value);
@@ -188,6 +193,9 @@ const MultistepForm = () => {
               errors={errors}
               touched={touched}
               setFormStep1Filled={setFormStep1Filled}
+              submitTab1={submitTab1}
+              setSubmitTab1Confrim={setSubmitTab1Confrim}
+              setActiveStep={setActiveStep}
             />
           </>
         );
@@ -257,6 +265,13 @@ const MultistepForm = () => {
             </Stepper>
             {activeStep < steps.length && (
               <Box sx={{ marginTop: "2rem", width: "100%" }}>
+                <Typography variant="h5">
+                  {localStorage.getItem("application_id")
+                    ? `Application ID : ${localStorage.getItem(
+                        "application_id"
+                      )}`
+                    : ""}
+                </Typography>
                 {renderStepContent(activeStep)}
                 <Box
                   className="d-flex justify-content-between "
@@ -287,9 +302,9 @@ const MultistepForm = () => {
                         onClick={handleNextStep}
                         size="large"
                         disabled={
-                          activeStep === 0 && formStep1Filled.length > 0
-                            ? true
-                            : false
+                          activeStep === 0 && formStep1Filled >= 22
+                            ? false
+                            : true
                         }
                       >
                         Continue

@@ -40,6 +40,7 @@ const AdminLogin = () => {
     if (res) {
       localStorage.setItem("token", res.token);
       localStorage.setItem("loggedIn", true);
+      localStorage.setItem("loginDate", new Date());
       setIsloading(false);
       navigate("/admin/customers");
     }

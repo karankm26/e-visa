@@ -36,14 +36,15 @@ export const updateCompleted = async () => {
   );
 };
 
-
 export const login = async (body) => {
   const response = await axios
     .post(`https://evisa-backend.onrender.com/admin/login`, body)
     .then((res) => {
+      console.log(res);
       return res.data;
     })
     .catch((err) => {
+      console.log(err);
       return err.response.data;
     });
 

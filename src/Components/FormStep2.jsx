@@ -311,7 +311,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               required
               fullWidth
               label="Postal/Zip Code"
-              type="text"
+              type="number"
               name="postal_zip_code"
               error={
                 errors.postal_zip_code && touched.postal_zip_code ? true : false
@@ -325,6 +325,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               required
               fullWidth
+              type="number"
               label="Mobile No."
               name="mobile_no"
               value={values.mobile_no || ""}
@@ -337,10 +338,10 @@ function FormStep2({ handleChange, values, errors, touched }) {
             <TextField
               required
               sx={{ marginTop: 2 }}
+              type="number"
               fullWidth
               label="Phone No."
               name="phone"
-              type="text"
               value={values.phone || ""}
               onChange={handleChange}
             />
@@ -361,13 +362,20 @@ function FormStep2({ handleChange, values, errors, touched }) {
           <div className="col-lg-12">
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox required />}
+                control={
+                  <Checkbox
+                    required
+                    onChange={handleChange}
+                    name="if_address_same"
+                  />
+                }
                 label={
                   <FormLabel className="text-start mt-2 text-form" required>
                     Check her for same Address
                   </FormLabel>
                 }
               />
+              {console.log(values.if_address_same)}
             </FormGroup>
           </div>
         </div>{" "}
@@ -380,9 +388,13 @@ function FormStep2({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               fullWidth
               label="House no./Street"
-              name="house_no2"
+              name="permanent_house_no"
               type="text"
-              value={values.house_no2 || ""}
+              value={
+                values.if_address_same?.[0] === "on"
+                  ? values.house_no
+                  : values.permanent_house_no || ""
+              }
               onChange={handleChange}
             />
           </div>
@@ -393,9 +405,13 @@ function FormStep2({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               fullWidth
               label="Village/Town/City"
-              name="village_town_city2"
+              name="permanent_village_town_city"
               type="text"
-              value={values.village_town_city2 || ""}
+              value={
+                values.if_address_same?.[0] === "on"
+                  ? values.village_town_city
+                  : values.permanent_village_town_city || ""
+              }
               onChange={handleChange}
             />
           </div>
@@ -408,9 +424,13 @@ function FormStep2({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               fullWidth
               label="State/Province/District"
-              name="state_province_district2"
+              name="permanent_state_province_district"
               type="text"
-              value={values.state_province_district2 || ""}
+              value={
+                values.if_address_same?.[0] === "on"
+                  ? values.state_province_district
+                  : values.permanent_state_province_district || ""
+              }
               onChange={handleChange}
             />
           </div>

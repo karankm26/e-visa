@@ -148,27 +148,18 @@ function FormStep3({ handleChange, values, errors, touched }) {
             />
           </div>
           <div className="col-lg-6">
-            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
-              <InputLabel id="demo-simple-select-label" required>
-                Expected Port of Exit from India
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="expected_port_from_india"
-                value={values.expected_port_from_india || ""}
-                onChange={handleChange}
-                label="Education Qualification"
-                defaultValue=""
-              >
-                <MenuItem value="" selected>
-                  <em>Select Religion</em>
-                </MenuItem>
-                <MenuItem value={"indai"}>india</MenuItem>
-                <MenuItem value={"UDER-GRADUATE"}>UDER-GRADUATE</MenuItem>
-                <MenuItem value={"DIPLOMA"}>DIPLOMA</MenuItem>
-              </Select>
-            </FormControl>{" "}
+            <TextField
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              name="exit_port_from_india"
+              value={values.exit_port_from_india || ""}
+              onChange={handleChange}
+              label="Exit Port From India"
+              fullWidth
+              sx={{ marginTop: 2 }}
+              defaultValue=""
+              required
+            />
           </div>
         </div>
       </div>
@@ -428,33 +419,16 @@ function FormStep3({ handleChange, values, errors, touched }) {
         <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Other Information </h4>
         </div>
-        <div className="col-lg-6">
-          {" "}
-          <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
-            <InputLabel id="demo-simple-select-label" required>
-              Countries Visited in Last 10 Years
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              name="countries_visited_in_last_10_years"
-              value={values.countries_visited_in_last_10_years || ""}
-              onChange={handleChange}
-              label="Countries Visited in Last 10 Years"
-              defaultValue=""
-            >
-              <MenuItem value="" selected>
-                <em>Select Country of Issue</em>
-              </MenuItem>
-              {countries.map((country, index) => {
-                return (
-                  <MenuItem key={index} value={country}>
-                    {country}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+        <div className="col-lg-12">
+          <TextField
+            type="text"
+            name="countries_visited_in_last_10_years"
+            value={values.countries_visited_in_last_10_years || ""}
+            onChange={handleChange}
+            label="Countries Visited in Last 10 Years"
+            sx={{ marginTop: 2 }}
+            fullWidth
+          />
         </div>
       </div>
       <div className="mt-4">
@@ -545,7 +519,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Reference Name in" + values.nationality}
+              label={"Reference Name in" + " " + values.nationality}
               name="reference_name_in_albania"
               value={values.reference_name_in_nationality}
               onChange={handleChange}
@@ -556,7 +530,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Address in " + values.nationality}
+              label={"Address in " + " " + values.nationality}
               name="reference_address"
               value={values.reference_address_in_nationality}
               onChange={handleChange}
@@ -569,7 +543,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Reference Name in" + values.nationality}
+              label={"Reference Name in" + " " + values.nationality}
               name="reference_phone_in_nationality"
               value={values.reference_phone_in_nationality}
               onChange={handleChange}
