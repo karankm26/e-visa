@@ -81,13 +81,13 @@ function FormStep2({
       {loading && <Loader />}
       <div className="">
         {" "}
-        <Button
+        {/* <Button
           onClick={() => {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
           }}
         >
           SKIP
-        </Button>
+        </Button> */}
       </div>
       <div>
         <div style={{ background: "#1e8bc3" }} className="p-1">

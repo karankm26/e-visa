@@ -128,13 +128,13 @@ function FormStep1({
         <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Personal Details</h4>
         </div>
-        <Button
+        {/* <Button
           onClick={() => {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
           }}
         >
           SKIP
-        </Button>
+        </Button> */}
         <div className="row">
           <div className="col-lg-6">
             <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
