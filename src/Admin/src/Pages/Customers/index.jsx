@@ -221,12 +221,12 @@ function Customers() {
   const rows = formData.map((item, index) =>
     createData(
       index + 1,
-      `${item.first_name} ${item.last_name}`,
-      item._id,
-      item.email,
-      item.status,
-      item.phone,
-      item.gender
+      `${item?.tabOne?.givenName} ${item?.tabOne?.surname}`,
+      item.application_id,
+      item?.tabOne?.email,
+      item?.tabOne?.status,
+      item?.tabOne?.phone,
+      item?.tabOne?.gender
     )
   );
   console.log(formData);
@@ -304,11 +304,11 @@ function Customers() {
     const selectedProperties = filteredStatus.map((item, index) => {
       return {
         "S.No": index + 1,
-        Email: item.email,
-        Name: `${item.first_name} ${item.last_name}`,
-        Gender: item.gender,
-        Nationality: item.nationality,
-        "Passport Type": item.passport_type,
+        Email: item?.tabOne?.email,
+        Name: `${item?.tabOne?.givenName} ${item?.tabOne?.surname}`,
+        Gender: item?.tabOne?.gender,
+        Nationality: item?.tabOne?.nationality,
+        "Passport Type": item?.tabOne?.passport_type,
         Status: item.status,
         "Date of Arrival": new Date(item.dateOfArrival).toLocaleString(),
         "Initiated Date": new Date(item.createdAt).toLocaleString(),

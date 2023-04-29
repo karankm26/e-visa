@@ -9,10 +9,11 @@ import {
   Alert,
 } from "@mui/material";
 import { UploadDocuments } from "../utils";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "./Loader";
 
 function DocumentsUpload() {
+  const navigate = useNavigate();
   const { id } = useParams();
   console.log(id);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -45,6 +46,7 @@ function DocumentsUpload() {
       setIsloading(false);
       setTimeout(() => {
         setUploadSuccess(false);
+        navigate(`/payment/${id}`);
       }, 5000);
     }
   };

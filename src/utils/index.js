@@ -18,7 +18,7 @@ export const getStatus = async (id) => {
 export const UploadDocuments = async (formData, id) => {
   console.log(formData, id);
   const response = axios
-    .post("https://evisa-backend.onrender.com/visa/uploads/" + id, formData)
+    .post(`${BASE_URL}/visa/uploads/${id}`, formData)
     .then((res) => {
       return res;
     })
@@ -33,7 +33,34 @@ export const CreateForm = async (values, stage, id) => {
   const headers = {
     "Content-Type": "application/json",
   };
-  const requestBody = {    
+  const requestBody = {
+    currentStage: stage,
+    id: id,
+    answers: values,
+  };
+
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/visa/apply",
+      requestBody,
+      { headers }
+    );
+    console.log(response);
+    console.log(response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const UpdateForm = async (values, stage, id) => {
+  console.log(values, stage, id);
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const requestBody = {
     currentStage: stage,
     id: id,
     answers: values,

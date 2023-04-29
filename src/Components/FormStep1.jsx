@@ -229,7 +229,7 @@ function FormStep1({
               label="Date Of Birth"
               type="date"
               name="date_of_birth"
-              placeholder="Date"
+              // placeholder="Date"
               // error={
               //   errors.date_of_birth && touched.date_of_birth ? true : false
               // }
