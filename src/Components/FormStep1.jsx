@@ -12,6 +12,7 @@ import {
   RadioGroup,
   Radio,
   FormGroup,
+  Button,
 } from "@mui/material";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,12 +21,16 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { countries, countriesDialCode } from "./CountryList";
 import "./Css/ApplyForm.css";
+import { CreateForm } from "../utils";
+import Loader from "../Admin/src/Components/Loader";
 function FormStep1({
-  handleChange,
+  // handleChange,
   values,
   errors,
   touched,
   setFormStep1Filled,
+  submitTab1,
+  setActiveStep,
 }) {
   // const [formData, setFormData] = useState({
   //   nationality: "",
@@ -35,6 +40,7 @@ function FormStep1({
   //   email: "",
   //   confirm_email: "",
   //   visa_service: "",
+  //   visa_service_for_eTourist: "",
   //   expected_date_of_arrival: "",
   //   surname: "",
   //   givenName: "",
@@ -43,30 +49,92 @@ function FormStep1({
   //   country_of_birth: "",
   //   national_id_no: "",
   //   religion: "",
+  //   other_religion: "",
   //   visible_indetification_marks: "",
   //   education_qualification: "",
   //   accquire_nationlity_by_birth: "",
   // });
+  const [formData, setFormData] = useState({});
+  const [submitForm, setSubmitForm] = useState();
+  const [loading, setLoading] = useState(false);
+  console.log(submitTab1);
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  }
+
   useEffect(() => {
-    const objectLength = Object.keys(errors).length;
+    const objectLength = Object.keys(formData).length;
     setFormStep1Filled(objectLength);
-  }, [errors, values]);
+
+    if (
+      typeof formData.other_religion === "undefined" &&
+      typeof formData.visa_service_for_eTourist === "undefined" &&
+      objectLength === 22
+    ) {
+      console.log("??????????");
+      setFormStep1Filled(objectLength);
+    }
+    if (formData?.other_religion?.length > 0 && objectLength > 22) {
+      console.log(">>>>>>>>>>>");
+      setFormStep1Filled(objectLength);
+    }
+
+    if (!formData?.visa_service_for_eTourist?.length > 0 && objectLength > 22) {
+      console.log("<<<<<<<<<<<<<<");
+      setFormStep1Filled(objectLength);
+    }
+  }, [formData, Object.keys(formData).length]);
 
   // console.log(values);
-  // function handleChange(e) {
-  //   const {name, value} = e.target;
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     [name]: value,
-  //   }));
-  // }
-  // console.log(formData);
+
+  console.log(formData);
+  console.log(Object.keys(formData).length);
+
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 4);
+  const maxMonth = maxDate.getMonth();
+  const maxYear = maxDate.getFullYear();
+  const maxDaysInMonth = new Date(maxYear, maxMonth + 1, 0).getDate();
+  if (maxDate.getDate() > maxDaysInMonth) {
+    maxDate.setDate(maxDaysInMonth);
+  }
+
+  const handleSubmit = async () => {
+    const res = await CreateForm(formData, 1);
+    console.log(res.data.result.application_id);
+    localStorage.setItem("application_id", res.data.result.application_id);
+    if (res) {
+      setTimeout(() => {
+        setLoading(false);
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }, 2000);
+    }
+  };
+  useEffect(() => {
+    if (submitTab1) {
+      console.log("first");
+      setLoading(true);
+      handleSubmit();
+    }
+  }, [submitTab1]);
   return (
     <>
+      {loading && <Loader />}
       <div className="">
         <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Personal Details</h4>
         </div>
+        {/* <Button
+          onClick={() => {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          }}
+        >
+          SKIP
+        </Button> */}
         <div className="row">
           <div className="col-lg-6">
             <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
@@ -77,7 +145,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="nationality"
-                value={values.nationality || ""}
+                value={formData.nationality || ""}
                 onChange={handleChange}
                 label="Nationality"
                 defaultValue=""
@@ -106,7 +174,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="passport_type"
-                value={values.passport_type || ""}
+                value={formData.passport_type || ""}
                 onChange={handleChange}
                 label="Country of Birth"
                 defaultValue=""
@@ -135,7 +203,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="port_of_arrival"
-                value={values.port_of_arrival || ""}
+                value={formData.port_of_arrival || ""}
                 onChange={handleChange}
                 label="Port of Arrival"
                 defaultValue=""
@@ -161,11 +229,11 @@ function FormStep1({
               label="Date Of Birth"
               type="date"
               name="date_of_birth"
-              placeholder="Date"
+              // placeholder="Date"
               // error={
               //   errors.date_of_birth && touched.date_of_birth ? true : false
               // }
-              value={values.date_of_birth || ""}
+              value={formData.date_of_birth || ""}
               onChange={handleChange}
             />
           </div>
@@ -179,7 +247,7 @@ function FormStep1({
               label="Email Address"
               name="email"
               type="email"
-              value={values.email || ""}
+              value={formData.email || ""}
               onChange={handleChange}
             />
           </div>
@@ -191,7 +259,7 @@ function FormStep1({
               label="Confirm Email Addres"
               name="confirm_email"
               type="email"
-              value={values.confirm_email || ""}
+              value={formData.confirm_email || ""}
               onChange={handleChange}
             />
           </div>
@@ -199,7 +267,7 @@ function FormStep1({
         <div className="row">
           <div
             className="col-lg-6"
-            hidden={values.nationality === "" ? true : false}
+            hidden={formData.nationality === "" ? true : false}
           >
             <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
               <InputLabel id="demo-simple-select-label" required>
@@ -209,7 +277,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="visa_service"
-                value={values.visa_service || ""}
+                value={formData.visa_service || ""}
                 onChange={handleChange}
                 label="Country of Birth"
                 defaultValue=""
@@ -239,15 +307,20 @@ function FormStep1({
               label="Expected Date of Arrival"
               name="expected_date_of_arrival"
               type="date"
-              value={values.expected_date_of_arrival || ""}
+              value={formData.expected_date_of_arrival || ""}
               onChange={handleChange}
+              defaultValue={new Date().toISOString().slice(0, 16)}
+              inputProps={{
+                min: new Date().toISOString().slice(0, 16).split("T")[0],
+                max: maxDate.toISOString().slice(0, 16).split("T")[0],
+              }}
             />
           </div>
         </div>
         {/* eTOURIST VISA */}
         <div
           className="row"
-          hidden={values.visa_service === "eTOURIST VISA" ? false : true}
+          hidden={formData.visa_service === "eTOURIST VISA" ? false : true}
         >
           <div className="col-lg-12">
             <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
@@ -258,7 +331,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="visa_service_for_eTourist"
-                value={values.visa_service_for_eTourist || ""}
+                value={formData.visa_service_for_eTourist || ""}
                 onChange={handleChange}
                 label="Visa Service For Days/Years"
                 defaultValue=""
@@ -279,7 +352,7 @@ function FormStep1({
             </FormControl>{" "}
           </div>
 
-          <div hidden={values.visa_service_for === "" ? true : false}>
+          <div hidden={formData.visa_service_for === "" ? true : false}>
             <div className="row">
               <div className="col-lg-12">
                 <div className="d-flex justify-content-between">
@@ -287,7 +360,7 @@ function FormStep1({
                     <RadioGroup
                       defaultValue="no"
                       aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="visa_service_for_eTourist_question"
+                      name="visa_service_for_eTourist_reason"
                       onChange={handleChange}
                     >
                       <FormControlLabel
@@ -350,7 +423,7 @@ function FormStep1({
           </div>
         </div>
         {/* eMEDICAL VISA */}
-        <div hidden={values.visa_service === "eMEDICAL VISA" ? false : true}>
+        <div hidden={formData.visa_service === "eMEDICAL VISA" ? false : true}>
           <div className="row">
             <div className="col-lg-12">
               <div className="d-flex justify-content-between">
@@ -358,7 +431,7 @@ function FormStep1({
                   <RadioGroup
                     defaultValue="no"
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="que8"
+                    name="emedical_visa_reason"
                     onChange={handleChange}
                   >
                     <FormControlLabel
@@ -377,7 +450,7 @@ function FormStep1({
           </div>
         </div>
         {/* eMEDICAL VISA */}
-        <div hidden={values.visa_service === "eBUSINESS VISA" ? false : true}>
+        <div hidden={formData.visa_service === "eBUSINESS VISA" ? false : true}>
           <div className="row">
             <div className="col-lg-12">
               <div className="d-flex justify-content-between">
@@ -385,7 +458,7 @@ function FormStep1({
                   <RadioGroup
                     defaultValue="no"
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="que8"
+                    name="ebusiness_visa_reason"
                     onChange={handleChange}
                   >
                     <FormControlLabel
@@ -497,7 +570,9 @@ function FormStep1({
           </div>
         </div>
         {/* eCONFERENCE Visa */}
-        <div hidden={values.visa_service === "eCONFERENCE VISA" ? false : true}>
+        <div
+          hidden={formData.visa_service === "eCONFERENCE VISA" ? false : true}
+        >
           <div className="row">
             <div className="col-lg-12">
               <div className="d-flex justify-content-between">
@@ -505,7 +580,7 @@ function FormStep1({
                   <RadioGroup
                     defaultValue="no"
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="que8"
+                    name="econference_visa_reason"
                     onChange={handleChange}
                   >
                     <FormControlLabel
@@ -530,7 +605,9 @@ function FormStep1({
         </div>
         {/* G20 eConference visa*/}
         <div
-          hidden={values.visa_service === "G20 eCONFERENCE VISA" ? false : true}
+          hidden={
+            formData.visa_service === "G20 eCONFERENCE VISA" ? false : true
+          }
         >
           <div className="row">
             <div className="col-lg-12">
@@ -539,7 +616,7 @@ function FormStep1({
                   <RadioGroup
                     defaultValue="no"
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="que8"
+                    name="g20_econference_visa_reason"
                     onChange={handleChange}
                   >
                     <FormControlLabel
@@ -560,7 +637,7 @@ function FormStep1({
         {/* eMEDICAL ATTENDANT VISA*/}
         <div
           hidden={
-            values.visa_service === "eMEDICAL ATTENDANT VISA" ? false : true
+            formData.visa_service === "eMEDICAL ATTENDANT VISA" ? false : true
           }
         >
           <div className="row">
@@ -570,7 +647,7 @@ function FormStep1({
                   <RadioGroup
                     defaultValue="no"
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="que8"
+                    name="emedical_attendant_visa_reason"
                     onChange={handleChange}
                   >
                     <FormControlLabel
@@ -620,8 +697,7 @@ function FormStep1({
               label="Surname"
               type="text"
               name="surname"
-              error={errors.surname && touched.surname ? true : false}
-              value={values.surname || ""}
+              value={formData.surname || ""}
               onChange={handleChange}
             />
           </div>
@@ -633,8 +709,7 @@ function FormStep1({
               label="Given Name"
               type="text"
               name="givenName"
-              error={errors.givenName && touched.givenName ? true : false}
-              value={values.givenName || ""}
+              value={formData.givenName || ""}
               onChange={handleChange}
             />
           </div>
@@ -642,7 +717,13 @@ function FormStep1({
         <div className="row">
           <div className="col-lg-12">
             <FormControlLabel
-              control={<Checkbox required />}
+              control={
+                <Checkbox
+                  required
+                  onChange={handleChange}
+                  name="name_changed"
+                />
+              }
               label={
                 <FormLabel className="text-start mt-2 text-form" required>
                   Have you ever changed you name? If yes, click the box
@@ -661,7 +742,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="gender"
-                value={values.gender || ""}
+                value={formData.gender || ""}
                 onChange={handleChange}
                 label="Gender"
                 defaultValue=""
@@ -680,9 +761,9 @@ function FormStep1({
               sx={{ marginTop: 2 }}
               required
               fullWidth
-              // type="text"
               label="Date Of Birth"
-              value={values.date_of_birth}
+              value={formData.date_of_birth}
+              disabled
             />
           </div>
         </div>
@@ -695,7 +776,7 @@ function FormStep1({
               label="Town/City of Birth"
               name="city_of_birth"
               type="text"
-              value={values.city_of_birth || ""}
+              value={formData.city_of_birth || ""}
               onChange={handleChange}
             />
           </div>
@@ -708,7 +789,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="country_of_birth"
-                value={values.country_of_birth || ""}
+                value={formData.country_of_birth || ""}
                 onChange={handleChange}
                 label="Country of Birth"
                 defaultValue=""
@@ -737,7 +818,7 @@ function FormStep1({
               label="Citizenship/National Id No."
               name="national_id_no"
               type="text"
-              value={values.national_id_no || ""}
+              value={formData.national_id_no || ""}
               onChange={handleChange}
             />
           </div>
@@ -750,7 +831,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="religion"
-                value={values.religion || ""}
+                value={formData.religion || ""}
                 onChange={handleChange}
                 label="Religion"
                 defaultValue=""
@@ -763,8 +844,24 @@ function FormStep1({
                 <MenuItem value={"BUDDHISM"}>BUDDHISM</MenuItem>
                 <MenuItem value={"ISLAM"}>ISLAM</MenuItem>
                 <MenuItem value={"CHRISTIANITY"}>CHRISTIANITY</MenuItem>
+                <MenuItem value={"OTHER"}>OTHER</MenuItem>
               </Select>
             </FormControl>{" "}
+          </div>
+          <div
+            className="col-lg-12"
+            hidden={formData.religion === "OTHER" ? false : true}
+          >
+            <TextField
+              required
+              sx={{ marginTop: 2 }}
+              fullWidth
+              label="If Religion is not in the list"
+              name="other_religion"
+              type="text"
+              value={formData.other_religion || ""}
+              onChange={handleChange}
+            />
           </div>
         </div>
         <div className="row">
@@ -777,7 +874,7 @@ function FormStep1({
               label="Visible Identification marks"
               name="visible_indetification_marks"
               type="text"
-              value={values.visible_indetification_marks || ""}
+              value={formData.visible_indetification_marks || ""}
               onChange={handleChange}
             />
           </div>
@@ -791,7 +888,7 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="education_qualification"
-                value={values.education_qualification || ""}
+                value={formData.education_qualification || ""}
                 onChange={handleChange}
                 label="Education Qualification"
                 defaultValue=""
@@ -802,6 +899,10 @@ function FormStep1({
                 <MenuItem value={"GRADUATE"}>GRADUATE</MenuItem>
                 <MenuItem value={"UDER-GRADUATE"}>UDER-GRADUATE</MenuItem>
                 <MenuItem value={"DIPLOMA"}>DIPLOMA</MenuItem>
+                <MenuItem value={"MATARICULATION"}>MATARICULATION</MenuItem>
+                <MenuItem value={"UNDER MATARICULATION"}>
+                  UNDER MATARICULATION
+                </MenuItem>
               </Select>
             </FormControl>{" "}
           </div>
@@ -809,12 +910,15 @@ function FormStep1({
         <div className="row">
           <div className="col-lg-6">
             <TextField
-              required
               sx={{ marginTop: 2 }}
               fullWidth
               label="Nationality"
               name="nationality"
-              value={values.nationality}
+              value={formData.nationality}
+              inputProps={{
+                readOnly: true,
+              }}
+              disabled
             />
           </div>
           <div className="col-lg-6">
@@ -826,16 +930,16 @@ function FormStep1({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="accquire_nationlity_by_birth"
-                value={values.accquire_nationlity_by_birth || ""}
+                value={formData.accquire_nationlity_by_birth || ""}
                 onChange={handleChange}
                 label="  Did you acquire nationality by birth or by naturalization?"
                 defaultValue=""
               >
                 <MenuItem value="" selected>
-                  <em>Select Religion</em>
+                  <em>-Select-</em>
                 </MenuItem>
-                <MenuItem value={"YES"}>YES</MenuItem>
-                <MenuItem value={"NO"}>NO</MenuItem>
+                <MenuItem value={"By Birth"}>By Birth</MenuItem>
+                <MenuItem value={"Naturalisation"}>Naturalisation</MenuItem>
               </Select>
             </FormControl>{" "}
           </div>
@@ -851,9 +955,8 @@ function FormStep1({
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="que8"
+                  name="Have_you_ever_sought_asylum"
                   onChange={handleChange}
                 >
                   <div className="d-flex">

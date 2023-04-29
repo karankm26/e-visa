@@ -28,9 +28,9 @@ function Status() {
   const [loading, setLoading] = useState(false);
   const [uploadDocuments, setUploadDocuments] = useState(false);
   const [paymentDone, setPaymentDone] = useState(false);
-  const [tab1filled, setTab1filled] = useState(true);
-  const [tab2filled, setTab2filled] = useState(true);
-  const [fromComplete, setFromComplete] = useState(true);
+  const [stage1, setStage1] = useState(true);
+  const [stage2, setStage2] = useState(true);
+  const [stage3, setStage3] = useState(true);
   const [applicationNotFound, setApplicationNotFound] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -143,7 +143,7 @@ function Status() {
           >
             <Alert
               icon={
-                data?.split(" ").reverse()[0] === "pending" ? (
+                data?.split(" ").reverse()[0] === "incomplete" ? (
                   <WarningAmberIcon
                     fontSize="inherit"
                     sx={{ marginTop: 3.5 }}
@@ -158,7 +158,7 @@ function Status() {
                 )
               }
               severity={
-                data?.split(" ").reverse()[0] === "pending"
+                data?.split(" ").reverse()[0] === "incomplete"
                   ? "info"
                   : data?.split(" ").reverse()[0] === "rejected"
                   ? "error"
@@ -187,32 +187,32 @@ function Status() {
             <Button
               onClick={() => {
                 navigate(
-                  fromComplete && uploadDocuments && !paymentDone
+                  stage3 && uploadDocuments && !paymentDone
                     ? `/payment/${unique_id}`
-                    : tab1filled && !tab2filled && !fromComplete
+                    : stage1 && !stage2 && !stage3
                     ? `/apply/${unique_id}`
-                    : tab1filled && tab2filled && !fromComplete
+                    : stage1 && stage2 && !stage3
                     ? `/apply/${unique_id}`
-                    : fromComplete && !uploadDocuments && !paymentDone
+                    : stage3 && !uploadDocuments && !paymentDone
                     ? `/upload/${unique_id}`
                     : "",
                   {
                     state:
-                      tab1filled && !tab2filled && !fromComplete
+                      stage1 && !stage2 && !stage3
                         ? 1
-                        : tab1filled && tab2filled && !fromComplete
+                        : stage1 && stage2 && !stage3
                         ? 2
                         : 3,
                   }
                 );
               }}
             >
-              {fromComplete && uploadDocuments && !paymentDone
+              {stage3 && uploadDocuments && !paymentDone
                 ? "Continue for Processing Fees"
-                : (tab1filled && !tab2filled && !fromComplete) ||
-                  (tab2filled && tab1filled && !fromComplete)
+                : (stage1 && !stage2 && !stage3) ||
+                  (stage2 && stage1 && !stage3)
                 ? "Continue to Complete your application"
-                : fromComplete && !uploadDocuments && !paymentDone
+                : stage3 && !uploadDocuments && !paymentDone
                 ? "Continue to upload Documents"
                 : paymentDone
                 ? "Your Application is under evaluation"

@@ -75,32 +75,44 @@ const theme = createTheme({
 
 const MultistepForm = () => {
   const { state } = useLocation();
-  // console.log(state);
   const steps = [
     "Personal Details",
     "Applicant and Personal Details",
     "Applicant's Address Details",
-    // "Details of Visa Sought",
-    // "Additional Questions Details",
   ];
 
   const [activeStep, setActiveStep] = useState(
     state === 1 ? 1 : state === 2 ? 2 : 0
   );
-  const [formData, setFormData] = useState({});
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+  const [selected, setSelected] = useState("");
+  const [formStep1Filled, setFormStep1Filled] = useState(false);
+  const [formStep2Filled, setFormStep2Filled] = useState(false);
+  const [formStep3Filled, setFormStep3Filled] = useState(false);
+  const [submitTab1, setSubmitTab1] = useState(false);
+  const [submitTab2, setSubmitTab2] = useState(false);
+  const [submitTab3, setSubmitTab3] = useState(false);
+  const [submitTab1Confrim, setSubmitTab1Confrim] = useState(false);
+  const [submitTab2Confrim, setSubmitTab2Confrim] = useState(false);
+  const [submitTab3Confrim, setSubmitTab3Confrim] = useState(false);
 
   const handleNextStep = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === 0) {
+      setSubmitTab1(true);
+    }
+    if (activeStep === 1) {
+      setSubmitTab2(true);
+    }
+    if (activeStep === 2) {
+      setSubmitTab3(true);
+    }
   };
-
+  const handleFinalSubmit = () => {};
   const handlePrevStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const [selected, setSelected] = useState("");
-  const [formStep1Filled, setFormStep1Filled] = useState(false);
-  // console.log(formStep1Filled);
+  console.log(formStep1Filled);
   const handleChangeSelect = (event) => {
     console.log(event.target.value);
     setSelected(event.target.value);
@@ -117,77 +129,16 @@ const MultistepForm = () => {
         );
       },
     });
-  // console.log(" ~ file: ApplyForm.jsx ~ line 11 ~ apply ~ values", errors);
-  console.log(values);
-  const postData = async (e) => {
-    e.preventDefault();
 
-    const {
-      first_name,
-      last_name,
-      email,
-      phone,
-      gender,
-      date_of_birth,
-      expected_date_of_journey,
-      nationality,
-      passport_type,
-      port_of_arrival,
-    } = values;
-    const res = await fetch("/ApplyForm", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        first_name,
-        last_name,
-        email,
-        phone,
-        gender,
-        date_of_birth,
-        expected_date_of_journey,
-        nationality,
-        passport_type,
-        port_of_arrival,
-      }),
-    });
-
-    const data = await res.json();
-    console.log(data);
-
-    if (data.status === false || !data) {
-      window.alert(`Invalid Registration ${data.msg}`);
-      console.log("invalid registration");
-    } else {
-      window.alert("Registration successfull");
-      console.log("successfull registration");
-    }
-  };
-  // console.log(values);
-  const handleSubmitFirstForm = async () => {
-    console.log(values);
-
-    // const body = ;
-    // console.log(body);
-    const res = await CreateForm(values);
-    console.log(">>>>>>", res);
-    // if (res) {
-    //   handleNextStep();
-    // }
-  };
-  // console.log(formData);
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
         return (
           <>
             <FormStep1
-              handleChange={handleChange}
-              values={values}
-              errors={errors}
-              touched={touched}
               setFormStep1Filled={setFormStep1Filled}
+              submitTab1={submitTab1}
+              setActiveStep={setActiveStep}
             />
           </>
         );
@@ -195,10 +146,9 @@ const MultistepForm = () => {
         return (
           <>
             <FormStep2
-              handleChange={handleChange}
-              values={values}
-              errors={errors}
-              touched={touched}
+              setFormStep2Filled={setFormStep2Filled}
+              submitTab2={submitTab2}
+              setActiveStep={setActiveStep}
             />
           </>
         );
@@ -206,16 +156,15 @@ const MultistepForm = () => {
         return (
           <>
             <FormStep3
-              handleChange={handleChange}
-              values={values}
-              errors={errors}
-              touched={touched}
+              setFormStep3Filled={setFormStep3Filled}
+              submitTab3={submitTab3}
+              setActiveStep={setActiveStep}
             />
           </>
         );
 
       default:
-        return null;
+        return <>Application Filled Successfully</>;
     }
   };
   // const handleActive = (stepIndex) => {
@@ -257,6 +206,13 @@ const MultistepForm = () => {
             </Stepper>
             {activeStep < steps.length && (
               <Box sx={{ marginTop: "2rem", width: "100%" }}>
+                <Typography variant="h7">
+                  {localStorage.getItem("application_id")
+                    ? `Application ID : ${localStorage.getItem(
+                        "application_id"
+                      )}`
+                    : ""}
+                </Typography>
                 {renderStepContent(activeStep)}
                 <Box
                   className="d-flex justify-content-between "
@@ -277,19 +233,19 @@ const MultistepForm = () => {
                         </Button>
                       ))}
                   </div>
-                  {/* {console.log(activeStep)} */}
                   <div className="flex-end">
                     {activeStep !== steps.length - 1 && (
                       <Button
                         className="px-5"
                         variant="contained"
-                        // onClick={handleSubmitFirstForm}
                         onClick={handleNextStep}
                         size="large"
                         disabled={
-                          activeStep === 0 && formStep1Filled.length > 0
-                            ? true
-                            : false
+                          activeStep === 0 && formStep1Filled >= 22
+                            ? false
+                            : activeStep === 1 && formStep2Filled >= 26
+                            ? false
+                            : true
                         }
                       >
                         Continue
@@ -297,17 +253,16 @@ const MultistepForm = () => {
                     )}
                     {activeStep === steps.length - 1 && (
                       <Button
-                        // onClick={postData}
                         variant="contained"
                         type="submit"
                         className="px-5"
-                        onClick={postData}
                         size="large"
-
-                        // onClick={() => {
-                        //   postData();
-                        //   handleNextStep();
-                        // }}
+                        onClick={handleNextStep}
+                        disabled={
+                          activeStep === 2 && formStep3Filled >= 32
+                            ? false
+                            : true
+                        }
                       >
                         Submit
                       </Button>

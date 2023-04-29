@@ -22,45 +22,39 @@ import {
   FormGroup,
   Container,
 } from "@mui/material";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useState } from "react";
-import { countries } from "./CountryList";
-import StripComponent from "./payment/StripComponent";
-// import Payu from "payu-sdk";
+
+import { PayPalButton } from "react-paypal-button-v2";
+import "../Components/Css/payCheck.css";
 
 function PaymentCheck() {
-  // const [payment, setPayment] = useState(null);
-  // const payu = new Payu({
-  //   merchantId: "your_merchant_id",
-  //   key: "your_key",
-  //   salt: "your_salt",
-  //   debug: true,
-  // });
-
-  // async function createPayment() {
-  //   const payment = await payu.createPayment({
-  //     amount: "10.00",
-  //     currency: "INR",
-  //     productinfo: "Product Info",
-  //     firstname: "John",
-  //     email: "john@example.com",
-  //   });
-  //   setPayment(payment);
-  // }
-
-  // function redirect() {
-  //   if (payment) {
-  //     payu.pay(payment);
-  //   }
-  // }
-
   return (
-    <div>
-      <StripComponent />
+    <div className="payment">
+      <Typography variant="h4"> Make Payment</Typography>
+
+      <PayPalButton
+        amount="0.01"
+        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+        currency="USD"
+        // onSuccess={handleSuccess}
+        // onError={handleError}
+        // options={{
+        //   clientId: "YOUR_PAYPAL_CLIENT_ID",
+        // }}
+        onSuccess={(details, data) => {
+          alert("Transaction completed by " + details.payer.name.given_name);
+
+          // OPTIONAL: Call your server to save the transaction
+          return fetch("/paypal-transaction-complete", {
+            method: "post",
+            body: JSON.stringify({
+              orderID: data.orderID,
+            }),
+          });
+        }}
+      />
+
       {/* <button onClick={createPayment}>Pay Now</button> */}
+      {/* </div> */}
     </div>
   );
 }

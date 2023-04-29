@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export default function useAuthState() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -14,5 +14,5 @@ export default function useAuthState() {
     setCheckState(false);
   }, [loginState]);
 
-  return {loggedIn, checkState};
+  return { loggedIn, checkState };
 }

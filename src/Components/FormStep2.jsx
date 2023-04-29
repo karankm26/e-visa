@@ -27,11 +27,68 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import { countries } from "./CountryList";
-function FormStep2({ handleChange, values, errors, touched }) {
-  // console.log(countries);
+import { CreateForm } from "../utils";
+import Loader from "./Loader";
+function FormStep2({
+  setFormStep2Filled,
+  submitTab2,
+  setActiveStep,
+}) {
+  const [isChecked, setIsChecked] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const handleCheck = (event) => {
+    setIsChecked(event.target.checked);
+  };
+  // console.log(formStep2Filled);
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  }
+  console.log(formData);
+  console.log(Object.keys(formData).length);
+  useEffect(() => {
+    const objectLength = Object.keys(formData).length;
+    setFormStep2Filled(objectLength);
+  }, [formData]);
+
+  const handleSubmit = async () => {
+    const res = await CreateForm(
+      formData,
+      2,
+      localStorage.getItem("application_id")
+    );
+    console.log(localStorage.getItem("application_id"));
+    if (res) {
+      setTimeout(() => {
+        setLoading(false);
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }, 2000);
+    }
+  };
+  useEffect(() => {
+    if (submitTab2) {
+      console.log("first");
+      setLoading(true);
+      handleSubmit();
+    }
+  }, [submitTab2]);
   return (
     <>
-      <div className=""></div>
+      {loading && <Loader />}
+      <div className="">
+        {" "}
+        {/* <Button
+          onClick={() => {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          }}
+        >
+          SKIP
+        </Button> */}
+      </div>
       <div>
         <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Passport Details</h4>
@@ -44,7 +101,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               fullWidth
               label="Passport Number"
               name="passport_number"
-              value={values.passport_number}
+              value={formData.passport_number}
               onChange={handleChange}
             />
           </div>
@@ -55,7 +112,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               fullWidth
               label="Place of Issue"
               name="place_of_issue"
-              value={values.place_of_issue}
+              value={formData.place_of_issue}
               onChange={handleChange}
             />
           </div>
@@ -69,7 +126,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               type="date"
               label="Date of Issue"
               name="date_of_issue"
-              value={values.date_of_issue}
+              value={formData.date_of_issue}
               onChange={handleChange}
             />
           </div>
@@ -81,7 +138,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               type="date"
               label="Date of Expire"
               name="date_of_expire"
-              value={values.date_of_expire}
+              value={formData.date_of_expire}
             />
           </div>
         </div>
@@ -118,106 +175,113 @@ function FormStep2({ handleChange, values, errors, touched }) {
             </div>{" "}
           </div>
         </div>
-        <div className="row">
-          <div className="col-lg-6">
-            {" "}
-            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
-              <InputLabel id="demo-simple-select-label" required>
-                Country of Issue
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="country_of_issue"
-                value={values.country_of_issue || ""}
+        <div
+          hidden={
+            formData.passport_indetify_certificate === "yes" ? false : true
+          }
+        >
+          <div className="row">
+            <div className="col-lg-6">
+              {" "}
+              <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
+                <InputLabel id="demo-simple-select-label" required>
+                  Country of Issue
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="IC_country_of_issue"
+                  value={formData.IC_country_of_issue || ""}
+                  onChange={handleChange}
+                  label="Country of Issue"
+                  defaultValue=""
+                >
+                  <MenuItem value="" selected>
+                    <em>Select Country of Issue</em>
+                  </MenuItem>
+                  {countries.map((country, index) => {
+                    return (
+                      <MenuItem key={index} value={country}>
+                        {country}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </div>
+            <div className="col-lg-6">
+              <TextField
+                required
+                sx={{ marginTop: 2 }}
+                fullWidth
+                label="Passport I/C No."
+                type="text"
+                name="IC_passport_IC_number"
+                value={formData.IC_passport_IC_number}
                 onChange={handleChange}
-                label="Country of Issue"
-                defaultValue=""
-              >
-                <MenuItem value="" selected>
-                  <em>Select Country of Issue</em>
-                </MenuItem>
-                {countries.map((country, index) => {
-                  return (
-                    <MenuItem key={index} value={country}>
-                      {country}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
+              />
+            </div>
           </div>
-          <div className="col-lg-6">
-            <TextField
-              required
-              sx={{ marginTop: 2 }}
-              fullWidth
-              label="Passport I/C No."
-              type="text"
-              name="passport_IC_number"
-              value={values.passport_IC_number}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-6">
-            <TextField
-              required
-              sx={{ marginTop: 2 }}
-              fullWidth
-              label="Place of Issue"
-              type="text"
-              name="place_of_issue"
-              value={values.place_of_issue}
-              onChange={handleChange}
-            />
-          </div>
+          <div className="row">
+            <div className="col-lg-6">
+              <TextField
+                required
+                sx={{ marginTop: 2 }}
+                fullWidth
+                label="Place of Issue"
+                type="text"
+                name="IC_place_of_issue"
+                value={formData.IC_place_of_issue}
+                onChange={handleChange}
+              />
+            </div>
 
-          <div className="col-lg-6">
-            <TextField
-              required
-              sx={{ marginTop: 2 }}
-              fullWidth
-              type="date"
-              label="Date of Issue"
-              name="date_of_issue"
-              value={values.date_of_issue}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-6">
-            {" "}
-            <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
-              <InputLabel id="demo-simple-select-label" required>
-                Nationality mentioned therein
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="nationality_mentioned"
-                value={values.nationality_mentioned || ""}
+            <div className="col-lg-6">
+              <TextField
+                required
+                sx={{ marginTop: 2 }}
+                fullWidth
+                type="date"
+                label="Date of Issue"
+                name="IC_date_of_issue"
+                value={formData.IC_date_of_issue}
                 onChange={handleChange}
-                label="Nationality mentioned therein"
-                defaultValue=""
-              >
-                <MenuItem value="" selected>
-                  <em>Select Nationlity</em>
-                </MenuItem>
-                {countries.map((country, index) => {
-                  return (
-                    <MenuItem key={index} value={country}>
-                      {country}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
+              />
+            </div>
           </div>
-        </div>
+          <div className="row">
+            <div className="col-lg-6">
+              {" "}
+              <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
+                <InputLabel id="demo-simple-select-label" required>
+                  Nationality mentioned therein
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="IC_nationality_mentioned"
+                  value={formData.IC_nationality_mentioned || ""}
+                  onChange={handleChange}
+                  label="Nationality mentioned therein"
+                  defaultValue=""
+                >
+                  <MenuItem value="" selected>
+                    <em>Select Nationlity</em>
+                  </MenuItem>
+                  {countries.map((country, index) => {
+                    return (
+                      <MenuItem key={index} value={country}>
+                        {country}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+        </div>{" "}
       </div>
+
       <div className=" mt-4">
         <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">
@@ -234,8 +298,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="House No./Street"
               type="text"
               name="house_no"
-              // error={errors.house_no && touched.house_no ? true : false}
-              value={values.house_no || ""}
+              value={formData.house_no || ""}
               onChange={handleChange}
             />
           </div>
@@ -247,12 +310,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="Village/Town/City"
               type="text"
               name="village_town_city"
-              error={
-                errors.village_town_city && touched.village_town_city
-                  ? true
-                  : false
-              }
-              value={values.village_town_city || ""}
+              value={formData.village_town_city || ""}
               onChange={handleChange}
             />
           </div>
@@ -267,7 +325,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="country_of_birth"
-                value={values.country_of_birth || ""}
+                value={formData.country_of_birth || ""}
                 onChange={handleChange}
                 label="Country of Birth"
                 defaultValue=""
@@ -293,13 +351,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="State/Province/District"
               type="text"
               name="state_province_district"
-              error={
-                errors.state_province_district &&
-                touched.state_province_district
-                  ? true
-                  : false
-              }
-              value={values.state_province_district || ""}
+              value={formData.state_province_district || ""}
               onChange={handleChange}
             />
           </div>
@@ -311,12 +363,9 @@ function FormStep2({ handleChange, values, errors, touched }) {
               required
               fullWidth
               label="Postal/Zip Code"
-              type="text"
+              type="number"
               name="postal_zip_code"
-              error={
-                errors.postal_zip_code && touched.postal_zip_code ? true : false
-              }
-              value={values.postal_zip_code || ""}
+              value={formData.postal_zip_code || ""}
               onChange={handleChange}
             />
           </div>
@@ -325,9 +374,10 @@ function FormStep2({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               required
               fullWidth
+              type="number"
               label="Mobile No."
               name="mobile_no"
-              value={values.mobile_no || ""}
+              value={formData.mobile_no || ""}
               onChange={handleChange}
             />
           </div>
@@ -337,11 +387,11 @@ function FormStep2({ handleChange, values, errors, touched }) {
             <TextField
               required
               sx={{ marginTop: 2 }}
+              type="number"
               fullWidth
               label="Phone No."
               name="phone"
-              type="text"
-              value={values.phone || ""}
+              value={formData.phone || ""}
               onChange={handleChange}
             />
           </div>
@@ -353,7 +403,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="Email Address."
               name="email"
               type="text"
-              value={values.email}
+              value={formData.email}
             />
           </div>
         </div>
@@ -361,14 +411,23 @@ function FormStep2({ handleChange, values, errors, touched }) {
           <div className="col-lg-12">
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox required />}
+                control={
+                  <Checkbox
+                    required
+                    checked={isChecked}
+                    onChange={handleCheck}
+                    inputProps={{ "aria-label": "controlled-checkbox" }}
+                    name="if_address_same"
+                    // onChange={handleChange}
+                  />
+                }
                 label={
                   <FormLabel className="text-start mt-2 text-form" required>
                     Check her for same Address
                   </FormLabel>
                 }
               />
-            </FormGroup>
+            </FormGroup>{" "}
           </div>
         </div>{" "}
         <div className="fw-bold mt-2 text-center ">Permanent Address</div>
@@ -380,9 +439,13 @@ function FormStep2({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               fullWidth
               label="House no./Street"
-              name="house_no2"
+              name="permanent_house_no"
               type="text"
-              value={values.house_no2 || ""}
+              value={
+                isChecked
+                  ? formData.house_no
+                  : formData.permanent_house_no || ""
+              }
               onChange={handleChange}
             />
           </div>
@@ -393,13 +456,18 @@ function FormStep2({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               fullWidth
               label="Village/Town/City"
-              name="village_town_city2"
+              name="permanent_village_town_city"
               type="text"
-              value={values.village_town_city2 || ""}
+              value={
+                isChecked
+                  ? formData.village_town_city
+                  : formData.permanent_village_town_city || ""
+              }
               onChange={handleChange}
             />
           </div>
         </div>
+        {/* {console.log(/.if_address_same?.[0].toString())} */}
         <div className="row">
           <div className="col-lg-12">
             {" "}
@@ -408,9 +476,13 @@ function FormStep2({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               fullWidth
               label="State/Province/District"
-              name="state_province_district2"
+              name="permanent_state_province_district"
               type="text"
-              value={values.state_province_district2 || ""}
+              value={
+                isChecked
+                  ? formData.state_province_district
+                  : formData.permanent_state_province_district || ""
+              }
               onChange={handleChange}
             />
           </div>
@@ -432,7 +504,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="Name"
               name="father_name"
               type="text"
-              value={values.father_name || ""}
+              value={formData.father_name || ""}
               onChange={handleChange}
             />
           </div>
@@ -445,7 +517,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="father_nationality"
-                value={values.father_nationality || ""}
+                value={formData.father_nationality || ""}
                 onChange={handleChange}
                 label="Nationality/Region"
                 defaultValue=""
@@ -475,7 +547,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="father_previous_nationality"
-                value={values.father_previous_nationality || ""}
+                value={formData.father_previous_nationality || ""}
                 onChange={handleChange}
                 label="Nationality/Region"
                 defaultValue=""
@@ -503,7 +575,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="Place of Birth"
               name="father_place_of_birth"
               type="text"
-              value={values.father_place_of_birth || ""}
+              value={formData.father_place_of_birth || ""}
               onChange={handleChange}
             />
           </div>
@@ -518,7 +590,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="father_counrty_of_birth"
-                value={values.father_counrty_of_birth || ""}
+                value={formData.father_counrty_of_birth || ""}
                 onChange={handleChange}
                 label="Country/Region of Birth"
                 defaultValue=""
@@ -549,7 +621,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="Name"
               name="mother_name"
               type="text"
-              value={values.mother_name || ""}
+              value={formData.mother_name || ""}
               onChange={handleChange}
             />
           </div>
@@ -562,7 +634,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="mother_nationality"
-                value={values.mother_nationality || ""}
+                value={formData.mother_nationality || ""}
                 onChange={handleChange}
                 label="Nationality/Region"
                 defaultValue=""
@@ -592,7 +664,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="mother_previous_nationality"
-                value={values.mother_previous_nationality || ""}
+                value={formData.mother_previous_nationality || ""}
                 onChange={handleChange}
                 label="Nationality/Region"
                 defaultValue=""
@@ -620,7 +692,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="Place of Birth"
               name="mother_place_of_birth"
               type="text"
-              value={values.mother_place_of_birth || ""}
+              value={formData.mother_place_of_birth || ""}
               onChange={handleChange}
             />
           </div>
@@ -635,7 +707,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="mother_counrty_of_birth"
-                value={values.mother_counrty_of_birth || ""}
+                value={formData.mother_counrty_of_birth || ""}
                 onChange={handleChange}
                 label="Country/Region of Birth"
                 defaultValue=""
@@ -665,7 +737,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="marital_status"
-                value={values.marital_status || ""}
+                value={formData.marital_status || ""}
                 onChange={handleChange}
                 label="Applicant's Marital Status"
                 defaultValue=""
@@ -682,7 +754,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
             </FormControl>
           </div>
         </div>
-        <div hidden={values.marital_status == "Married" ? false : true}>
+        <div hidden={formData.marital_status == "Married" ? false : true}>
           <div className="fw-bolder text-center">Spouse's Details</div>
           <div className="row">
             <div className="col-lg-6">
@@ -694,7 +766,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 label="Name"
                 name="spouse_name"
                 type="text"
-                value={values.spouse_name || ""}
+                value={formData.spouse_name || ""}
                 onChange={handleChange}
               />
             </div>
@@ -707,7 +779,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="spouse_nationality"
-                  value={values.spouse_nationality || ""}
+                  value={formData.spouse_nationality || ""}
                   onChange={handleChange}
                   label="Nationality/Region"
                   defaultValue=""
@@ -737,7 +809,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="spouse_previous_nationality"
-                  value={values.spouse_previous_nationality || ""}
+                  value={formData.spouse_previous_nationality || ""}
                   onChange={handleChange}
                   label="Nationality/Region"
                   defaultValue=""
@@ -765,7 +837,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                 label="Place of Birth"
                 name="spouse_place_of_birth"
                 type="text"
-                value={values.spouse_place_of_birth || ""}
+                value={formData.spouse_place_of_birth || ""}
                 onChange={handleChange}
               />
             </div>
@@ -780,7 +852,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="spouse_counrty_of_birth"
-                  value={values.spouse_counrty_of_birth || ""}
+                  value={formData.spouse_counrty_of_birth || ""}
                   onChange={handleChange}
                   label="Country/Region of Birth"
                   defaultValue=""
@@ -833,7 +905,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
         </div>
         <div
           className="row"
-          hidden={values.pakistani_grandparents == "yes" ? false : true}
+          hidden={formData.pakistani_grandparents == "yes" ? false : true}
         >
           <div className="col-lg-12">
             {" "}
@@ -844,7 +916,7 @@ function FormStep2({ handleChange, values, errors, touched }) {
               label="If Yes, Give Details "
               name="pakistan_belong"
               type="text"
-              value={values.pakistan_belong || ""}
+              value={formData.pakistan_belong || ""}
               onChange={handleChange}
             />
           </div>

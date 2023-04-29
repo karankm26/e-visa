@@ -1,5 +1,7 @@
 import axios from "axios";
-const API_BASE_URL = "https://evisa-backend.onrender.com";
+// const API_BASE_URL = "https://evisa-backend.onrender.com";
+const BASE_URL = "http://localhost:4000";
+
 export const getOrders = () => {
   return fetch("http://localhost:4000/getstatus?status=pending").then((res) =>
     res.json()
@@ -36,14 +38,15 @@ export const updateCompleted = async () => {
   );
 };
 
-
 export const login = async (body) => {
   const response = await axios
-    .post(`https://evisa-backend.onrender.com/admin/login`, body)
+    .post(`${BASE_URL}/admin/login`, body)
     .then((res) => {
+      console.log(res);
       return res.data;
     })
     .catch((err) => {
+      console.log(err);
       return err.response.data;
     });
 
@@ -64,10 +67,7 @@ export const getAllFormById = async (id) => {
     // body: raw,
     redirect: "follow",
   };
-  const response = await fetch(
-    "https://evisa-backend.onrender.com/admin/forms/" + id,
-    requestOptions
-  )
+  const response = await fetch(`${BASE_URL}/admin/forms/${id}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -94,10 +94,7 @@ export const ChangeStatus = async (body, id) => {
     redirect: "follow",
   };
 
-  const response = await fetch(
-    "https://evisa-backend.onrender.com/admin/forms/" + id,
-    requestOptions
-  )
+  const response = await fetch(`${BASE_URL}/admin/forms/${id}`, requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
     .catch((error) => console.log("error", error));
@@ -111,7 +108,7 @@ export const getAllForm = async (id) => {
   const headers = { Authorization: `Bearer ${token}` };
 
   const response = await axios
-    .get(`https://evisa-backend.onrender.com/admin/forms?visaType=tourist`, {
+    .get(`${BASE_URL}/admin/forms?visaType=tourist`, {
       headers,
     })
     .then((res) => {
@@ -136,7 +133,7 @@ export const GetCSVData = async (status) => {
 
   try {
     const response = await axios.get(
-      `https://evisa-backend.onrender.com/admin/forms/csv?status=${status}`,
+      `${BASE_URL}/admin/forms/csv?status=${status}`,
       { headers }
     );
     // console.log(response);
@@ -152,7 +149,7 @@ export const UploadVisa = async (formDate, id) => {
   const token = localStorage.getItem("token");
   console.log(formDate, id, token);
   const response = axios
-    .post("https://evisa-backend.onrender.com/admin/upload/" + id, formDate, {
+    .post(`${BASE_URL}/admin/upload/${id}`, formDate, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
