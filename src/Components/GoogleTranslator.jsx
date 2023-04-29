@@ -20,17 +20,8 @@ const GoogleTranslate = () => {
     document.body.appendChild(addScript);
     window.googleTranslateElementInit = googleTranslateElementInit;
   }, []);
-  // const element = document.querySelector(".skiptranslate");
-  // if (element.innerHTML.includes("Powered by ")) {
-  //   console.log("first");
-  //   // console.log(element.innerHTML.includes("Powered by "));
-  // }
-  return (
-    <>
-      <div id="google_translate_element"></div>
-      {/* <h4>Start building your app. Happy Coding!</h4> */}
-    </>
-  );
+
+  return <div id="google_translate_element"></div>;
 };
 
 export default GoogleTranslate;

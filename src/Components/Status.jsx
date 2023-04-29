@@ -143,7 +143,7 @@ function Status() {
           >
             <Alert
               icon={
-                data?.split(" ").reverse()[0] === "pending" ? (
+                data?.split(" ").reverse()[0] === "incomplete" ? (
                   <WarningAmberIcon
                     fontSize="inherit"
                     sx={{ marginTop: 3.5 }}
@@ -158,7 +158,7 @@ function Status() {
                 )
               }
               severity={
-                data?.split(" ").reverse()[0] === "pending"
+                data?.split(" ").reverse()[0] === "incomplete"
                   ? "info"
                   : data?.split(" ").reverse()[0] === "rejected"
                   ? "error"

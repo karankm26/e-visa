@@ -1,20 +1,11 @@
 import React, { useEffect } from "react";
 import {
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
   TextField,
-  Box,
-  Grid,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  FormHelperText,
   Checkbox,
-  Typography,
-  Card,
   FormLabel,
   FormControlLabel,
   RadioGroup,
@@ -27,10 +18,54 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import { countries } from "./CountryList";
-function FormStep3({ handleChange, values, errors, touched }) {
-  // console.log(countries);
+import { CreateForm } from "../utils";
+import Loader from "./Loader";
+import { Navigate, useNavigate } from "react-router-dom";
+function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const id = localStorage.getItem("application_id");
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  }
+
+  console.log(formData);
+  console.log(Object.keys(formData).length);
+
+  useEffect(() => {
+    const objectLength = Object.keys(formData).length;
+    setFormStep3Filled(objectLength);
+  }, [formData, Object.keys(formData).length]);
+
+  const handleSubmit = async () => {
+    const res = await CreateForm(
+      formData,
+      3,
+      localStorage.getItem("application_id")
+    );
+    console.log(localStorage.getItem("application_id"));
+    if (res) {
+      setTimeout(() => {
+        setLoading(false);
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        navigate("/upload/" + id);
+      }, 2000);
+    }
+  };
+  useEffect(() => {
+    if (submitTab3) {
+      setLoading(true);
+      handleSubmit();
+    }
+  }, [submitTab3]);
   return (
     <>
+      {loading && <Loader />}
       <div className="">
         <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Details of Visa Sought</h4>
@@ -52,7 +87,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               required
               fullWidth
               label="Visa Service"
-              value={values.visa_service}
+              value={formData.visa_service}
               disabled
             />
           </div>
@@ -64,7 +99,8 @@ function FormStep3({ handleChange, values, errors, touched }) {
               required
               fullWidth
               label="Place to be Visited"
-              value={values.place_to_be_visited}
+              name="place_to_be_visited"
+              value={formData.place_to_be_visited}
               onChange={handleChange}
             />
           </div>
@@ -72,8 +108,11 @@ function FormStep3({ handleChange, values, errors, touched }) {
             <TextField
               sx={{ marginTop: 2 }}
               fullWidth
+              required
               label="Place to be Visited line 2"
-              value={values.place_to_be_visited_line_2}
+              name="place_to_be_visited_line_2"
+              value={formData.place_to_be_visited_line_2}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -119,7 +158,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               fullWidth
               label="Visa Duration"
               name="visa_duration"
-              value={values.visa_duration}
+              value={formData.visa_duration}
               onChange={handleChange}
             />
           </div>
@@ -130,7 +169,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               fullWidth
               label="No. Of Enteries"
               name="no_of_enteries"
-              value={values.no_of_enteries}
+              value={formData.no_of_enteries}
               onChange={handleChange}
             />
           </div>
@@ -143,7 +182,8 @@ function FormStep3({ handleChange, values, errors, touched }) {
               fullWidth
               label="Port of Arrival in India"
               type="text"
-              value={values.port_of_arrival_in_india}
+              name="port_of_arrival_in_india"
+              value={formData.port_of_arrival_in_india}
               onChange={handleChange}
             />
           </div>
@@ -152,7 +192,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               name="exit_port_from_india"
-              value={values.exit_port_from_india || ""}
+              value={formData.exit_port_from_india || ""}
               onChange={handleChange}
               label="Exit Port From India"
               fullWidth
@@ -179,7 +219,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="have_you_ever_visted_india"
                   onChange={handleChange}
@@ -203,7 +242,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
           </div>
         </div>
         <div
-          hidden={values.have_you_ever_visted_india === "yes" ? false : true}
+          hidden={formData.have_you_ever_visted_india === "yes" ? false : true}
         >
           <div className="row">
             <div className="col-lg-6">
@@ -214,7 +253,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                 label="Address"
                 name="previously_visited_address"
                 onChange={handleChange}
-                value={values.previously_visited_address || ""}
+                value={formData.previously_visited_address || ""}
               />
             </div>
             <div className="col-lg-6">
@@ -225,7 +264,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                 label="Cities previously visited in India"
                 name="previously_visited_cities"
                 onChange={handleChange}
-                value={values.previously_visited_cities}
+                value={formData.previously_visited_cities}
               />
             </div>
           </div>
@@ -239,7 +278,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                 label="Last Indian Visa No/Currently Valid Indian Visa No."
                 name="last_current_india_visit_number"
                 onChange={handleChange}
-                value={values.last_current_india_visit_number}
+                value={formData.last_current_india_visit_number}
               />
             </div>
 
@@ -252,7 +291,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="previous_visited_passport_type"
-                  value={values.previous_visited_passport_type || ""}
+                  value={formData.previous_visited_passport_type || ""}
                   onChange={handleChange}
                   label="Type of Visa"
                   defaultValue=""
@@ -284,7 +323,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                 label="Place of Issue"
                 name="previous_current_place_of_issue"
                 onChange={handleChange}
-                value={values.previous_current_place_of_issue}
+                value={formData.previous_current_place_of_issue}
               />
             </div>
             <div className="col-lg-6">
@@ -295,7 +334,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                 label="Date of Issue"
                 name="previous_current_date_of_issue"
                 onChange={handleChange}
-                value={values.previous_current_date_of_issue}
+                value={formData.previous_current_date_of_issue}
               />
             </div>
           </div>
@@ -310,7 +349,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="previous_current_country_of_issue"
-                  value={values.previous_current_country_of_issue || ""}
+                  value={formData.previous_current_country_of_issue || ""}
                   onChange={handleChange}
                   label="Country of Issue"
                   defaultValue=""
@@ -335,7 +374,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                 fullWidth
                 label="Passport I/C No."
                 name="passport_I/C_number"
-                value={values.date_of_expire}
+                value={formData.date_of_expire}
                 onChange={handleChange}
               />
             </div>
@@ -348,7 +387,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                 fullWidth
                 label="Place of Issue"
                 name="place_of_issue"
-                value={values.place_of_issue}
+                value={formData.place_of_issue}
                 onChange={handleChange}
               />
             </div>
@@ -361,7 +400,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
                 type="date"
                 label="Date of Issue"
                 name="date_of_issue"
-                value={values.date_of_issue}
+                value={formData.date_of_issue}
                 onChange={handleChange}
               />
             </div>
@@ -378,7 +417,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="has_permission_to_stay_indian_refused"
                   onChange={handleChange}
@@ -393,7 +431,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
                       value="no"
                       control={<Radio size="small" />}
                       label="No"
-                      defaultChecked
                     />
                   </div>
                 </RadioGroup>
@@ -408,8 +445,8 @@ function FormStep3({ handleChange, values, errors, touched }) {
               sx={{ marginTop: 2 }}
               fullWidth
               label="If so, when and by whom (mention Control No. and date also"
-              name="date_of_issue"
-              value={values.reason_of_refused}
+              name="reason_of_refused"
+              value={formData.reason_of_refused_control_no_and_date}
               onChange={handleChange}
             />
           </div>
@@ -423,7 +460,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
           <TextField
             type="text"
             name="countries_visited_in_last_10_years"
-            value={values.countries_visited_in_last_10_years || ""}
+            value={formData.countries_visited_in_last_10_years || ""}
             onChange={handleChange}
             label="Countries Visited in Last 10 Years"
             sx={{ marginTop: 2 }}
@@ -448,7 +485,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="have_you_ever_saarc_country"
                   onChange={handleChange}
@@ -484,7 +520,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               fullWidth
               label="Reference Name in India"
               name="reference_name_in_india"
-              value={values.reference_name_in_india}
+              value={formData.reference_name_in_india}
               onChange={handleChange}
             />
           </div>
@@ -495,7 +531,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               fullWidth
               label="Address"
               name="reference_in_india_address"
-              value={values.reference_address}
+              value={formData.reference_address}
               onChange={handleChange}
             />
           </div>
@@ -508,7 +544,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               fullWidth
               label="Phone"
               name="reference_in_india_phone_no"
-              value={values.reference_phone_no}
+              value={formData.reference_phone_no}
               onChange={handleChange}
             />
           </div>
@@ -519,9 +555,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Reference Name in" + " " + values.nationality}
+              label={"Reference Name in" + " " + formData.nationality}
               name="reference_name_in_albania"
-              value={values.reference_name_in_nationality}
+              value={formData.reference_name_in_nationality}
               onChange={handleChange}
             />
           </div>
@@ -530,9 +566,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Address in " + " " + values.nationality}
+              label={"Address in " + " " + formData.nationality}
               name="reference_address"
-              value={values.reference_address_in_nationality}
+              value={formData.reference_address_in_nationality}
               onChange={handleChange}
             />
           </div>
@@ -543,9 +579,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Reference Name in" + " " + values.nationality}
+              label={"Reference Name in" + " " + formData.nationality}
               name="reference_phone_in_nationality"
-              value={values.reference_phone_in_nationality}
+              value={formData.reference_phone_in_nationality}
               onChange={handleChange}
             />
           </div>
@@ -558,7 +594,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
           </h4>
         </div>
         <div className="row mt-4">
-          <div className={values.que1 === "yes" ? "col-lg-8" : "col-lg-12"}>
+          <div className={formData.que1 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
                 <FormLabel required sx={{ marginTop: 1 }}>
@@ -568,7 +604,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="que1"
                   onChange={handleChange}
@@ -591,7 +626,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
             </div>{" "}
           </div>
           <div
-            className={values.que1 === "yes" ? "col-lg-4 col-md-12" : "d-none"}
+            className={
+              formData.que1 === "yes" ? "col-lg-4 col-md-12" : "d-none"
+            }
           >
             <TextField
               fullWidth
@@ -600,13 +637,13 @@ function FormStep3({ handleChange, values, errors, touched }) {
               label="Reason"
               name="que1Reason"
               type="text"
-              value={values.que1Reason || ""}
+              value={formData.que1Reason || ""}
               onChange={handleChange}
             />
           </div>
         </div>
         <div className="row mt-4">
-          <div className={values.que2 === "yes" ? "col-lg-8" : "col-lg-12"}>
+          <div className={formData.que2 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
                 <FormLabel required sx={{ marginTop: 1 }}>
@@ -616,7 +653,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="que2"
                   onChange={handleChange}
@@ -639,7 +675,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
             </div>{" "}
           </div>
           <div
-            className={values.que2 === "yes" ? "col-lg-4 col-md-12" : "d-none"}
+            className={
+              formData.que2 === "yes" ? "col-lg-4 col-md-12" : "d-none"
+            }
           >
             <TextField
               fullWidth
@@ -648,13 +686,13 @@ function FormStep3({ handleChange, values, errors, touched }) {
               label="Reason"
               name="que2Reason"
               type="text"
-              value={values.que2Reason || ""}
+              value={formData.que2Reason || ""}
               onChange={handleChange}
             />
           </div>
         </div>{" "}
         <div className="row mt-4">
-          <div className={values.que3 === "yes" ? "col-lg-8" : "col-lg-12"}>
+          <div className={formData.que3 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
                 <FormLabel required sx={{ marginTop: 1 }}>
@@ -665,7 +703,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="que3"
                   onChange={handleChange}
@@ -688,7 +725,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
             </div>{" "}
           </div>
           <div
-            className={values.que3 === "yes" ? "col-lg-4 col-md-12" : "d-none"}
+            className={
+              formData.que3 === "yes" ? "col-lg-4 col-md-12" : "d-none"
+            }
           >
             <TextField
               fullWidth
@@ -697,13 +736,13 @@ function FormStep3({ handleChange, values, errors, touched }) {
               label="Reason"
               name="que3Reason"
               type="text"
-              value={values.que3Reason || ""}
+              value={formData.que3Reason || ""}
               onChange={handleChange}
             />
           </div>
         </div>{" "}
         <div className="row mt-4">
-          <div className={values.que4 === "yes" ? "col-lg-8" : "col-lg-12"}>
+          <div className={formData.que4 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
                 <FormLabel required sx={{ marginTop: 1 }}>
@@ -714,7 +753,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="que4"
                   onChange={handleChange}
@@ -737,7 +775,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
             </div>{" "}
           </div>
           <div
-            className={values.que4 === "yes" ? "col-lg-4 col-md-12" : "d-none"}
+            className={
+              formData.que4 === "yes" ? "col-lg-4 col-md-12" : "d-none"
+            }
           >
             <TextField
               fullWidth
@@ -746,13 +786,13 @@ function FormStep3({ handleChange, values, errors, touched }) {
               label="Reason"
               name="que4Reason"
               type="text"
-              value={values.que4Reason || ""}
+              value={formData.que4Reason || ""}
               onChange={handleChange}
             />
           </div>
         </div>{" "}
         <div className="row mt-4">
-          <div className={values.que5 === "yes" ? "col-lg-8" : "col-lg-12"}>
+          <div className={formData.que5 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
                 <FormLabel required sx={{ marginTop: 1 }}>
@@ -763,7 +803,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="que5"
                   onChange={handleChange}
@@ -786,7 +825,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
             </div>{" "}
           </div>
           <div
-            className={values.que5 === "yes" ? "col-lg-4 col-md-12" : "d-none"}
+            className={
+              formData.que5 === "yes" ? "col-lg-4 col-md-12" : "d-none"
+            }
           >
             <TextField
               fullWidth
@@ -795,13 +836,13 @@ function FormStep3({ handleChange, values, errors, touched }) {
               label="Reason"
               name="que5Reason"
               type="text"
-              value={values.que5Reason || ""}
+              value={formData.que5Reason || ""}
               onChange={handleChange}
             />
           </div>
         </div>{" "}
         <div className="row mt-4">
-          <div className={values.que6 === "yes" ? "col-lg-8" : "col-lg-12"}>
+          <div className={formData.que6 === "yes" ? "col-lg-8" : "col-lg-12"}>
             <div className="d-flex justify-content-between">
               <div className="text-start">
                 <FormLabel required sx={{ marginTop: 1 }}>
@@ -811,7 +852,6 @@ function FormStep3({ handleChange, values, errors, touched }) {
               </div>
               <div>
                 <RadioGroup
-                  defaultValue="no"
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="que6"
                   onChange={handleChange}
@@ -834,7 +874,9 @@ function FormStep3({ handleChange, values, errors, touched }) {
             </div>{" "}
           </div>
           <div
-            className={values.que6 === "yes" ? "col-lg-4 col-md-12" : "d-none"}
+            className={
+              formData.que6 === "yes" ? "col-lg-4 col-md-12" : "d-none"
+            }
           >
             <TextField
               fullWidth
@@ -843,7 +885,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
               label="Reason"
               name="que6Reason"
               type="text"
-              value={values.que6Reason || ""}
+              value={formData.que6Reason || ""}
               onChange={handleChange}
             />
           </div>
@@ -851,7 +893,7 @@ function FormStep3({ handleChange, values, errors, touched }) {
         <div className="mt-3">
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox required />}
+              control={<Checkbox required sx={{ marginTop: -4 }} />}
               label={
                 <FormLabel
                   className="text-start mt-2 text-form fw-bolder"

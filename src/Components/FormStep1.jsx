@@ -21,7 +21,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { countries, countriesDialCode } from "./CountryList";
 import "./Css/ApplyForm.css";
-import { CreateFormStage1 } from "../utils";
+import { CreateForm } from "../utils";
 import Loader from "../Admin/src/Components/Loader";
 function FormStep1({
   // handleChange,
@@ -30,7 +30,6 @@ function FormStep1({
   touched,
   setFormStep1Filled,
   submitTab1,
-  setSubmitTab1Confrim,
   setActiveStep,
 }) {
   // const [formData, setFormData] = useState({
@@ -105,12 +104,11 @@ function FormStep1({
   }
 
   const handleSubmit = async () => {
-    const res = await CreateFormStage1(formData, 1);
+    const res = await CreateForm(formData, 1);
     console.log(res.data.result.application_id);
     localStorage.setItem("application_id", res.data.result.application_id);
     if (res) {
       setTimeout(() => {
-        setSubmitTab1Confrim(true);
         setLoading(false);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }, 2000);
@@ -130,7 +128,13 @@ function FormStep1({
         <div style={{ background: "#1e8bc3" }} className="p-1">
           <h4 className="text-light text-start ms-3">Personal Details</h4>
         </div>
-        {/* <Button onClick={handleSubmit}>CreaTE fORM</Button> */}
+        <Button
+          onClick={() => {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          }}
+        >
+          SKIP
+        </Button>
         <div className="row">
           <div className="col-lg-6">
             <FormControl size="large" fullWidth sx={{ marginTop: 2 }}>
@@ -693,7 +697,6 @@ function FormStep1({
               label="Surname"
               type="text"
               name="surname"
-              error={errors.surname && touched.surname ? true : false}
               value={formData.surname || ""}
               onChange={handleChange}
             />
