@@ -35,14 +35,31 @@ const AdminLogin = () => {
   const handleLogin = async () => {
     console.log(email, password);
     setIsloading(true);
-    const res = await login({ email: email, password: password });
+    const res = await login({ email: email, password: password })
+    // .then((res)=>{
+    //   localStorage.setItem("token", res.token);
+    //   localStorage.setItem("loggedIn", true);
+    //   localStorage.setItem("loginDate", new Date());
+    //   setIsloading(false);
+    //   navigate("/admin/customers");
+    //   console.log(res);
+    // }).catch((err)=>{
+    //   setIsloading(false);
+    //   console.log(err)
+    //   navigate("/admin");
+    //   alert("")
+    // });
     console.log(res);
-    if (res) {
+    if (res.error !== 'Invalid credentials') {
       localStorage.setItem("token", res.token);
       localStorage.setItem("loggedIn", true);
       localStorage.setItem("loginDate", new Date());
       setIsloading(false);
       navigate("/admin/customers");
+    }else{
+      setIsloading(false);
+      alert("error")
+      navigate("/admin");
     }
   };
 

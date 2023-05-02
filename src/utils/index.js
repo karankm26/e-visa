@@ -98,3 +98,24 @@ export const ContactApi = async (data) => {
     return response
   // return response;
 };
+
+
+export const Payment = async()=>{
+  //   let token = localStorage.getItem('token')
+  // const headers = {
+  //   "Content-Type": "application/json",
+  //   'Authorization': `Bearer ${token}`
+  // };
+  let appId = localStorage.getItem('application_id')
+
+  const response = await axios
+    .get(`${BASE_URL}/order/${appId}`)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+    return response
+  
+};
