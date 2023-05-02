@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import { MdLocationOn } from "react-icons/md";
 import { AiTwotonePhone, AiFillMessage } from "react-icons/ai";
+import axios from "axios";
+import { ContactApi } from "../utils";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({});
@@ -19,6 +21,17 @@ const ContactUs = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
   console.log(formData);
+
+
+  const handleSubmit = async (e)=>{
+    e.preventDefault()
+    console.log(formData);
+    
+    const result = await ContactApi(formData)
+    console.log(result)
+  }
+
+
   return (
     <>
       <Container>
@@ -112,6 +125,7 @@ const ContactUs = () => {
                       variant="contained"
                       size="large"
                       type="submit"
+                      onClick={handleSubmit}
                     >
                       Submit{" "}
                     </Button>

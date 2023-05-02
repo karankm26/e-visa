@@ -21,10 +21,18 @@ import { countries } from "./CountryList";
 import { CreateForm } from "../utils";
 import Loader from "./Loader";
 import { Navigate, useNavigate } from "react-router-dom";
+
+import { useSelector,useDispatch } from "react-redux";
+import {add3} from '../redux/formStep2Slicer/formStep2Slicer'
+
 function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch()
+  const {formStep2} = useSelector((state)=>state) 
+
   const id = localStorage.getItem("application_id");
   function handleChange(e) {
     const { name, value } = e.target;
@@ -32,11 +40,13 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
       ...prevFormData,
       [name]: value,
     }));
+    dispatch(add3(formData))
   }
 
   console.log(formData);
   console.log(Object.keys(formData).length);
 
+  console.log(formStep2)
   useEffect(() => {
     const objectLength = Object.keys(formData).length;
     setFormStep3Filled(objectLength);

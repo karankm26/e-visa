@@ -29,11 +29,20 @@ import { useState } from "react";
 import { countries } from "./CountryList";
 import { CreateForm } from "../utils";
 import Loader from "./Loader";
+
+import { useSelector,useDispatch } from "react-redux";
+import {add} from '../redux/formStep2Slicer/formStep2Slicer'
+
 function FormStep2({
   setFormStep2Filled,
   submitTab2,
   setActiveStep,
 }) {
+
+
+  const dispatch = useDispatch()
+  const {formStep2} = useSelector((state)=>state)
+
   const [isChecked, setIsChecked] = useState(false);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -47,9 +56,12 @@ function FormStep2({
       ...prevFormData,
       [name]: value,
     }));
+    dispatch(add(formData))
   }
   console.log(formData);
   console.log(Object.keys(formData).length);
+
+  console.log(formStep2)
   useEffect(() => {
     const objectLength = Object.keys(formData).length;
     setFormStep2Filled(objectLength);
@@ -423,7 +435,7 @@ function FormStep2({
                 }
                 label={
                   <FormLabel className="text-start mt-2 text-form" required>
-                    Check her for same Address
+                    Check here for same Address
                   </FormLabel>
                 }
               />

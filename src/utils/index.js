@@ -80,3 +80,21 @@ export const UpdateForm = async (values, stage, id) => {
     throw error;
   }
 };
+
+export const ContactApi = async (data) => {
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const response = await axios
+    .post(`${BASE_URL}/query`,data,{headers})
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+    return response
+  // return response;
+};

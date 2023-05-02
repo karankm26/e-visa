@@ -23,6 +23,10 @@ import { countries, countriesDialCode } from "./CountryList";
 import "./Css/ApplyForm.css";
 import { CreateForm } from "../utils";
 import Loader from "../Admin/src/Components/Loader";
+
+import { useSelector,useDispatch } from "react-redux";
+import {add1} from '../redux/formStep2Slicer/formStep2Slicer'
+
 function FormStep1({
   // handleChange,
   values,
@@ -57,6 +61,10 @@ function FormStep1({
   const [formData, setFormData] = useState({});
   const [submitForm, setSubmitForm] = useState();
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch()
+  const {formStep2} = useSelector((state)=>state)
+
   console.log(submitTab1);
   function handleChange(e) {
     const { name, value } = e.target;
@@ -64,7 +72,9 @@ function FormStep1({
       ...prevFormData,
       [name]: value,
     }));
+    dispatch(add1(formData))
   }
+
 
   useEffect(() => {
     const objectLength = Object.keys(formData).length;
@@ -93,6 +103,7 @@ function FormStep1({
 
   console.log(formData);
   console.log(Object.keys(formData).length);
+  console.log(formStep2)
 
   const maxDate = new Date();
   maxDate.setDate(maxDate.getDate() + 4);
@@ -121,6 +132,17 @@ function FormStep1({
       handleSubmit();
     }
   }, [submitTab1]);
+
+  const dateLimit = ()=>{
+    let date = new Date
+    date.setDate(date.getDate() + 4)
+    let dd = ("0" + date.getDate()).slice(-2)
+    let mm = "0" + (date.getMonth() +1).toString().slice(-2)
+    let yyyy = date.getFullYear().toString()
+    console.log(yyyy+"-"+mm+"-"+dd)
+    return (yyyy+"-"+mm+"-"+dd)
+  }
+
   return (
     <>
       {loading && <Loader />}
@@ -311,8 +333,9 @@ function FormStep1({
               onChange={handleChange}
               defaultValue={new Date().toISOString().slice(0, 16)}
               inputProps={{
-                min: new Date().toISOString().slice(0, 16).split("T")[0],
-                max: maxDate.toISOString().slice(0, 16).split("T")[0],
+                // min: new Date().toISOString().slice(0, 16).split("T")[0],
+                min: dateLimit()
+                // max: maxDate.toISOString().slice(0, 16).split("T")[0],
               }}
             />
           </div>
@@ -725,7 +748,7 @@ function FormStep1({
                 />
               }
               label={
-                <FormLabel className="text-start mt-2 text-form" required>
+                <FormLabel className="text-start mt-2 text-form" >
                   Have you ever changed you name? If yes, click the box
                 </FormLabel>
               }
@@ -896,6 +919,7 @@ function FormStep1({
                 <MenuItem value="" selected>
                   <em>Select Religion</em>
                 </MenuItem>
+                <MenuItem value={"POST_GRADUATE"}>POST-GRADUATE</MenuItem>
                 <MenuItem value={"GRADUATE"}>GRADUATE</MenuItem>
                 <MenuItem value={"UDER-GRADUATE"}>UDER-GRADUATE</MenuItem>
                 <MenuItem value={"DIPLOMA"}>DIPLOMA</MenuItem>

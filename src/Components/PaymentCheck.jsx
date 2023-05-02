@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+  stack,
   Stepper,
   Step,
   StepLabel,
@@ -21,14 +22,22 @@ import {
   Radio,
   FormGroup,
   Container,
+  Stack,
 } from "@mui/material";
 
 import { PayPalButton } from "react-paypal-button-v2";
 import "../Components/Css/payCheck.css";
 
 function PaymentCheck() {
+
+  // const style = {
+  //   width:1,
+    
+  // }
+
   return (
-    <div className="payment">
+    // <div className="payment">
+      <Stack spacing={4} sx={{display:'flex', alignItems:'center', margin:10}}>
       <Typography variant="h4"> Make Payment</Typography>
 
       <PayPalButton
@@ -52,10 +61,11 @@ function PaymentCheck() {
           });
         }}
       />
+      </Stack>
 
-      {/* <button onClick={createPayment}>Pay Now</button> */}
-      {/* </div> */}
-    </div>
+      // {/* <button onClick={createPayment}>Pay Now</button> */}
+      // {/* </div> */}
+    // </div>
   );
 }
 
