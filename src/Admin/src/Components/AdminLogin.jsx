@@ -58,7 +58,7 @@ const AdminLogin = () => {
       navigate("/admin/customers");
     }else{
       setIsloading(false);
-      alert("error")
+      alert("Invalid Credentials")
       navigate("/admin");
     }
   };
