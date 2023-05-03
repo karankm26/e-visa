@@ -77,9 +77,9 @@ function PaymentCheck() {
           });
         }}
       /> */}
-
+      <div style={{marginTop:"500px"}}>
       <Button variant="contained" size="large" onClick={handleClik}>Pay</Button>
-
+      </div>
       </Stack>
 
       // {/* <button onClick={createPayment}>Pay Now</button> */}

@@ -251,6 +251,7 @@ function FormStep1({
               label="Date Of Birth"
               type="date"
               name="date_of_birth"
+              InputLabelProps={{ shrink: true }}
               // placeholder="Date"
               // error={
               //   errors.date_of_birth && touched.date_of_birth ? true : false
@@ -332,6 +333,7 @@ function FormStep1({
               value={formData.expected_date_of_arrival || ""}
               onChange={handleChange}
               defaultValue={new Date().toISOString().slice(0, 16)}
+              InputLabelProps={{shrink:true}}
               inputProps={{
                 // min: new Date().toISOString().slice(0, 16).split("T")[0],
                 min: dateLimit()
@@ -785,6 +787,7 @@ function FormStep1({
               required
               fullWidth
               label="Date Of Birth"
+              InputLabelProps={{shrink:true}}
               value={formData.date_of_birth}
               disabled
             />
@@ -939,6 +942,7 @@ function FormStep1({
               label="Nationality"
               name="nationality"
               value={formData.nationality}
+              InputLabelProps={{shrink:true}}
               inputProps={{
                 readOnly: true,
               }}

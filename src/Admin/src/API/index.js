@@ -122,6 +122,26 @@ export const getAllForm = async (id) => {
   return response;
 };
 
+export const getIncompleteForms = async (id) => {
+  const token = localStorage.getItem("token");
+  console.log(token);
+  const headers = { Authorization: `Bearer ${token}` };
+
+  const response = await axios
+    .get(`${BASE_URL}/admin/forms?status=incomplete`, {
+      headers,
+    })
+    .then((res) => {
+      console.log(res);
+      return res.data;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+
+  return response;
+};
+
 export const GetCSVData = async (status) => {
   // console.log(values);
   const token = localStorage.getItem("token");

@@ -72,16 +72,17 @@ function Customers() {
   const [UploadSuccess, setUploadSuccess] = useState(false);
 
   useEffect(() => {
-    const getData = async () => {
-      setIsloading(true);
-      const res = await getAllForm();
-      setFormData(res.forms);
-      if (res) {
-        setIsloading(false);
-      }
-    };
     getData();
   }, []);
+
+  const getData = async () => {
+    setIsloading(true);
+    const res = await getAllForm();
+    setFormData(res.forms);
+    if (res) {
+      setIsloading(false);
+    }
+  };
 
   const handleFileUploadChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -90,12 +91,19 @@ function Customers() {
     setSelectedFile(formData);
   };
 
+  const changeStatus = async (status,id) =>{
+    console.log(statusData);
+    const res = await ChangeStatus({ status: status },id);
+    getData()
+  }
+
   const handleFileUpload = async (id) => {
     console.log(selectedFile);
     const res = await UploadVisa(selectedFile, id);
     console.log(res.status);
     if (res.status === 200) {
       setUploadSuccess(true);
+      getData()
       setTimeout(() => {
         setOpen(false);
         setUploadSuccess(false);
@@ -120,12 +128,6 @@ function Customers() {
       setLoading(false);
     });
   }, []);
-
-  const handleStatusChanges = async () => {
-    console.log(statusData);
-    const res = await ChangeStatus({ status: "approved" });
-    console.log(res);
-  };
 
   const columns = [
     { id: "index", label: "S.No", minWidth: 50 },
@@ -199,8 +201,8 @@ function Customers() {
             >
               Approved
             </MenuItem>
-            <MenuItem value={"pending"}>Pending</MenuItem>
-            <MenuItem value={"rejected"}>Rejected</MenuItem>
+            <MenuItem value={"pending"}  onClick={() => changeStatus("pending",unique)} >Pending</MenuItem>
+            <MenuItem value={"rejected"}  onClick={() => changeStatus("rejected",unique)} >Rejected</MenuItem>
           </Select>
         </FormControl>
       ),
@@ -224,7 +226,7 @@ function Customers() {
       `${item?.tabOne?.givenName} ${item?.tabOne?.surname}`,
       item.application_id,
       item?.tabOne?.email,
-      item?.tabOne?.status,
+      item?.status,
       item?.tabOne?.phone,
       item?.tabOne?.gender
     )

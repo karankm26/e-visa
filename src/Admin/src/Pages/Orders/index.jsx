@@ -1,6 +1,6 @@
 // import { Avatar, Rate, Space, Table, Typography } from "antd";
 import {useEffect, useState} from "react";
-import {getAllForm, getCustomers, getInventory} from "../../API";
+import {getAllForm, getCustomers, getIncompleteForms, getInventory} from "../../API";
 import AppHeader from "../../Components/AppHeader";
 import SideMenu from "../../Components/SideMenu/index";
 import AppFooter from "../../Components/AppFooter";
@@ -41,7 +41,7 @@ function Orders() {
   useEffect(() => {
     const getData = async () => {
       setIsloading(true);
-      const res = await getAllForm();
+      const res = await getIncompleteForms();
       setFormData(res.forms);
       if (res) {
         setIsloading(false);
@@ -52,7 +52,7 @@ function Orders() {
 
   useEffect(() => {
     setLoading(true);
-    getCustomers().then((res) => {
+    getIncompleteForms().then((res) => {
       setDataSource(res.data);
       setLoading(false);
     });
@@ -181,11 +181,11 @@ function Orders() {
   const rows = formData.map((item, index) =>
     createData(
       index + 1,
-      `${item.first_name} ${item.last_name}`,
-      item._id,
-      item.email,
+      `${item?.tabOne?.name} `,
+      item.application_id,
+      item?.tabOne?.email,
       item.status,
-      item.paid ? item.paid + "paid" : "not paid"
+      item.paid ? "paid" : "not paid"
     )
   );
   function descendingComparator(a, b, orderBy) {

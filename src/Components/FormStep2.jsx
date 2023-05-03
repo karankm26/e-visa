@@ -138,6 +138,7 @@ function FormStep2({
               type="date"
               label="Date of Issue"
               name="date_of_issue"
+              InputLabelProps={{ shrink: true }}
               value={formData.date_of_issue}
               onChange={handleChange}
             />
@@ -149,6 +150,7 @@ function FormStep2({
               fullWidth
               type="date"
               label="Date of Expire"
+              InputLabelProps={{ shrink: true }}
               name="date_of_expire"
               value={formData.date_of_expire}
             />

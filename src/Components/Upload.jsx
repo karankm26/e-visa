@@ -8,7 +8,7 @@ import {
   Container,
   Alert,
 } from "@mui/material";
-import { UploadDocuments } from "../utils";
+import { FileList, UploadDocuments } from "../utils";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "./Loader";
 
@@ -19,28 +19,56 @@ function DocumentsUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isloading, setIsloading] = useState(false);
   const [UploadSuccess, setUploadSuccess] = useState(false);
-  const [passportPhoto, setPassportPhoto] = useState([]);
-  const [addhhar, setAddhhar] = useState([]);
+  const [files,setFiles] = useState([])  
+  const [fileList,setFileList] = useState([])
 
-  // const handleFileUploadChange = (event) => {
-  //   console.log(event.target.files);
-  //   setSelectedFile(event.target.files[0]);
-  //   const formData = new FormData();
-  //   formData.append("file", event.target.files[0], event.target.files[0].name);
-  //   setSelectedFile(formData);
-  // };
+  useEffect(()=>{
+    getFilesList()
+  },[])
+
+  const getFilesList = async () =>{
+    const file = await FileList(id)
+    setFileList(file.data.file)
+  }
+
+  const handleFile = (name,file) => {
+    console.log(name,file)
+    let data = files
+    let index = data.findIndex(ele=>ele.name==name)
+    if(index==-1)
+    {
+      data.push({
+        name: name,
+        file: file
+      })
+    }else{
+      data[index] = {
+        name: name,
+        file: file
+      }
+    }
+    setFiles(data)
+  }
 
   const handleFileUpload = async () => {
-    console.log(passportPhoto);
-    console.log(addhhar);
-    console.log(id);
+    if(files.length!=fileList.length)
+    {
+      alert("Please upload all files")
+      return
+    }
+  //   console.log(passportPhoto);
+  //   console.log(addhhar);
+  //   console.log(id);
 
     setIsloading(true);
-    const formData = new FormData();
-    formData.append("files", passportPhoto[0], passportPhoto[0].name);
-    formData.append("files", addhhar[0], addhhar[0].name);
+    let formData = new FormData();
+    for(let i=0;i<files.length;i++)
+    {
+      formData.append("files", files[i].file[0], files[i].file[0].name);
+    }
+  //   formData.append("files", addhhar[0], addhhar[0].name);
     const res = await UploadDocuments(formData, id);
-    console.log(res);
+  //   console.log(res);
     if (res.status === 200) {
       setUploadSuccess(true);
       setIsloading(false);
@@ -74,29 +102,26 @@ function DocumentsUpload() {
               <h2>Document Upload</h2>{" "}
             </Typography>
 
+
+
             <div className="row mt-4">
-              <div className="col-lg-6">
-                <div className="text-start">
-                  <FormLabel required>Passport Size Photo</FormLabel>
-                </div>
-                <input
-                  type="file"
-                  className="form-control"
-                  onChange={(e) => setPassportPhoto(e.target.files)}
-                />
-                <small>Note: Upload in jgp or jpeg</small>
-              </div>
-              <div className="col-lg-6">
-                <div className="text-start">
-                  <FormLabel required> Addhhar Card</FormLabel>
-                </div>
-                <input
-                  type="file"
-                  className="form-control"
-                  onChange={(e) => setAddhhar(e.target.files)}
-                />{" "}
-                <small>Note: Upload in pdf</small>
-              </div>
+              {
+                fileList.map(ele=>{
+                  return(
+                    <div className="col-lg-6" style={{marginBottom:"20px"}}>
+                    <div className="text-start">
+                      <FormLabel required>{ele.name}</FormLabel>
+                    </div>
+                    <input
+                      type="file"
+                      className="form-control"
+                      accept={ele.accept}
+                      onChange={(e) => handleFile(ele.name,e.target.files)}
+                    />
+                  </div>
+                  )
+                })
+              }
             </div>
             {/* <div className="row mt-4">
             <div className="col-lg-6">

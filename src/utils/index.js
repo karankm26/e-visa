@@ -27,6 +27,18 @@ export const UploadDocuments = async (formData, id) => {
   return response;
 };
 
+export const FileList = async (id) => {
+  const response = axios
+    .get(`${BASE_URL}/visa/file/list/${id}`)
+    .then((res) => {
+      console.log("utils",res)
+      return res;
+    })
+    .catch((error) => console.error("Error:", error));
+
+  return response;
+};
+
 export const CreateForm = async (values, stage, id) => {
   console.log(values, stage, id);
 
