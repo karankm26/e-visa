@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { ApplySchema } from "../Schemas";
 import {
@@ -20,6 +20,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CreateForm } from "../utils";
 // import FormStep5 from "./FormStep5";
 import { useLocation, useParams } from "react-router-dom";
+
+import { useDispatch,useSelector } from "react-redux";
+
 
 const initialValues = {
   // address: "",
@@ -95,6 +98,13 @@ const MultistepForm = () => {
   const [submitTab1Confrim, setSubmitTab1Confrim] = useState(false);
   const [submitTab2Confrim, setSubmitTab2Confrim] = useState(false);
   const [submitTab3Confrim, setSubmitTab3Confrim] = useState(false);
+
+  const {formStep2} = useSelector((state)=>state)
+
+  useEffect(()=>{
+    console.log("step2:",formStep2.step2.passport_indetify_certificate === "yes"?28:formStep2.step2.marital_status === "Married"?28:23)
+    console.log("step3:",formStep2.step3.have_you_ever_visted_india === "yes"?33:23)
+  })
 
   const handleNextStep = () => {
     if (activeStep === 0) {
@@ -241,9 +251,11 @@ const MultistepForm = () => {
                         onClick={handleNextStep}
                         size="large"
                         disabled={
-                          activeStep === 0 && formStep1Filled >= 22
+                          activeStep === 0 && formStep1Filled >= 20
                             ? false
-                            : activeStep === 1 && formStep2Filled >= 26
+                            : activeStep === 1 && formStep2Filled >=((formStep2.step2.passport_indetify_certificate === "yes"?28:formStep2.step2.marital_status === "Married"?28:23) )    
+ 
+
                             ? false
                             : true
                         }
@@ -259,7 +271,7 @@ const MultistepForm = () => {
                         size="large"
                         onClick={handleNextStep}
                         disabled={
-                          activeStep === 2 && formStep3Filled >= 32
+                          activeStep === 2 && formStep3Filled >= (formStep2.step3.have_you_ever_visted_india === "yes"?33:23)
                             ? false
                             : true
                         }

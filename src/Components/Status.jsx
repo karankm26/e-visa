@@ -15,9 +15,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import ErrorIcon from "@mui/icons-material/Error";
-import React, { useState } from "react";
-import { CreateForm, getStatus } from "../utils";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {CreateForm, getStatus} from "../utils";
+import {useNavigate} from "react-router-dom";
 import Loader from "./Loader";
 function Status() {
   const navigate = useNavigate();
@@ -44,36 +44,21 @@ function Status() {
     setLoading(true);
     try {
       const res = await getStatus(unique_id);
-      console.log(res);
+      console.log(res.data);
       if (res.status === 200) {
         setOpen(true);
-        setData(res?.data?.msg);
+        setData(res.data);
         setApplicationNotFound(false);
         setLoading(false);
       } else if (res.response.status === 404) {
         setLoading(false);
         setApplicationNotFound(true);
-        // alert("Application ID not found");
       }
     } catch (error) {
       console.log(error);
     }
-    // try {
-    //   const response = await fetch(`/status/${unique_id}`);
-    //   const json = await response.json();
-    //   setData(json);
-    //   console.log(json);
-
-    //   if (json.status === false || !json) {
-    //     window.alert(`Invalid Application Id - ${json.msg}`);
-    //     console.log("invalid Application Id ");
-    //   } else {
-    //     console.log("success");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
+  console.log(data);
   const handleClick = async () => {
     const res = await CreateForm();
     console.log(res);
@@ -82,7 +67,7 @@ function Status() {
     <>
       {loading && <Loader />}
       <Container>
-        <Card sx={{ width: "100%" }} className="card-form mt-5">
+        <Card sx={{width: "100%"}} className="card-form mt-5">
           <Box
             sx={{
               display: "flex",
@@ -102,7 +87,7 @@ function Status() {
             )}
 
             <TextField
-              sx={{ marginTop: 2 }}
+              sx={{marginTop: 2}}
               fullWidth
               label="Enter Application id"
               name="application_id"
@@ -143,24 +128,21 @@ function Status() {
           >
             <Alert
               icon={
-                data?.split(" ").reverse()[0] === "incomplete" ? (
-                  <WarningAmberIcon
-                    fontSize="inherit"
-                    sx={{ marginTop: 3.5 }}
-                  />
-                ) : data?.split(" ").reverse()[0] === "rejected" ? (
-                  <ErrorIcon fontSize="inherit" sx={{ marginTop: 3.5 }} />
+                data?.status === "incomplete" ? (
+                  <WarningAmberIcon fontSize="inherit" sx={{marginTop: 3.5}} />
+                ) : data?.status === "rejected" ? (
+                  <ErrorIcon fontSize="inherit" sx={{marginTop: 3.5}} />
                 ) : (
                   <CheckCircleOutlineIcon
                     fontSize="inherit"
-                    sx={{ marginTop: 3.5 }}
+                    sx={{marginTop: 3.5}}
                   />
                 )
               }
               severity={
-                data?.split(" ").reverse()[0] === "incomplete"
+                data?.status === "incomplete"
                   ? "info"
-                  : data?.split(" ").reverse()[0] === "rejected"
+                  : data?.status === "rejected"
                   ? "error"
                   : "success"
               }
@@ -170,7 +152,7 @@ function Status() {
                   aria-label="close"
                   color="inherit"
                   size="small"
-                  sx={{ marginTop: 2 }}
+                  sx={{marginTop: 2}}
                   onClick={() => {
                     setOpen(false);
                   }}
@@ -182,41 +164,47 @@ function Status() {
               <AlertTitle className="text-center ">
                 {"Application Status"}
               </AlertTitle>
-              Your Application Status is {data && data?.split(" ").reverse()[0]}
+              Your Application Status is {data && data?.status}
             </Alert>
             <Button
               onClick={() => {
                 navigate(
-                  stage3 && uploadDocuments && !paymentDone
-                    ? `/payment/${unique_id}`
-                    : stage1 && !stage2 && !stage3
+                  data?.currentTab === 2 || data?.currentTab === 3
                     ? `/apply/${unique_id}`
-                    : stage1 && stage2 && !stage3
-                    ? `/apply/${unique_id}`
-                    : stage3 && !uploadDocuments && !paymentDone
+                    : data?.currentTab === 4
                     ? `/upload/${unique_id}`
+                    : data?.currentTab === 5 &&
+                      data?.application?.uploads?.status === "complete"
+                    ? `/payment/${unique_id}`
                     : "",
+                  // stage3 && uploadDocuments && !paymentDone
+                  //   ? `/payment/${unique_id}`
+                  //   : stage1 && !stage2 && !stage3
+                  //   ? `/apply/${unique_id}`
+                  //   : stage1 && stage2 && !stage3
+                  //   ? `/apply/${unique_id}`
+                  //   : stage3 && !uploadDocuments && !paymentDone
+                  //   ? `/upload/${unique_id}`
+                  //   : "",
                   {
                     state:
-                      stage1 && !stage2 && !stage3
+                      data?.currentTab === 2
                         ? 1
-                        : stage1 && stage2 && !stage3
+                        : data?.currentTab === 3
                         ? 2
                         : 3,
                   }
                 );
               }}
             >
-              {stage3 && uploadDocuments && !paymentDone
-                ? "Continue for Processing Fees"
-                : (stage1 && !stage2 && !stage3) ||
-                  (stage2 && stage1 && !stage3)
-                ? "Continue to Complete your application"
-                : stage3 && !uploadDocuments && !paymentDone
-                ? "Continue to upload Documents"
-                : paymentDone
-                ? "Your Application is under evaluation"
-                : null}
+              {data?.currentTab === 2 || data?.currentTab === 3
+                ? `Continue to Complete your application`
+                : data?.currentTab === 4
+                ? `Continue to upload Documents`
+                : data?.currentTab === 5 &&
+                  data?.application?.uploads?.status === "complete"
+                ? `Continue for Processing Fees`
+                : "Your Application is under evaluation"}
             </Button>
           </Dialog>
         </div>

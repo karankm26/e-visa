@@ -80,3 +80,42 @@ export const UpdateForm = async (values, stage, id) => {
     throw error;
   }
 };
+
+export const ContactApi = async (data) => {
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const response = await axios
+    .post(`${BASE_URL}/query`,data,{headers})
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+    return response
+  // return response;
+};
+
+
+export const Payment = async()=>{
+  //   let token = localStorage.getItem('token')
+  // const headers = {
+  //   "Content-Type": "application/json",
+  //   'Authorization': `Bearer ${token}`
+  // };
+  let appId = localStorage.getItem('application_id')
+
+  const response = await axios
+    .get(`${BASE_URL}/order/${appId}`)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+    return response
+  
+};

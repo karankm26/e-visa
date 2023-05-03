@@ -57,7 +57,8 @@ function App() {
         <Route path="/apply_old" exact element={<ApplyForm />} />
         <Route path="/apply" exact element={<MultistepForm />} />
         <Route path="/apply/:id" exact element={<MultistepForm />} />
-        <Route path="/payment/:id" exact element={<PaymentCheck />} />
+        {/* <Route path="/payment/:id" exact element={<PaymentCheck />} /> */}
+        <Route path="/payment" exact element={<PaymentCheck />} />
         <Route path="/upload/:id" exact element={<DocumentsUpload />} />
         <Route path="/contactus" exact element={<ContactUs />} />
       </Routes>
