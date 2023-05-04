@@ -22,16 +22,16 @@ import { CreateForm } from "../utils";
 import Loader from "./Loader";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import { useSelector,useDispatch } from "react-redux";
-import {add3} from '../redux/formStep2Slicer/formStep2Slicer'
+import { useSelector, useDispatch } from "react-redux";
+import { add3 } from "../redux/formStep2Slicer/formStep2Slicer";
 
 function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const dispatch = useDispatch()
-  const {formStep2} = useSelector((state)=>state) 
+  const dispatch = useDispatch();
+  const { formStep2 } = useSelector((state) => state);
 
   const id = localStorage.getItem("application_id");
   function handleChange(e) {
@@ -40,13 +40,13 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
       ...prevFormData,
       [name]: value,
     }));
-    dispatch(add3(formData))
+    dispatch(add3(formData));
   }
 
   console.log(formData);
   console.log(Object.keys(formData).length);
 
-  console.log(formStep2)
+  console.log(formStep2);
   useEffect(() => {
     const objectLength = Object.keys(formData).length;
     setFormStep3Filled(objectLength);
@@ -341,7 +341,9 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
                 required
                 sx={{ marginTop: 2 }}
                 fullWidth
+                type="date"
                 label="Date of Issue"
+                InputLabelProps={{ shrink: true }}  
                 name="previous_current_date_of_issue"
                 onChange={handleChange}
                 value={formData.previous_current_date_of_issue}
@@ -389,7 +391,7 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
               />
             </div>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-lg-6">
               <TextField
                 required
@@ -414,13 +416,13 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
                 onChange={handleChange}
               />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="row mt-3">
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>
+                <FormLabel required sx={{ marginTop: 1 }}>  
                   Has permission to visit or to extend stay in India previously
                   been refused?
                 </FormLabel>
@@ -541,7 +543,7 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
               fullWidth
               label="Address"
               name="reference_in_india_address"
-              value={formData.reference_address}
+              value={formData.reference_in_india_address}
               onChange={handleChange}
             />
           </div>
@@ -554,7 +556,7 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
               fullWidth
               label="Phone"
               name="reference_in_india_phone_no"
-              value={formData.reference_phone_no}
+              value={formData.reference_in_india_phone_no}
               onChange={handleChange}
             />
           </div>
@@ -565,8 +567,8 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Reference Name in" + " " + formData.nationality}
-              name="reference_name_in_albania"
+              label={"Reference Name in Nationality"}
+              name="reference_name_in_nationality"
               value={formData.reference_name_in_nationality}
               onChange={handleChange}
             />
@@ -576,8 +578,8 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Address in " + " " + formData.nationality}
-              name="reference_address"
+              label={"Address in Nationality"}
+              name="reference_address_in_nationality"
               value={formData.reference_address_in_nationality}
               onChange={handleChange}
             />
@@ -589,7 +591,7 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
               required
               sx={{ marginTop: 2 }}
               fullWidth
-              label={"Reference Name in" + " " + formData.nationality}
+              label={"Reference Name in Nationality"}
               name="reference_phone_in_nationality"
               value={formData.reference_phone_in_nationality}
               onChange={handleChange}

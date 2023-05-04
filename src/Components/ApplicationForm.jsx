@@ -21,8 +21,7 @@ import { CreateForm } from "../utils";
 // import FormStep5 from "./FormStep5";
 import { useLocation, useParams } from "react-router-dom";
 
-import { useDispatch,useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 
 const initialValues = {
   // address: "",
@@ -99,12 +98,22 @@ const MultistepForm = () => {
   const [submitTab2Confrim, setSubmitTab2Confrim] = useState(false);
   const [submitTab3Confrim, setSubmitTab3Confrim] = useState(false);
 
-  const {formStep2} = useSelector((state)=>state)
+  const { formStep2 } = useSelector((state) => state);
 
-  useEffect(()=>{
-    console.log("step2:",formStep2.step2.passport_indetify_certificate === "yes"?28:formStep2.step2.marital_status === "Married"?28:23)
-    console.log("step3:",formStep2.step3.have_you_ever_visted_india === "yes"?33:23)
-  })
+  useEffect(() => {
+    console.log(
+      "step2:",
+      formStep2.step2.passport_indetify_certificate === "yes"
+        ? 28
+        : formStep2.step2.marital_status === "Married"
+        ? 28
+        : 23
+    );
+    console.log(
+      "step3:",
+      formStep2.step3.have_you_ever_visted_india === "yes" ? 33 : 23
+    );
+  });
 
   const handleNextStep = () => {
     if (activeStep === 0) {
@@ -217,7 +226,7 @@ const MultistepForm = () => {
             {activeStep < steps.length && (
               <Box sx={{ marginTop: "2rem", width: "100%" }}>
                 <Typography variant="h7">
-                  {localStorage.getItem("application_id")
+                  {activeStep !== 0 && localStorage.getItem("application_id")
                     ? `Application ID : ${localStorage.getItem(
                         "application_id"
                       )}`
@@ -253,9 +262,14 @@ const MultistepForm = () => {
                         disabled={
                           activeStep === 0 && formStep1Filled >= 20
                             ? false
-                            : activeStep === 1 && formStep2Filled >=((formStep2.step2.passport_indetify_certificate === "yes"?28:formStep2.step2.marital_status === "Married"?28:23) )    
- 
-
+                            : activeStep === 1 &&
+                              formStep2Filled >=
+                                (formStep2.step2
+                                  .passport_indetify_certificate === "yes"
+                                  ? 28
+                                  : formStep2.step2.marital_status === "Married"
+                                  ? 28
+                                  : 23)
                             ? false
                             : true
                         }
@@ -271,7 +285,12 @@ const MultistepForm = () => {
                         size="large"
                         onClick={handleNextStep}
                         disabled={
-                          activeStep === 2 && formStep3Filled >= (formStep2.step3.have_you_ever_visted_india === "yes"?33:23)
+                          activeStep === 2 &&
+                          formStep3Filled >=
+                            (formStep2.step3.have_you_ever_visted_india ===
+                            "yes"
+                              ? 31
+                              : 23)
                             ? false
                             : true
                         }

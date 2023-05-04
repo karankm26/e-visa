@@ -24,8 +24,8 @@ import Orders from "../src/Admin/src/Pages/Orders/index";
 import Protected from "../src/Admin/src/Components/Protected";
 import View from "../src/Admin/src/Pages/View/index";
 
-import Success from './Components/postPayment/Success'
-import Error from './Components/postPayment/Error'
+import Success from "./Components/postPayment/Success";
+import Error from "./Components/postPayment/Error";
 
 function App() {
   const location = useLocation();
@@ -60,13 +60,12 @@ function App() {
         <Route path="/apply_old" exact element={<ApplyForm />} />
         <Route path="/apply" exact element={<MultistepForm />} />
         <Route path="/apply/:id" exact element={<MultistepForm />} />
-        {/* <Route path="/payment/:id" exact element={<PaymentCheck />} /> */}
+        <Route path="/payment/:id" exact element={<PaymentCheck />} />
         <Route path="/payment" exact element={<PaymentCheck />} />
         <Route path="/upload/:id" exact element={<DocumentsUpload />} />
         <Route path="/contactus" exact element={<ContactUs />} />
-        <Route path="/payment-success" exact element={<Success />} />
-        <Route path="/payment-error" exact element={<Error />} />
-
+        <Route path="/success" exact element={<Success />} />
+        <Route path="/error" exact element={<Error />} />
       </Routes>
     </React.Fragment>
   );

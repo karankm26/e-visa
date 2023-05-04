@@ -12,9 +12,11 @@ import { MdLocationOn } from "react-icons/md";
 import { AiTwotonePhone, AiFillMessage } from "react-icons/ai";
 import axios from "axios";
 import { ContactApi } from "../utils";
+import Loader from "./Loader";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -22,18 +24,21 @@ const ContactUs = () => {
   };
   console.log(formData);
 
-
-  const handleSubmit = async (e)=>{
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    setLoading(true);
+    e.preventDefault();
     console.log(formData);
-    
-    const result = await ContactApi(formData)
-    console.log(result)
-  }
 
+    const result = await ContactApi(formData);
+    console.log(result);
+    if (result) {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
+      {loading && <Loader />}
       <Container>
         <Card sx={{ width: "100%" }} className="card-form mt-5">
           <Typography

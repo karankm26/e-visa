@@ -30,47 +30,51 @@ import "../Components/Css/payCheck.css";
 import { Payment } from "../utils";
 import Loading from "./Loading";
 import Loader from "./Loader";
-import {useNavigate, Navigate} from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 function PaymentCheck() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
- const handleClik = async (e)=>{
-  e.preventDefault()
-  setIsLoading(true)
-  const result = await Payment()
-  // .then((res)=>{
-  //   setIsLoading(false)
-  //   console.log(res)
-  //   navigate("/payment-success")
-  // }).catch((err)=>{
-  //   setIsLoading(false)
-  //   console.log("Error")
-  //   navigate("/payment-error")
-  // })
-  if(result.name === "AxiosError"){
-    setIsLoading(false)
-    console.log("Error")
-    navigate("/payment-error")
-  }else{
-    setIsLoading(false)
-    console.log(result)
-    // navigate("/payment-success")
-    // navigate("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-55E28852KG3459042")
-    window.location.replace(result.data.approverUrl)
-  }
-  // console.log(result)
-  
- }
- useEffect(()=>{
-  console.log(isLoading)
- },isLoading)
+  const handleClik = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const result = await Payment();
+    console.log(result);
+    // .then((res)=>{
+    //   setIsLoading(false)
+    //   console.log(res)
+    //   navigate("/payment-success")
+    // }).catch((err)=>{
+    //   setIsLoading(false)
+    //   console.log("Error")
+    //   navigate("/payment-error")
+    // })
+    if (result.name === "AxiosError") {
+      setIsLoading(false);
+      console.log("Error");
+      navigate("/payment-error");
+    } else {
+      setIsLoading(false);
+      console.log(result);
+      // navigate("/payment-success")
+      // navigate("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-55E28852KG3459042")
+      // window.location.replace(result.data.approverUrl);
+      window.location.replace(result.data.approverUrl);
+    }
+    // console.log(result)
+  };
+  useEffect(() => {
+    console.log(isLoading);
+  }, isLoading);
 
   return (
     // <div className="payment">
-      <Stack spacing={4} sx={{display:'flex', alignItems:'center', margin:10}}>
-         {isLoading && (<Loader/>)}
+    <Stack
+      spacing={4}
+      sx={{ display: "flex", alignItems: "center", margin: 10 }}
+    >
+      {isLoading && <Loader />}
       <Typography variant="h4"> Make Payment</Typography>
 
       {/* <PayPalButton
@@ -94,13 +98,15 @@ function PaymentCheck() {
           });
         }}
       /> */}
-      <div style={{marginTop:"400px"}}>
-      <Button variant="contained" size="large" onClick={handleClik}>Pay</Button>
+      <div>
+        <Button variant="contained" size="large" onClick={handleClik}>
+          Pay
+        </Button>
       </div>
-      </Stack>
+    </Stack>
 
-      // {/* <button onClick={createPayment}>Pay Now</button> */}
-      // {/* </div> */}
+    // {/* <button onClick={createPayment}>Pay Now</button> */}
+    // {/* </div> */}
     // </div>
   );
 }

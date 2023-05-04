@@ -15,9 +15,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import ErrorIcon from "@mui/icons-material/Error";
-import React, {useState} from "react";
-import {CreateForm, getStatus} from "../utils";
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { CreateForm, getStatus } from "../utils";
+import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 function Status() {
   const navigate = useNavigate();
@@ -47,7 +47,12 @@ function Status() {
       console.log(res.data);
       if (res.status === 200) {
         setOpen(true);
+        setLoading(false);
         setData(res.data);
+        localStorage.setItem(
+          "application_id",
+          res.data.application.application_id
+        );
         setApplicationNotFound(false);
         setLoading(false);
       } else if (res.response.status === 404) {
@@ -67,7 +72,7 @@ function Status() {
     <>
       {loading && <Loader />}
       <Container>
-        <Card sx={{width: "100%"}} className="card-form mt-5">
+        <Card sx={{ width: "100%" }} className="card-form mt-5">
           <Box
             sx={{
               display: "flex",
@@ -87,7 +92,7 @@ function Status() {
             )}
 
             <TextField
-              sx={{marginTop: 2}}
+              sx={{ marginTop: 2 }}
               fullWidth
               label="Enter Application id"
               name="application_id"
@@ -129,13 +134,16 @@ function Status() {
             <Alert
               icon={
                 data?.status === "incomplete" ? (
-                  <WarningAmberIcon fontSize="inherit" sx={{marginTop: 3.5}} />
+                  <WarningAmberIcon
+                    fontSize="inherit"
+                    sx={{ marginTop: 3.5 }}
+                  />
                 ) : data?.status === "rejected" ? (
-                  <ErrorIcon fontSize="inherit" sx={{marginTop: 3.5}} />
+                  <ErrorIcon fontSize="inherit" sx={{ marginTop: 3.5 }} />
                 ) : (
                   <CheckCircleOutlineIcon
                     fontSize="inherit"
-                    sx={{marginTop: 3.5}}
+                    sx={{ marginTop: 3.5 }}
                   />
                 )
               }
@@ -152,7 +160,7 @@ function Status() {
                   aria-label="close"
                   color="inherit"
                   size="small"
-                  sx={{marginTop: 2}}
+                  sx={{ marginTop: 2 }}
                   onClick={() => {
                     setOpen(false);
                   }}
@@ -175,7 +183,7 @@ function Status() {
                     ? `/upload/${unique_id}`
                     : data?.currentTab === 5 &&
                       data?.application?.uploads?.status === "complete"
-                    ? `/payment`
+                    ? `/payment/${unique_id}`
                     : "",
                   // stage3 && uploadDocuments && !paymentDone
                   //   ? `/payment/${unique_id}`
