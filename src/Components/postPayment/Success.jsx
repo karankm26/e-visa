@@ -1,7 +1,15 @@
-import { Box, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { PaymentValidate } from "../../utils";
+
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 const Success = () => {
   const location = useLocation();
@@ -35,21 +43,33 @@ const Success = () => {
   }, []);
 
   return (
-    <Box
+    <Stack
       sx={{
         width: "100%",
-        height: "30vh",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        bgcolor: "primary.main",
+        // bgcolor: "primary.main",
       }}
     >
-      <Typography variant="h1" color="text.orimary">
-        Payment successfull
-      </Typography>
-    </Box>
+      <Card sx={{ minWidth: 275 }}>
+        <CardContent>
+          <Typography variant="h4">Payment successfull</Typography>
+        </CardContent>
+        <CardContent className="d-flex justify-content-center">
+          <img
+            src="https://i.pinimg.com/originals/90/13/f7/9013f7b5eb6db0f41f4fd51d989491e7.gif"
+            height={"100px"}
+            width={"200px"}
+          />
+        </CardContent>
+        <CardActions className="d-flex justify-content-center">
+          <Button size="small">Go Back To Home Page</Button>
+        </CardActions>
+      </Card>
+    </Stack>
   );
 };
 

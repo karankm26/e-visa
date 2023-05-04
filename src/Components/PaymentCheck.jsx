@@ -99,8 +99,21 @@ function PaymentCheck() {
         }}
       /> */}
       <div>
-        <Button variant="contained" size="large" onClick={handleClik}>
-          Pay
+        <Button
+          variant="contained"
+          size="small"
+          // color=""
+          onClick={handleClik}
+          style={{
+         
+            background: "#FF9933",
+          }}
+        >
+          <img
+            src="https://help.instapage.com/hc/article_attachments/360002241868/PayPal.svg.png"
+            height={"50px"}
+            width="210px"
+          />
         </Button>
       </div>
     </Stack>
