@@ -24,6 +24,9 @@ import Orders from "../src/Admin/src/Pages/Orders/index";
 import Protected from "../src/Admin/src/Components/Protected";
 import View from "../src/Admin/src/Pages/View/index";
 
+import Success from './Components/postPayment/Success'
+import Error from './Components/postPayment/Error'
+
 function App() {
   const location = useLocation();
   const isAdminRoute = location.pathname.includes("admin");
@@ -61,6 +64,9 @@ function App() {
         <Route path="/payment" exact element={<PaymentCheck />} />
         <Route path="/upload/:id" exact element={<DocumentsUpload />} />
         <Route path="/contactus" exact element={<ContactUs />} />
+        <Route path="/payment-success" exact element={<Success />} />
+        <Route path="/payment-error" exact element={<Error />} />
+
       </Routes>
     </React.Fragment>
   );

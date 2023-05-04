@@ -175,7 +175,7 @@ function Status() {
                     ? `/upload/${unique_id}`
                     : data?.currentTab === 5 &&
                       data?.application?.uploads?.status === "complete"
-                    ? `/payment/${unique_id}`
+                    ? `/payment`
                     : "",
                   // stage3 && uploadDocuments && !paymentDone
                   //   ? `/payment/${unique_id}`

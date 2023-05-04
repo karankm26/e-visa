@@ -251,9 +251,9 @@ const MultistepForm = () => {
                         onClick={handleNextStep}
                         size="large"
                         disabled={
-                          activeStep === 0 && formStep1Filled >= 20
+                          activeStep === 0 && formStep1Filled >= 0//20
                             ? false
-                            : activeStep === 1 && formStep2Filled >=((formStep2.step2.passport_indetify_certificate === "yes"?28:formStep2.step2.marital_status === "Married"?28:23) )    
+                            : activeStep === 1 && formStep2Filled >=0//((formStep2.step2.passport_indetify_certificate === "yes"?28:formStep2.step2.marital_status === "Married"?28:23) )    
  
 
                             ? false
@@ -271,7 +271,7 @@ const MultistepForm = () => {
                         size="large"
                         onClick={handleNextStep}
                         disabled={
-                          activeStep === 2 && formStep3Filled >= (formStep2.step3.have_you_ever_visted_india === "yes"?33:23)
+                          activeStep === 2 && formStep3Filled >= 0//(formStep2.step3.have_you_ever_visted_india === "yes"?33:23)
                             ? false
                             : true
                         }

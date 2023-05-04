@@ -30,9 +30,11 @@ import "../Components/Css/payCheck.css";
 import { Payment } from "../utils";
 import Loading from "./Loading";
 import Loader from "./Loader";
+import {useNavigate} from "react-router-dom";
 
 function PaymentCheck() {
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate();
 
  const handleClik = async (e)=>{
   e.preventDefault()
@@ -40,9 +42,11 @@ function PaymentCheck() {
   const result = await Payment().then((res)=>{
     setIsLoading(false)
     console.log(res)
+    navigate("/payment-success")
   }).catch((err)=>{
     setIsLoading(false)
     console.log("Error")
+    navigate("/payment-error")
   })
   
  }
@@ -77,7 +81,7 @@ function PaymentCheck() {
           });
         }}
       /> */}
-      <div style={{marginTop:"500px"}}>
+      <div style={{marginTop:"400px"}}>
       <Button variant="contained" size="large" onClick={handleClik}>Pay</Button>
       </div>
       </Stack>
