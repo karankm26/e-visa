@@ -141,6 +141,13 @@ export const PaymentValidate = async (data) => {
       headers,
     })
     .then((res) => {
+
+      if(res.status === 200)
+      {
+       axios.get(`${BASE_URL}/pdf/visa/${appId}`, {
+      headers,
+    })
+      }
       return res;
     })
     .catch((err) => {

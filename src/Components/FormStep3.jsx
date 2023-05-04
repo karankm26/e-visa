@@ -18,7 +18,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import { countries } from "./CountryList";
-import { CreateForm } from "../utils";
+import { CreateForm, getStatus} from "../utils";
 import Loader from "./Loader";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -32,7 +32,6 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
 
   const dispatch = useDispatch();
   const { formStep2 } = useSelector((state) => state);
-
   const id = localStorage.getItem("application_id");
   function handleChange(e) {
     const { name, value } = e.target;
@@ -43,24 +42,17 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
     dispatch(add3(formData));
   }
 
-  console.log(formData);
-  console.log(Object.keys(formData).length);
-
-  console.log(formStep2);
-  console.log(formStep2.step1.visa_service);
-
   useEffect(() => {
     const objectLength = Object.keys(formData).length;
     setFormStep3Filled(objectLength);
   }, [formData, Object.keys(formData).length]);
-
+  let visaService = localStorage.getItem("visa_service")
   const handleSubmit = async () => {
     const res = await CreateForm(
       formData,
       3,
       localStorage.getItem("application_id")
     );
-    console.log(localStorage.getItem("application_id"));
     if (res) {
       setTimeout(() => {
         setLoading(false);
@@ -100,7 +92,7 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
               fullWidth
               label="Visa Service"
               InputLabelProps={{ shrink: true }}
-              value={formStep2?.step1?.visa_service}
+              value={visaService}
               disabled
             />
           </div>

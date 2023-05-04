@@ -29,8 +29,9 @@ const Success = () => {
         };
         setLoading(true)
         const res = await PaymentValidate(body);
-        setRes(res.response)
+        setRes(res)
         setLoading(false)
+        
       }
     };
     validatePayment();
@@ -53,7 +54,7 @@ const Success = () => {
       {res.status === 200 ?
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
-          <Typography variant="h4">Payment successfull</Typography>
+          <Typography variant="h4">Payment Successful</Typography>
         </CardContent>
         <CardContent className="d-flex justify-content-center">
           <img
@@ -69,11 +70,11 @@ const Success = () => {
       
       (<Card sx={{ minWidth: 275 }}>
         <CardContent>
-          <Typography variant="h4">Payment Unsuccessfull</Typography>
+          <Typography variant="h4">Payment Unsuccessful</Typography>
         </CardContent>
         <CardContent className="d-flex justify-content-center">
           <img
-            src="https://i.pinimg.com/originals/90/13/f7/9013f7b5eb6db0f41f4fd51d989491e7.gif"
+            src="https://shrishtisoftech.com/blog/wp-content/uploads/2022/01/Payment-Failure-1.png"
             height={"100px"}
             width={"200px"}
           />

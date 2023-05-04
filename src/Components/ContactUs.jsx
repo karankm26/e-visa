@@ -22,17 +22,18 @@ const ContactUs = () => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
-  console.log(formData);
 
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    console.log(formData);
 
     const result = await ContactApi(formData);
-    console.log(result);
     if (result) {
       setLoading(false);
+      alert("Your Query Is Successfully Submitted")
+      setTimeout(function () {
+        window.location.reload();
+      }, 1000);
     }
   };
 

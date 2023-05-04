@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {
   ContactQuery,
   getAllForm,
-  getCustomers,
   getInventory,
 } from "../../API";
 import AppHeader from "../../Components/AppHeader";
@@ -53,7 +52,6 @@ function ContactUs() {
     };
     getData();
   }, []);
-  console.log("llllllll", formData);
 
   // useEffect(() => {
   //   setLoading(true);
@@ -131,7 +129,7 @@ function ContactUs() {
 
   const columns = [
     { id: "index", label: "S.No", minWidth: 50 },
-    { id: "unique", label: "Unique Id", minWidth: 100 },
+    { id: "name", label: "Name", minWidth: 70 },
     {
       id: "email",
       label: "Email",
@@ -166,11 +164,11 @@ function ContactUs() {
     },
   ];
 
-  function createData(index, unique, email, status, subject, message) {
+  function createData(index, name, email, status, subject, message) {
     // const density = population / size;
     return {
       index,
-      unique,
+      name,
       email,
       status,
       subject,
@@ -184,7 +182,7 @@ function ContactUs() {
   const rows = formData.map((item, index) =>
     createData(
       index + 1,
-      item._id,
+      item.name,
       item.email,
       item.status,
       item.subject,

@@ -1,6 +1,6 @@
 // import { Avatar, Rate, Space, Table, Typography } from "antd";
 import {useEffect, useState} from "react";
-import {getAllForm, getCustomers, getIncompleteForms, getInventory} from "../../API";
+import {getAllForm, getIncompleteForms, getInventory} from "../../API";
 import AppHeader from "../../Components/AppHeader";
 import SideMenu from "../../Components/SideMenu/index";
 import AppFooter from "../../Components/AppFooter";
@@ -167,17 +167,6 @@ function Orders() {
     };
   }
 
-  // const rows = userData.map((item, index) =>
-  //   createData(
-  //     index + 1,
-  //     item.name,
-  //     item.uniqueId,
-  //     item.email,
-  //     item.status,
-  //     item.verify,
-  //     item.payment
-  //   )
-  // );
   const rows = formData.map((item, index) =>
     createData(
       index + 1,

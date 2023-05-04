@@ -6,7 +6,6 @@ import {
   UploadDocument,
   UploadVisa,
   getAllForm,
-  getCustomers,
   getInventory,
 } from "../../API";
 import AppHeader from "../../Components/AppHeader";
@@ -59,7 +58,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 function Customers() {
   const [loading, setLoading] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
+  // const [dataSource, setDataSource] = useState([]);
   const [statusData, setStatusData] = useState(null);
   const [open, setOpen] = useState(false);
   const [openExcelDownloadBox, setOpenExcelDownloadBox] = useState(false);
@@ -123,10 +122,10 @@ function Customers() {
 
   useEffect(() => {
     setLoading(true);
-    getCustomers().then((res) => {
-      setDataSource(res.data);
-      setLoading(false);
-    });
+    // getCustomers().then((res) => {
+    //   setDataSource(res.data);
+    //   setLoading(false);
+    // });
   }, []);
 
   const columns = [
@@ -164,7 +163,7 @@ function Customers() {
     },
     {
       id: "viewButton",
-      label: "View",
+      label: "Download",
       minWidth: 100,
       align: "center",
     },
@@ -178,7 +177,7 @@ function Customers() {
     status,
     phone,
     gender,
-    viewButton
+    downloadPdfUrl
   ) {
     // const density = population / size;
     return {
@@ -212,9 +211,9 @@ function Customers() {
         <Button
           variant="contained"
           size="small"
-          onClick={() => navigate(`/admin/customers/${unique}`)}
+          onClick={() => navigate(downloadPdfUrl)}
         >
-          View
+          Download
         </Button>
       ),
     };
@@ -227,12 +226,12 @@ function Customers() {
       item.application_id,
       item?.tabOne?.email,
       item?.status,
-      item?.tabOne?.phone,
-      item?.tabOne?.gender
+      item?.tabTwo?.phone,
+      item?.tabOne?.gender,
+      item?.downloadPdfUrl
     )
   );
-  console.log(formData);
-  // console.log(rows);
+
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -288,34 +287,24 @@ function Customers() {
   const handleCSVDownload = async () => {
     console.log(CSVDownloadData, "Downloading Excel...");
     const header = [
-      "S.No",
-      "Email",
       "Name",
+      "UniqueID",
+      "Email",
       "Gender",
-      "Nationality",
-      "Passport Type",
-      "Status",
-      "Date of Arrival",
-      "Initiated Date",
-      "Visa Type",
-      "Paid",
+      "Phone",
+      "PDF URL",
     ];
     const filteredStatus = formData.filter(
       (item) => item.status === CSVDownloadData
     );
     const selectedProperties = filteredStatus.map((item, index) => {
       return {
-        "S.No": index + 1,
-        Email: item?.tabOne?.email,
         Name: `${item?.tabOne?.givenName} ${item?.tabOne?.surname}`,
+        UniqueID: item?._id,
+        Email: item?.tabOne?.email,
         Gender: item?.tabOne?.gender,
-        Nationality: item?.tabOne?.nationality,
-        "Passport Type": item?.tabOne?.passport_type,
-        Status: item.status,
-        "Date of Arrival": new Date(item.dateOfArrival).toLocaleString(),
-        "Initiated Date": new Date(item.createdAt).toLocaleString(),
-        "Visa Type": item.visaType,
-        Paid: item.paid ? item.paid : "not paid",
+        Phone: item?.tabTwo?.phone,
+        "PDF URL": item?.approved_visa_url,
       };
     });
     downloadExcel({

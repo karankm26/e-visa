@@ -44,7 +44,6 @@ function Status() {
     setLoading(true);
     try {
       const res = await getStatus(unique_id);
-      console.log(res.data);
       if (res.status === 200) {
         setOpen(true);
         setLoading(false);
@@ -52,6 +51,10 @@ function Status() {
         localStorage.setItem(
           "application_id",
           res.data.application.application_id
+        );
+        localStorage.setItem(
+          "visa_service",
+          res.data.application.tabOne.visa_service
         );
         setApplicationNotFound(false);
         setLoading(false);
@@ -63,7 +66,6 @@ function Status() {
       console.log(error);
     }
   };
-  console.log(data);
   const handleClick = async () => {
     const res = await CreateForm();
     console.log(res);
@@ -185,15 +187,6 @@ function Status() {
                       data?.application?.uploads?.status === "complete"
                     ? `/payment/${unique_id}`
                     : "",
-                  // stage3 && uploadDocuments && !paymentDone
-                  //   ? `/payment/${unique_id}`
-                  //   : stage1 && !stage2 && !stage3
-                  //   ? `/apply/${unique_id}`
-                  //   : stage1 && stage2 && !stage3
-                  //   ? `/apply/${unique_id}`
-                  //   : stage3 && !uploadDocuments && !paymentDone
-                  //   ? `/upload/${unique_id}`
-                  //   : "",
                   {
                     state:
                       data?.currentTab === 2
@@ -212,21 +205,20 @@ function Status() {
                 : data?.currentTab === 5 &&
                   data?.application?.uploads?.status === "complete"
                 ? `Continue for Processing Fees`
-                : data?.application?.approved_visa_url !== ""
-                ? "Download Your Visa Here"
+                : (data?.application?.approved_visa_url !== "" && data?.status !== "pending")
+                ? ""
                 : "Your Application is under evaluation"}
             </Button>
-            {data?.application?.approved_visa_url !== "" && (
+            {(data?.application?.approved_visa_url !== "" && data?.status !== "pending" ) ? (
               <Button variant="contained">
                 <a
-                  href={data?.application?.approved_visa_url}
-                  download
+                  href={data?.application?.approved_visa_url} target = "_blank"
                   style={{ textDecoration: "none", color: "white" }}
                 >
                   Download
                 </a>
               </Button>
-            )}
+            ) : null }
           </Dialog>
         </div>
       </Container>{" "}
