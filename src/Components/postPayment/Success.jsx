@@ -29,7 +29,6 @@ const Success = () => {
         };
         setLoading(true)
         const res = await PaymentValidate(body);
-        console.log(res.res,"111111111111111");
         setRes(res.response)
         setLoading(false)
       }
