@@ -30,7 +30,7 @@ import "../Components/Css/payCheck.css";
 import { Payment } from "../utils";
 import Loading from "./Loading";
 import Loader from "./Loader";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Navigate} from "react-router-dom";
 
 function PaymentCheck() {
   const [isLoading, setIsLoading] = useState(false)
@@ -55,8 +55,10 @@ function PaymentCheck() {
     navigate("/payment-error")
   }else{
     setIsLoading(false)
-    console.log("success")
-    navigate("/payment-success")
+    console.log(result)
+    // navigate("/payment-success")
+    // navigate("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-55E28852KG3459042")
+    window.location.replace("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-4YX90388R87962822")
   }
   // console.log(result)
   
