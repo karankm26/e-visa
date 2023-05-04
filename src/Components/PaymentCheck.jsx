@@ -39,15 +39,26 @@ function PaymentCheck() {
  const handleClik = async (e)=>{
   e.preventDefault()
   setIsLoading(true)
-  const result = await Payment().then((res)=>{
-    setIsLoading(false)
-    console.log(res)
-    navigate("/payment-success")
-  }).catch((err)=>{
+  const result = await Payment()
+  // .then((res)=>{
+  //   setIsLoading(false)
+  //   console.log(res)
+  //   navigate("/payment-success")
+  // }).catch((err)=>{
+  //   setIsLoading(false)
+  //   console.log("Error")
+  //   navigate("/payment-error")
+  // })
+  if(result.name === "AxiosError"){
     setIsLoading(false)
     console.log("Error")
     navigate("/payment-error")
-  })
+  }else{
+    setIsLoading(false)
+    console.log("success")
+    navigate("/payment-success")
+  }
+  // console.log(result)
   
  }
  useEffect(()=>{
