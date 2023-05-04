@@ -58,7 +58,7 @@ function PaymentCheck() {
     console.log(result)
     // navigate("/payment-success")
     // navigate("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-55E28852KG3459042")
-    window.location.replace("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-4YX90388R87962822")
+    window.location.replace(result.data.approverUrl)
   }
   // console.log(result)
   
