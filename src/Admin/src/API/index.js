@@ -181,3 +181,22 @@ export const UploadVisa = async (formDate, id) => {
 
   return response;
 };
+
+export const ContactQuery = async () => {
+  const token = localStorage.getItem("token");
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  console.log(token);
+  const response = await axios
+    .get(`${BASE_URL}/query`, { headers })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+  return response;
+};

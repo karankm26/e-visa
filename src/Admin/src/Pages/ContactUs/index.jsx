@@ -1,11 +1,16 @@
 // import { Avatar, Rate, Space, Table, Typography } from "antd";
-import {useEffect, useState} from "react";
-import {getAllForm, getCustomers, getInventory} from "../../API";
+import { useEffect, useState } from "react";
+import {
+  ContactQuery,
+  getAllForm,
+  getCustomers,
+  getInventory,
+} from "../../API";
 import AppHeader from "../../Components/AppHeader";
 import SideMenu from "../../Components/SideMenu/index";
 import AppFooter from "../../Components/AppFooter";
 import * as React from "react";
-import {styled, useTheme} from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -27,8 +32,8 @@ import {
   FormControl,
   TableSortLabel,
 } from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {userData} from "../../utils/data";
+import { useNavigate } from "react-router-dom";
+import { userData } from "../../utils/data";
 import Loader from "../../Components/Loader";
 
 function ContactUs() {
@@ -36,27 +41,27 @@ function ContactUs() {
   const [dataSource, setDataSource] = useState([]);
   const [isloading, setIsloading] = useState(false);
   const [formData, setFormData] = useState([]);
-
   const navigate = useNavigate();
   useEffect(() => {
     const getData = async () => {
       setIsloading(true);
-      const res = await getAllForm();
-      setFormData(res.forms);
+      const res = await ContactQuery();
+      setFormData(res.data.queries);
       if (res) {
         setIsloading(false);
       }
     };
     getData();
   }, []);
+  console.log("llllllll", formData);
 
-  useEffect(() => {
-    setLoading(true);
-    getCustomers().then((res) => {
-      setDataSource(res.data);
-      setLoading(false);
-    });
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   getCustomers().then((res) => {
+  //     setDataSource(res.data);
+  //     setLoading(false);
+  //   });
+  // }, []);
   const drawerWidth = 240;
 
   const openedMixin = (theme) => ({
@@ -80,7 +85,7 @@ function ContactUs() {
     },
   });
 
-  const DrawerHeader = styled("div")(({theme}) => ({
+  const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -91,7 +96,7 @@ function ContactUs() {
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
-  })(({theme, open}) => ({
+  })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -109,7 +114,7 @@ function ContactUs() {
 
   const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
-  })(({theme, open}) => ({
+  })(({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
@@ -125,9 +130,8 @@ function ContactUs() {
   }));
 
   const columns = [
-    {id: "index", label: "S.No", minWidth: 50},
-    {id: "name", label: "Name", minWidth: 100},
-    {id: "unique", label: "Unique Id", minWidth: 100},
+    { id: "index", label: "S.No", minWidth: 50 },
+    { id: "unique", label: "Unique Id", minWidth: 100 },
     {
       id: "email",
       label: "Email",
@@ -143,16 +147,34 @@ function ContactUs() {
       format: (value) => value.toLocaleString("en-US"),
       // options: ["Approved", "Pending", "Rejected"],
     },
+    {
+      id: "subject",
+      label: "Subject",
+      minWidth: 100,
+      align: "left",
+      format: (value) => value.toLocaleString("en-US"),
+      // options: ["Approved", "Pending", "Rejected"],
+    },
+
+    {
+      id: "message",
+      label: "Message",
+      minWidth: 100,
+      align: "left",
+      format: (value) => value.toLocaleString("en-US"),
+      // options: ["Approved", "Pending", "Rejected"],
+    },
   ];
 
-  function createData(index, name, unique, email, status) {
+  function createData(index, unique, email, status, subject, message) {
     // const density = population / size;
     return {
       index,
-      name,
       unique,
       email,
       status,
+      subject,
+      message,
     };
   }
 
@@ -162,10 +184,11 @@ function ContactUs() {
   const rows = formData.map((item, index) =>
     createData(
       index + 1,
-      `${item.first_name} ${item.last_name}`,
       item._id,
       item.email,
-      item.status
+      item.status,
+      item.subject,
+      item.message
     )
   );
 
@@ -221,14 +244,14 @@ function ContactUs() {
   return (
     <>
       {isloading && <Loader />}
-      <Box sx={{display: "flex"}}>
+      <Box sx={{ display: "flex" }}>
         <SideMenu></SideMenu>
-        <Box component="main" sx={{flexGrow: 1, p: 3}}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
           <Typography variant="h5">Contacts</Typography>
 
-          <Paper sx={{width: "100%"}}>
-            <TableContainer sx={{maxHeight: 617}}>
+          <Paper sx={{ width: "100%" }}>
+            <TableContainer sx={{ maxHeight: 617 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>

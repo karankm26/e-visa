@@ -212,8 +212,21 @@ function Status() {
                 : data?.currentTab === 5 &&
                   data?.application?.uploads?.status === "complete"
                 ? `Continue for Processing Fees`
+                : data?.application?.approved_visa_url !== ""
+                ? "Download Your Visa Here"
                 : "Your Application is under evaluation"}
             </Button>
+            {data?.application?.approved_visa_url !== "" && (
+              <Button variant="contained">
+                <a
+                  href={data?.application?.approved_visa_url}
+                  download
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Download
+                </a>
+              </Button>
+            )}
           </Dialog>
         </div>
       </Container>{" "}

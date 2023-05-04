@@ -61,7 +61,7 @@ function FormStep2({
   console.log(formData);
   console.log(Object.keys(formData).length);
 
-  console.log(formStep2)
+  console.log(">>",formStep2)
   useEffect(() => {
     const objectLength = Object.keys(formData).length;
     setFormStep2Filled(objectLength);

@@ -47,6 +47,8 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
   console.log(Object.keys(formData).length);
 
   console.log(formStep2);
+  console.log(formStep2.step1.visa_service);
+
   useEffect(() => {
     const objectLength = Object.keys(formData).length;
     setFormStep3Filled(objectLength);
@@ -97,7 +99,8 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
               required
               fullWidth
               label="Visa Service"
-              value={formData.visa_service}
+              InputLabelProps={{ shrink: true }}
+              value={formStep2?.step1?.visa_service}
               disabled
             />
           </div>
@@ -343,7 +346,7 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
                 fullWidth
                 type="date"
                 label="Date of Issue"
-                InputLabelProps={{ shrink: true }}  
+                InputLabelProps={{ shrink: true }}
                 name="previous_current_date_of_issue"
                 onChange={handleChange}
                 value={formData.previous_current_date_of_issue}
@@ -422,7 +425,7 @@ function FormStep3({ setFormStep3Filled, submitTab3, setActiveStep }) {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <div className="text-start">
-                <FormLabel required sx={{ marginTop: 1 }}>  
+                <FormLabel required sx={{ marginTop: 1 }}>
                   Has permission to visit or to extend stay in India previously
                   been refused?
                 </FormLabel>
