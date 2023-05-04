@@ -31,7 +31,7 @@ export const FileList = async (id) => {
   const response = axios
     .get(`${BASE_URL}/visa/file/list/${id}`)
     .then((res) => {
-      console.log("utils",res)
+      console.log("utils", res);
       return res;
     })
     .catch((error) => console.error("Error:", error));
@@ -94,31 +94,29 @@ export const UpdateForm = async (values, stage, id) => {
 };
 
 export const ContactApi = async (data) => {
-
   const headers = {
     "Content-Type": "application/json",
   };
 
   const response = await axios
-    .post(`${BASE_URL}/query`,data,{headers})
+    .post(`${BASE_URL}/query`, data, { headers })
     .then((res) => {
       return res;
     })
     .catch((err) => {
       return err;
     });
-    return response
+  return response;
   // return response;
 };
 
-
-export const Payment = async()=>{
+export const Payment = async () => {
   //   let token = localStorage.getItem('token')
   // const headers = {
   //   "Content-Type": "application/json",
   //   'Authorization': `Bearer ${token}`
   // };
-  let appId = localStorage.getItem('application_id')
+  let appId = localStorage.getItem("application_id");
 
   const response = await axios
     .get(`${BASE_URL}/order/${appId}`)
@@ -128,6 +126,26 @@ export const Payment = async()=>{
     .catch((err) => {
       return err;
     });
-    return response
-  
+  return response;
+};
+
+export const PaymentValidate = async (data) => {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const appId = localStorage.getItem("application_id");
+  console.log(appId);
+
+  const response = await axios
+    .post(`${BASE_URL}/order/validate-order/${appId}`, data, {
+      headers,
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+  return response;
+  // return response;
 };
